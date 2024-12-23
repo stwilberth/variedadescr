@@ -1,0 +1,31 @@
+/node_modules
+/public/hot
+/public/storage
+/public/build
+/public/js
+/public/css
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+.DS_Store
+
+# Mix/Webpack específico
+/public/mix-manifest.json
+/public/dist
+/mix-manifest.json
+
+# Archivos de compilación de Vue
+*.hot-update.js
+*.hot-update.json

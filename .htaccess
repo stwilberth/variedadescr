@@ -1,0 +1,174 @@
+DirectoryIndex index.php index.html index.htm
+<IfModule mod_rewrite.c>
+# That was ONLY to protect you from 500 errors
+# if your server did not have mod_rewrite enabled
+
+RewriteEngine On
+# RewriteBase /
+# NOT needed unless you're using mod_alias to redirect
+
+RewriteCond %{REQUEST_URI} !/public
+RewriteRule ^(.*)$ public/$1 [L]
+# Direct all requests to /public folder
+
+</IfModule>
+
+
+RewriteCond %{HTTP_REFERER} !^http://aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://blog.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://blog.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://ecoexpeditionscr.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://ecoexpeditionscr.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://ecoexpeditionscr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://ecoexpeditionscr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://sublimadosloria.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://sublimadosloria.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://sublimadosloria.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://sublimadosloria.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tienda.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tienda.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tiendajala.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tiendajala.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tiendajala.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tiendajala.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tumelatex.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tumelatex.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tumelatex.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://tumelatex.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://variedadescr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://variedadescr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://variedadescr.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://variedadescr.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://wilberth.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://wilberth.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.blog.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.blog.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.ecoexpeditionscr.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.ecoexpeditionscr.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.ecoexpeditionscr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.ecoexpeditionscr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.sublimadosloria.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.sublimadosloria.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.sublimadosloria.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.sublimadosloria.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tienda.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tienda.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tiendajala.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tiendajala.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tiendajala.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tiendajala.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tumelatex.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tumelatex.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tumelatex.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.tumelatex.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.variedadescr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.variedadescr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.variedadescr.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.variedadescr.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.wilberth.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.wilberth.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://blog.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://blog.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://ecoexpeditionscr.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://ecoexpeditionscr.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://ecoexpeditionscr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://ecoexpeditionscr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://sublimadosloria.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://sublimadosloria.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://sublimadosloria.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://sublimadosloria.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tienda.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tienda.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tiendajala.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tiendajala.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tiendajala.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tiendajala.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tumelatex.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tumelatex.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tumelatex.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://tumelatex.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://variedadescr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://variedadescr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://variedadescr.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://variedadescr.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://wilberth.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://wilberth.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.blog.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.blog.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.ecoexpeditionscr.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.ecoexpeditionscr.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.ecoexpeditionscr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.ecoexpeditionscr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.sublimadosloria.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.sublimadosloria.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.sublimadosloria.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.sublimadosloria.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tienda.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tienda.wilberth.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tiendajala.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tiendajala.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tiendajala.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tiendajala.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tumelatex.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tumelatex.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tumelatex.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.tumelatex.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.variedadescr.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.variedadescr.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.variedadescr.com.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.variedadescr.com.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.wilberth.aprendemusica.net/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.wilberth.aprendemusica.net$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.wilberth.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.wilberth.com$      [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+
+# BEGIN cPanel-generated php ini directives, do not edit
+# Manual editing of this file may result in unexpected behavior.
+# To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+# For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+<IfModule php8_module>
+   php_flag display_errors On
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 256M
+   php_value post_max_size 516M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php82"
+   php_value upload_max_filesize 512M
+   php_flag zlib.output_compression Off
+</IfModule>
+<IfModule lsapi_module>
+   php_flag display_errors On
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 256M
+   php_value post_max_size 516M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php82"
+   php_value upload_max_filesize 512M
+   php_flag zlib.output_compression Off
+</IfModule>
+# END cPanel-generated php ini directives, do not edit
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php82” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
