@@ -1,4 +1,11 @@
-<div class="row">
-    <a href="{{config('ajustes.redes.whatsapp')}}?text=" class="btn btn-link p-0"><img src="/img/whatsapp_icono.png" alt="Icono Whatsapp" style="width:40px; height:40px">+506-87811054</a>
-    <a href="mailto:{{config('ajustes.sitio_web.correos.info')}}" class="btn btn-link p-0 mt-3">{{config('ajustes.sitio_web.correos.info')}}</a>
-</div>
+    <div class="d-flex justify-content-center gap-3 my-3">
+        <a href="{{config('ajustes.redes.whatsapp')}}?text=" class="text-decoration-none d-inline-flex align-items-center">
+            <i class="fa fa-whatsapp text-success" aria-hidden="true"></i> 
+            <span class="ms-2 text-dark">87811054</span>
+        </a>
+
+        <a href="mailto:info@variedadescr.com" class="text-decoration-none d-inline-flex align-items-center">
+            <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
+            <span class="ms-2 text-dark">info@variedadescr.com</span>
+        </a>
+    </div>

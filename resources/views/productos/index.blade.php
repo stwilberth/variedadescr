@@ -7,7 +7,7 @@
                 <div class="row mb-3">
                     {{-- Filtro Marcas --}}
                     <div class="col-12 col-sm-6 col-md-2 mb-2">
-                        <select class="custom-select" name="marca">
+                        <select class="form-select" name="marca">
                             <option value="0">Marcas</option>
                             @foreach ($marcas as $item)
                                 @if($item->cantidad > 0)
@@ -20,7 +20,7 @@
                     </div>
                     {{-- Filtro Género --}}
                     <div class="col-12 col-sm-6 col-md-2 mb-2">
-                        <select class="custom-select" name="genero">
+                        <select class="form-select" name="genero">
                             @foreach (config('options.generos') as $item)
                                 <option value="{{$item['value']}}" @if($item['value'] == $genero) selected @endif>{{$item['nombre']}}</option>   
                             @endforeach
@@ -28,7 +28,7 @@
                     </div>
                     {{-- Filtro Orden --}}
                     <div class="col-12 col-sm-6 col-md-2 mb-2">
-                        <select class="custom-select" name="orden">
+                        <select class="form-select" name="orden">
                             <option value="">Ordenar por precio</option>
                             <option value="asc" @if(request('orden') == 'asc') selected @endif>Menor a mayor</option>
                             <option value="desc" @if(request('orden') == 'desc') selected @endif>Mayor a menor</option>
@@ -36,7 +36,7 @@
                     </div>
                     {{-- Filtro Liquidación --}}
                     <div class="col-12 col-sm-6 col-md-4 mb-2">
-                        <select class="custom-select" name="descuento">
+                        <select class="form-select" name="descuento">
                             <option value="0">Todos los productos</option>
                             <option value="1" @if(request('descuento') == '1') selected @endif>En oferta</option>
                             <option value="2" @if(request('descuento') == '2') selected @endif>En liquidación</option>
@@ -50,10 +50,6 @@
             </form>
         </div>
     {{-- fin filtro    --}}
-
-    @if (auth()->user() && auth()->user()->AutorizaRoles('admin'))
-        <panel-admin slug-data=""></panel-admin>
-    @endif
 
     @if (session('status'))
         <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
@@ -82,7 +78,7 @@
         <div class="row">
         {{-- $title --}}
             <div class="col-12">
-                <h1 class="text-center">{{$title}}</h1>
+                <h1 class="text-center text-success fw-bold fs-2 logo-text mt-4">{{$title}}</h1>
             </div>
 
             @foreach ($productos as $producto)
@@ -95,7 +91,7 @@
                     <div class="m-0 text-center">        
                         <!-- Card image -->
                         @if ($producto->imagenes->count() > 0)
-                            <a href="/catalogo/{{$producto->catalogoM->slug}}/{{$producto->slug}}">
+                            <a href="/catalogo/{{$producto->catalogoM->slug}}/{{$producto->slug}}" class="position-relative d-block">
                                 <img class="card-img-top" loading="lazy" src="/storage/productos/thumb_{{$producto->imagenes->first()->ruta}}" alt="Fotograía del {{$producto->nombre}}"> 
                                 @php
                                     // Obtén la fecha de creación del producto (de tu modelo, supongamos que es una propiedad llamada 'created_at')
@@ -107,10 +103,10 @@
                                 @endphp
 
                                 @if ($producto->nuevo && !$productoAntiguo)
-                                    <img class="card-img-top nuevo-etiqueta" loading="lazy" src="/img/nuevo.png"> 
+                                    <img class="etiqueta-overlay" loading="lazy" src="/img/nuevo.png"> 
                                 @else
                                     @if($producto->oferta == 1 || $producto->oferta == 2)
-                                        <img class="card-img-top nuevo-etiqueta" loading="lazy" src="/img/oferta.png"> 
+                                        <img class="etiqueta-overlay" loading="lazy" src="/img/oferta.png"> 
                                     @endif
                                 @endif
                             </a>   
@@ -127,7 +123,7 @@
                                 <h6 class="red-text">No publicado</h6>
                             @endif
                             <!-- Text -->
-                            <span style="font-size:1.2rem; color: #86bd57;">
+                            <span class="fw-bold fs-5 text-success font-monospace">
                                 @if (auth()->user() && auth()->user()->AutorizaRoles('revendedor'))
                                     @if ($producto->precio_mayorista)
                                         {{$producto->moneda_simbolo}}{{$producto->precio_mayorista}}
@@ -143,10 +139,15 @@
                             @endif
                             <br>
                             <!-- Button -->
-                            <a  href="/catalogo/{{$producto->catalogoM->slug}}/{{$producto->slug}}" 
-                                class="btn btn-sm stylish-color mdb-color white-text" style="padding-left: 15px; padding-right:15px">Ver</a>
+                            <div class="d-flex justify-content-center w-100 gap-2 mt-2">
+                                <a  href="/catalogo/{{$producto->catalogoM->slug}}/{{$producto->slug}}" 
+                                    class="btn btn-outline-danger btn-sm text-dark w-100">
+                                    VER</a>
                             <a href="{{config('ajustes.redes.whatsapp')}}?text=https://variedadescr.com/catalogo/{{$producto->catalogoM->slug}}/{{$producto->slug}} {{$msj_whatsapp}}" 
-                                class="btn btn-default btn-sm" style="padding-left: 10px; padding-right:10px">Pedir</a>        
+                                class="btn btn-outline-success btn-sm text-dark w-100">
+                                <i class="fa fa-whatsapp" aria-hidden="true"></i> INFO
+                                </a>        
+                            </div>
                         </div>
                     </div>
                 </div>
