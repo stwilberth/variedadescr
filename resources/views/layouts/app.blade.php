@@ -18,9 +18,22 @@
     @yield('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- build files --}}
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}"></script>
-    
+    public/build/assets/close-DeJujm55.png                   0.28 kB
+    public/build/assets/next-QVcNtdNi.png                    1.35 kB
+    public/build/assets/prev-BVHqDsrk.png                    1.36 kB
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-v4compatibility-C9RhG_FT.woff2') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/loading-BY_-FGaJ.gif') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-v4compatibility-CCth-dXg.ttf') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-regular-400-BjRzuEpd.woff2') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-regular-400-DZaxPHgR.ttf') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-brands-400-D_cYUPeE.woff2') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-solid-900-CTAAxXor.woff2') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-brands-400-D1LuMI3I.ttf') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/fa-solid-900-D0aA9rwL.ttf') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BqCfoSFw.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-CIRuAh4n.css') }}">
+    <script src="{{ asset('build/assets/app-dU69axaL.js') }}"></script>
+
     @yield('style_css')
 
     <style>
