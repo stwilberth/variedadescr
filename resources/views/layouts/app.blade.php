@@ -17,6 +17,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     @yield('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- build files --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
+    
     @yield('style_css')
 
     <style>
