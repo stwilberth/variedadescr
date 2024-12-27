@@ -35,46 +35,56 @@
 </template>
 
 <script>
+import { computed, ref } from 'vue'
+
 export default {
-    mounted() {
-        console.log("Component mounted catalogo jeje");
+    props: {
+        marcasLista: String,
+        catalogoLista: String,
+        marcaSelected: [String, Number],
+        modeloSelected: String,
+        catalogoSelected: [String, Number]
     },
-    props: ['marcasLista', 'catalogoLista', 'marcaSelected', 'modeloSelected', 'catalogoSelected'],
-    data: function () {
-        return {
-            catalogo: this.catalogoSelected,
-            marca: this.marcaSelected,
-            modelo: this.modeloSelected
-        }
-    },
-    computed: {
-        marcaLista: function () {
-            var myThis = this;
-            var marcasTodas = JSON.parse(this.marcasLista);
-            var marcasFiltradas = marcasTodas.filter(function (marca) {
-                return marca.catalogo == myThis.catalogo;
-            })
-            return marcasFiltradas;
-        },
-        catalogo_Lista: function () {
-            return JSON.parse(this.catalogoLista);
-        },
-        tipo: function () {
-            var myThis = this;
-            var tipo;
-            switch (Number(myThis.catalogo)) {
+    setup(props) {
+        // Variables reactivas
+        const catalogo = ref(props.catalogoSelected)
+        const marca = ref(props.marcaSelected)
+        const modelo = ref(props.modeloSelected)
+
+        // Computed properties
+        const marcaLista = computed(() => {
+            const marcasTodas = JSON.parse(props.marcasLista)
+            return marcasTodas.filter(marca => marca.catalogo == catalogo.value)
+        })
+
+        const catalogo_Lista = computed(() => {
+            return JSON.parse(props.catalogoLista)
+        })
+
+        const tipo = computed(() => {
+            let tipoLabel
+            switch (Number(catalogo.value)) {
                 case 1:
-                    tipo = "Modelo";
-                    break;
+                    tipoLabel = "Modelo"
+                    break
                 case 2:
-                    tipo = "Fragancia";
-                    break;
+                    tipoLabel = "Fragancia"
+                    break
                 default:
-                    tipo = "Tipo";
-                    break;
+                    tipoLabel = "Tipo"
+                    break
             }
-            return tipo;
+            return tipoLabel
+        })
+
+        return {
+            catalogo,
+            marca,
+            modelo,
+            marcaLista,
+            catalogo_Lista,
+            tipo
         }
     }
-};
+}
 </script>

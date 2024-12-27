@@ -13,9 +13,8 @@ use Image;
 class ImageCtr extends Controller
 {
 
-    public function edit(Request $request)
+    public function edit($slug)
     {
-        $slug = Str::after(url()->full(), 'image-edit/');
         $producto = Producto::where('slug', $slug)->firstOrFail();
         $title = $producto->nombre;
 

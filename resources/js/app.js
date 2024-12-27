@@ -1,38 +1,22 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-window.Vue = require('vue');
+import './bootstrap';
+import '../css/app.css';
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+import $ from 'jquery';
+window.$ = $;
+window.jQuery = $;
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+import '@popperjs/core';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-Vue.component('genero-c', require('./components/GeneroC.vue').default);
-Vue.component('catalogo-c', require('./components/CatalogoC.vue').default);
-Vue.component('panel-admin', require('./components/PanelAdmin.vue').default);
-Vue.component('inven-comp', require('./components/InvenComp.vue').default);
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+import 'lightbox2/dist/js/lightbox';
+import 'lightbox2/dist/css/lightbox.css';
 
-const app = new Vue({
-    el: '#app',
-    data: {
-        reloj_create:{
-            oferta: false
-        }
-    }
-});
+import { createApp } from 'vue';
+
+import InvenComp from './components/InvenComp.vue';
+const app = createApp({});
+app.component('inven-comp', InvenComp);
+app.mount('#app');

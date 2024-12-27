@@ -1,26 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+@php 
+  $title = 'Contáctenos';
+@endphp
 <div class="container">
-    <div class="row justify-content-center mt-1">
+    <div class="row justify-content-center mt-3">
         <div class="col-md-8">
-        <!-- Card -->
-<div class="card">
-    <!-- Card content -->
-    <div class="card-body">
-  
-      <!-- Title -->
-      <h1 class="card-title">Contáctenos</h1>
-      <!-- Text -->
-      <p>Elije cualquiera de estos medios y pronto un agente te estará contactando</p>
-      <!-- Button -->
-      <a href="{{config('ajustes.redes.whatsapp')}}?text=" class="btn btn-success">WhatsApp</a>
-      <a href="{{config('ajustes.redes.facebook')}}" class="btn btn-primary">Facebook</a>
-      <a href="mailto:{{config('ajustes.sitio_web.correos.info')}}" class="btn btn-secondary">{{config('ajustes.sitio_web.correos.info')}}</a>
-    </div>
-  
-  </div>
-  <!-- Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Contáctenos</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Elije cualquiera de estos medios y pronto un agente te estará contactando</p>
+                    
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="{{config('ajustes.redes.whatsapp')}}?text=" class="btn btn-success w-100 mb-2">WhatsApp</a>
+                        <a href="{{config('ajustes.redes.facebook')}}" class="btn btn-primary w-100 mb-2">Facebook</a>
+                        <a href="mailto:{{config('ajustes.sitio_web.correos.info')}}" class="btn btn-secondary w-100">{{config('ajustes.sitio_web.correos.info')}}</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

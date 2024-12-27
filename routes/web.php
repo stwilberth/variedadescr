@@ -11,35 +11,29 @@
 |
 */
 
-Route::get('/', 'Welcome@vista');
-
 Auth::routes();
-
 Route::resource('users', 'UserController')->middleware('adminrole');
-
+Route::get('/', 'Welcome@vista');
 Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/contactenos', 'Paginas@contactar');
 Route::get('/envio', 'Paginas@envio');
 Route::get('/garantia', 'Paginas@garantia');
+
+//marcas
 Route::resource('marcas', 'MarcaController')->middleware('adminrole');
 
-//catalogo
+//catalogo y productos
 Route::get('/catalogo/{categoria}', 'Productos@index')->name('catalogoIndex');
 Route::get('/catalogo/{categoria}/{slug}', 'Productos@show')->name('productoShow');
-
-Route::get('/inventario', 'Productos@inventario')->name('productoInventario')->middleware('adminrole');
-Route::get('/inventarito/{disponibilidad}', 'Productos@inventarito')->name('productoInventarito')->middleware('adminrole');
-Route::post('/inventario-update/{slug}', 'Productos@updateInventario')->name('updateInventario')->middleware('adminrole');
-
 Route::get('/producto-edit/{slug}', 'Productos@edit')->name('productoEdit')->middleware('adminrole');
 Route::get('/producto-create', 'Productos@create')->name('productoCreate')->middleware('adminrole');
 Route::post('/producto-update/{slug}', 'Productos@update')->name('productoUpdate')->middleware('adminrole');
 Route::post('/producto-store', 'Productos@store')->name('productoStore')->middleware('adminrole');
+Route::get('/inventario', 'Productos@inventario')->name('productoInventario')->middleware('adminrole');
 //Route::post('/producto-delete', 'Productos@delete')->name('productoDelete');
 
 //edicion de imagenes
-Route::get('/image-edit/{tour}', 'ImageCtr@edit')->name('imageEdit')->middleware('adminrole');
+Route::get('/image-edit/{slug}', 'ImageCtr@edit')->name('imageEdit')->middleware('adminrole');
 Route::post('/image-save', 'ImageCtr@save')->name('imageSave')->middleware('adminrole');
 Route::post('/image-update', 'ImageCtr@update')->name('imageUpdate')->middleware('adminrole');
 Route::post('/image-delete', 'ImageCtr@delete')->name('imageDelete')->middleware('adminrole');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.edition')
 @section('content')
 <div class="container mt-5">
     @if (session('error'))

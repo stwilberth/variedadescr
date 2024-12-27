@@ -27,17 +27,14 @@ class productoCreate extends FormRequest
             'nombre' => 'required',
             'stock' => 'required|integer',
             'costo' => 'required|numeric',
-            'catalogo' => 'required',
             'marca' => 'required',
             'modelo' => 'required',
-            'moneda' => 'required',
-            'descuento' => 'nullable|numeric',
+            'genero' => 'required',
             'precio_anterior' => 'nullable|numeric',
             'precio_sugerido' => 'nullable|numeric',
             'precio_venta' => 'required|numeric',
-            'disponibilidad' => 'required',
-            'descripcion' => 'required',
-            'descripcion_social' => 'required|max:125'
+            'descripcion_social' => 'required|max:125',
+            'url_tiktok' => 'nullable|url'
         ];
     }
     public function attributes()
@@ -49,6 +46,7 @@ class productoCreate extends FormRequest
             'catalogo' => 'Catálogo',
             'marca' => 'Marca',
             'modelo' => 'Modelo/Tipo',
+            'genero' => 'Género',
             'moneda' => 'Moneda',
             'descuento' => 'Descuento',
             'precio_anterior' => 'Precio Anterior',

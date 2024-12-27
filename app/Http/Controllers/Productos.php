@@ -67,7 +67,7 @@ class Productos extends Controller
         $productos = $query->marca($marca_id)
             ->genero($genero)
             ->catalogo($Catalogo->id)
-            ->publicado()
+            ->where('publicado', 1)
             ->get();
 
         $title = $Catalogo->nombre . ' '.$marca_nombre . ' ' . $genero_name;
@@ -77,9 +77,8 @@ class Productos extends Controller
 
     public function create(Request $request)
     {
-        $marcas = Marca::orderBy('nombre', 'asc')->get();
-        $catalogo = Catalogo::orderBy('nombre', 'asc')->get();
-        return view('productos.create', compact('marcas', 'catalogo'));
+        $marcas = Marca::orderBy('catalogo', 'asc')->orderBy('nombre', 'asc')->get();
+        return view('productos.create', compact('marcas'));
     }
 
     public function store(productoCreate $request)
@@ -94,20 +93,20 @@ class Productos extends Controller
             $producto->marca_id = $request->marca;
             $producto->modelo = $request->modelo;
             $producto->nuevo = 1;
-            $producto->catalogo = $request->catalogo;
-            $producto->destacado = ($request->destacado)?1:0;
+            $producto->catalogo = $marca->catalogo;
+            $producto->destacado = 0;
             $producto->slider = null;
-            $producto->publicado = ($request->publicado)?1:0;
+            $producto->publicado = 1;
             $producto->oferta = $request->oferta;
-            $producto->fecha_inicio = ($request->fecha_inicio);
-            $producto->fecha_fin = $request->fecha_fin;
-            $producto->moneda = $request->moneda;
+            $producto->fecha_inicio = null;
+            $producto->fecha_fin = null;
+            $producto->moneda = 1;
             $producto->costo = $request->costo;
             $producto->precio_venta = $request->precio_venta;
             $producto->precio_mayorista = $request->precio_mayorista;
-            $producto->descuento = $request->descuento;
+            $producto->descuento = 0;
             $producto->precio_sugerido = $request->precio_sugerido;
-            $producto->codigo = $request->codigo;
+            $producto->codigo = null;
             $producto->stock = $request->stock;
             $producto->disponibilidad = $request->disponibilidad;
             $producto->url_tiktok = $request->url_tiktok;
@@ -141,8 +140,8 @@ class Productos extends Controller
 
         $more_products = Producto::orderBy('created_at', 'desc')
             ->where('id', '!=', $producto->id)
-            ->marca(66)
-            ->catalogo(1)
+            ->marca($producto->marca_id)
+            ->catalogo($producto->catalogo)
             ->publicado()
             ->get();
 
@@ -162,7 +161,7 @@ class Productos extends Controller
         $producto = Producto::where('slug', $slug)->firstOrFail();
         $title = $producto->nombre;
         $catalogo = Catalogo::orderBy('peso', 'asc')->get();
-        $marcas = Marca::orderBy('peso', 'asc')->get();
+        $marcas = Marca::orderBy('catalogo', 'asc')->orderBy('nombre', 'asc')->get();
         return view('productos.edit', compact('producto', 'title', 'marcas', 'catalogo'));
     }
 
@@ -177,21 +176,14 @@ class Productos extends Controller
             $producto->genero = $request->genero;
             $producto->marca_id = $request->marca;
             $producto->modelo = $request->modelo;
-            $producto->nuevo = 1;
-            $producto->catalogo = $request->catalogo;
-            $producto->destacado = ($request->destacado)?1:0;
-            $producto->slider = null;
-            $producto->publicado = ($request->publicado)?1:0;
-            $producto->oferta = $request->oferta;
-            $producto->fecha_inicio = ($request->fecha_inicio);
-            $producto->fecha_fin = $request->fecha_fin;
-            $producto->moneda = $request->moneda;
+            $producto->catalogo = $marca->catalogo;
+            $producto->publicado = (int)$request->publicado;
+            $producto->oferta = (int)$request->oferta;
             $producto->costo = $request->costo;
             $producto->precio_venta = $request->precio_venta;
             $producto->precio_mayorista = $request->precio_mayorista;
-            $producto->descuento = $request->descuento;
             $producto->precio_sugerido = $request->precio_sugerido;
-            $producto->codigo = $request->codigo;
+            $producto->precio_anterior = $request->precio_anterior;
             $producto->stock = $request->stock;
             $producto->disponibilidad = $request->disponibilidad;
             $producto->url_tiktok = $request->url_tiktok;
@@ -200,9 +192,7 @@ class Productos extends Controller
             $producto->slug = $marca_sin_espacios."-".$modelo;
         
         $producto->save();
-        if($producto->publicado == 1){
-            //event(new ProductoCreado($producto));
-        }
+
         return redirect('catalogo/relojes/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
     }
 
@@ -211,71 +201,23 @@ class Productos extends Controller
         return redirect('relojes')->with('status', 'Todavia no se puede borrar productos.');
 
     }
-    static function getProductos($disponibilidad)
-    {
-        $productos = Producto::orderBy('created_at', 'desc')
-        ->leftJoin('catalogo', 'productos.catalogo', '=', 'catalogo.id')
-        ->publicado()
-        ->where('disponibilidad', $disponibilidad)
-        ->select(
-            'productos.id', 
-            'productos.nombre', 
-            'productos.costo', 
-            'productos.precio_venta',
-            'productos.stock',
-            'productos.moneda',
-            'productos.slug',
-            'productos.disponibilidad',
-            'productos.marca_id',
-            'catalogo.slug as categoria')
-        ->get();
-        return $productos;
-    }
+
     public function inventario(Request $request)
     {
         $admin = false;
         if (auth()->user() && auth()->user()->AutorizaRoles('admin')) {
             $admin = true;
-            $productos = Productos::getProductos(0);
+            $productos = Producto::where('stock', '>', 0)
+                ->where('publicado', 1)
+                ->orderBy('catalogo', 'asc')
+                ->orderBy('stock', 'desc')
+                ->orderBy('costo', 'asc')
+                ->get();
+
             return view('productos.inventario', compact('productos', 'admin'));
         }
 
          return view('errors.404');
 
-    }
-    public function inventarito(Request $request, $disponibilidad)
-    {
-        $admin = false;
-        if ($request->user()) {
-            if ($request->user()->AutorizaRoles('admin')) {
-                $admin = true;
-                return json_encode(
-                    Productos::getProductos($disponibilidad)
-                );
-            } else {
-                return "";
-            }
-        } else {
-            return "";
-        }
-    }
-    public function updateInventario(Request $request, $slug)
-    {
-        $admin = false;
-        if ($request->user()) {
-            if ($request->user()->AutorizaRoles('admin')) {
-                $admin = true;
-                $producto = Producto::where('slug', $slug)->firstOrFail();
-                $producto->precio_venta = $request->precio_venta;
-                $producto->stock = $request->stock;
-                $producto->disponibilidad = (int)$request->disponibilidad;
-                $producto->save();
-                return json_encode($producto);
-            } else {
-                return "";
-            }
-        } else {
-            return "";
-        }
     }
 }

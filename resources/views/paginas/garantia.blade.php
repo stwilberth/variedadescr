@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php 
+  $title = 'Autenticidad y garantía';
+@endphp
 <div class="container">  
   <div class="row">
     <div class="col-md-5">

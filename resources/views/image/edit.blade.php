@@ -75,7 +75,8 @@
                         </button>
                     </form>
                     <br>
-                    <span class="btn btn-default btn-sm" style="margin-top:30%; margin-left: 75%; padding: 10px ">
+                    <span class="btn btn-default btn-sm">
+                        {{-- select image icon --}}
                         <i class="fa fa-arrows fa-2x" aria-hidden="true"></i>
                     </span>
                 </figcaption>
@@ -98,6 +99,9 @@
 {{-- fin mostrar, ordenar y eliminar imagenes --}}
 
 </div>
+@endsection
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.css">
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js"></script>

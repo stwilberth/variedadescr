@@ -20,7 +20,7 @@
 
                 <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/relojes">Relojes</a></li>
                 <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/perfumes">Perfumes</a></li>
-                <li class="nav-item"><a class="nav-link fw-bold" href="/contactenos">Contactenos</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="/contactenos">Contáctenos</a></li>
                 <li class="nav-item"><a class="nav-link fw-bold" href="/envio">Envio</a></li>
                 <li class="nav-item"><a class="nav-link fw-bold" href="/garantia">Garantia</a></li>
 

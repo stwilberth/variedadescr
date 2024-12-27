@@ -3,15 +3,15 @@
     <div class="col-md-12" style="margin-top:30px">
       <center>
         <a 
-          v-show="slugData"
-          v-bind:href="'/producto-edit/' + slugData"
+          v-show="props.slugData"
+          :href="`/producto-edit/${props.slugData}`"
           class="btn btn-primary"
           style="color: #fff">
           Edit
         </a>
         <a
-          v-show="slugData"
-          v-bind:href="'/image-edit/' + slugData"
+          v-show="props.slugData"
+          :href="`/image-edit/${props.slugData}`"
           class="btn btn-primary"
           style="color: #fff">
           Add/edit Image
@@ -24,11 +24,19 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-    mounted() {
-        console.log("Component panel admin mounted");
-    }, 
-    props: ['slugData']
-};
+
+<script setup>
+import { onMounted } from 'vue'
+
+// Definición de props
+const props = defineProps({
+  slugData: {
+    type: String,
+    required: false
+  }
+})
+
+onMounted(() => {
+  console.log("Component panel admin mounted")
+})
 </script>

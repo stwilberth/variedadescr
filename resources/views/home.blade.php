@@ -15,9 +15,19 @@
                     @endif
 
                     @if ($admin)
-                        <panel-admin slug-data=""></panel-admin>
+                        <p class="mb-3">Has iniciado sesión como administrador</p>
+                        
+                        <ul class="list-group">
+                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="/producto-create">Agregar producto</a></li>
+                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="/marcas">Marcas</a></li>
+                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="/users">Usuarios</a></li>
+                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="/inventario">Inventario</a></li>
+                            <li class="list-group-item">
+                                <span class="text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="cursor: pointer;">Cerrar sesión</span>
+                            </li>
+                        </ul>
                     @else
-                        Sesión Iniciada
+                        <span>Has iniciado sesión</span>
                     @endif
                 </div>
             </div>

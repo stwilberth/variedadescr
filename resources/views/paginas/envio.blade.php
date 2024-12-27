@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php 
+  $title = 'Envio';
+@endphp
 <div class="container">
     <div class="row mt-1">
         <div class="col-md-5">

@@ -7,7 +7,7 @@
             class="browser-default custom-select"
             name="disponibilidad"
             v-model="disponibilidadSelect"
-            v-on:change="getData(disponibilidadSelect)"
+            @change="getData(disponibilidadSelect)"
           >
             <option
               v-bind:value="item.value"
@@ -100,143 +100,156 @@
   </div>
 </template>
 
-<script>
-import axios from "axios";
-export default {
-  mounted() {
-    console.log("Component mounted inventario");
-    this.inputData();
-    this.totales();
-  },
-  props: ["productosData"],
-  data: function() {
-    return {
-      productos: [],
-      productosCopia: [],
-      dolar: 580,
-      margenTotal: 0,
-      precioTotal: 0,
-      costoTotal: 0,
-      stockTotal: 0,
-      cargando: false,
-      disponibilidadSelect: 0,
-      disponibilidad: [
-        { nombre: "Inmediata", value: 0, selected: "" },
-        { nombre: "En una semana", value: 1, selected: "" },
-        { nombre: "En dos semanas", value: 2, selected: "" },
-        { nombre: "Agotado", value: 3, selected: "" }
-      ]
-    };
-  },
-  // computed: {
-  // },
-  methods: {
-    inputData: function() {
-      this.productosCopia = JSON.parse(this.productosData);
-      this.productos = JSON.parse(this.productosData);
-      for (let i = 0; i < this.productos.length; i++) {
-        this.productos[i].edit = false;
-      }
-    },
-    montoTotal: function(monto, moneda, stock) {
-      var thes = this;
-      var montoTotal = stock > 0 ? stock * monto : monto;
-      return thes.montoColones(montoTotal, moneda);
-    },
-    disponibilidadName: function(key) {
-      var key = Number(key);
-      var disponibilidadName = "";
-      switch (key) {
-        case 0:
-          disponibilidadName = "Inmediata";
-          break;
-        case 1:
-          disponibilidadName = "En una semana";
-          break;
-        case 2:
-          disponibilidadName = "En dos semanas";
-          break;
-        case 3:
-          disponibilidadName = "Agotado";
-          break;
-      }
-      return disponibilidadName;
-    },
-    montoColones: function(monto, moneda) {
-      var thes = this;
-      return moneda == 1 ? monto : monto * thes.dolar;
-    },
-    edit: function(index) {
-      var e = this.productos[index];
-      e.edit = true;
-      this.$set(this.productos, index, e);
-      console.log("click");
-    },
-    save: function(index) {
-      var thes = this;
-      this.$set(this, "cargando", true);
-      var e = this.productos[index];
-      e.edit = false;
-      this.$set(this.productos, index, e);
-      axios
-        .post("/inventario-update/" + e.slug, {
-          disponibilidad: e.disponibilidad,
-          stock: e.stock,
-          precio_venta: e.precio_venta
-        })
-        .then(function(response) {
-            thes.$set(thes, "cargando", false);
-            thes.totales();
-          console.log(response);
-        })
-        .catch(function(error) {
-            thes.$set(thes, "productos", response.data);
-            thes.$set(thes, "productosCopia", response.data);
-            thes.$set(thes, "cargando", false);
-          console.log(error);
-        });
-    },
-    cancelar: function(index) {
-      //this.$set(this.productos, index, e)
-      var e = this.productosCopia[index];
-      e.edit = false;
+<script setup>
+import { ref, onMounted, computed } from 'vue'
+import axios from "axios"
 
-      this.$set(this.productos, index, e);
-      console.log("click");
-    },
-    totales: function() {
-      var thes = this;
-      var costoTotal = 0;
-      var precioTotal = 0;
-      var stock = 0;
-      var margenTotal = 0;
-      for (let i = 0; i < thes.productos.length; i++) {
-        const e = thes.productos[i];
-        costoTotal += Number(thes.montoTotal(e.costo, e.moneda, e.stock));
-        precioTotal += Number(thes.montoTotal(e.precio_venta, e.moneda, e.stock));
-        stock += Number(e.stock);
-      }
-      margenTotal = precioTotal - costoTotal;
-      thes.$set(thes, "costoTotal", costoTotal);
-      thes.$set(thes, "precioTotal", precioTotal);
-      thes.$set(thes, "stockTotal", stock);
-      thes.$set(thes, "margenTotal", margenTotal);
-    },
-    mostrarMoneda: function(moneda) {
-      return moneda == 1 ? "Colones" : "Dólares";
-    },
-    getData: function(disponibilidad) {
-        this.$set(this, "cargando", true);
-        var thes = this;
-        axios
-        .get("https://variedadescr.com/inventarito/" + disponibilidad)
-        //.get("http://max.local/inventarito/" + disponibilidad)
-        .then(response => {
-            thes.$set(thes, "productos", response.data);
-            thes.totales();
-            this.$set(this, "cargando", false);
-        });
-    }
+// Props definition
+const props = defineProps({
+  productosData: {
+    type: String,
+    required: true
   }
-};
+})
+
+// Data as refs
+const productos = ref([])
+const productosCopia = ref([])
+const dolar = ref(580)
+const margenTotal = ref(0)
+const precioTotal = ref(0)
+const costoTotal = ref(0)
+const stockTotal = ref(0)
+const cargando = ref(false)
+const disponibilidadSelect = ref(0)
+const disponibilidad = ref([
+  { nombre: "Inmediata", value: 0, selected: "" },
+  { nombre: "En una semana", value: 1, selected: "" },
+  { nombre: "En dos semanas", value: 2, selected: "" },
+  { nombre: "Agotado", value: 3, selected: "" }
+])
+
+// Methods
+const inputData = () => {
+  productosCopia.value = JSON.parse(props.productosData)
+  productos.value = JSON.parse(props.productosData)
+  for (let i = 0; i < productos.value.length; i++) {
+    productos.value[i].edit = false
+  }
+}
+
+const montoTotal = (monto, moneda, stock) => {
+  var thes = this;
+  var montoTotal = stock > 0 ? stock * monto : monto;
+  return thes.montoColones(montoTotal, moneda);
+}
+
+const disponibilidadName = (key) => {
+  var key = Number(key);
+  var disponibilidadName = "";
+  switch (key) {
+    case 0:
+      disponibilidadName = "Inmediata";
+      break;
+    case 1:
+      disponibilidadName = "En una semana";
+      break;
+    case 2:
+      disponibilidadName = "En dos semanas";
+      break;
+    case 3:
+      disponibilidadName = "Agotado";
+      break;
+  }
+  return disponibilidadName;
+}
+
+const montoColones = (monto, moneda) => {
+  var thes = this;
+  return moneda == 1 ? monto : monto * thes.dolar;
+}
+
+const edit = (index) => {
+  var e = productos.value[index];
+  e.edit = true;
+  productos.value[index] = e;
+  console.log("click");
+}
+
+const save = (index) => {
+  var thes = this;
+  cargando.value = true;
+  var e = productos.value[index];
+  e.edit = false;
+  productos.value[index] = e;
+  axios
+    .post("/inventario-update/" + e.slug, {
+      disponibilidad: e.disponibilidad,
+      stock: e.stock,
+      precio_venta: e.precio_venta
+    })
+    .then(function(response) {
+        cargando.value = false;
+        totales();
+      console.log(response);
+    })
+    .catch(function(error) {
+        productos.value = response.data;
+        productosCopia.value = response.data;
+        cargando.value = false;
+      console.log(error);
+    });
+}
+
+const cancelar = (index) => {
+  //this.$set(this.productos, index, e)
+  var e = productosCopia.value[index];
+  e.edit = false;
+
+  productos.value[index] = e;
+  console.log("click");
+}
+
+const totales = () => {
+  var thes = this;
+  var costoTotal = 0;
+  var precioTotal = 0;
+  var stock = 0;
+  var margenTotal = 0;
+  for (let i = 0; i < thes.productos.length; i++) {
+    const e = thes.productos[i];
+    costoTotal += Number(thes.montoTotal(e.costo, e.moneda, e.stock));
+    precioTotal += Number(thes.montoTotal(e.precio_venta, e.moneda, e.stock));
+    stock += Number(e.stock);
+  }
+  margenTotal = precioTotal - costoTotal;
+  thes.$set(thes, "costoTotal", costoTotal);
+  thes.$set(thes, "precioTotal", precioTotal);
+  thes.$set(thes, "stockTotal", stock);
+  thes.$set(thes, "margenTotal", margenTotal);
+}
+
+const mostrarMoneda = (moneda) => {
+  return moneda == 1 ? "Colones" : "Dólares";
+}
+
+const getData = (disponibilidad) => {
+    cargando.value = true;
+    var thes = this;
+    axios
+    .get("https://variedadescr.com/inventarito/" + disponibilidad)
+    //.get("http://max.local/inventarito/" + disponibilidad)
+    .then(response => {
+        productos.value = response.data;
+        totales();
+        cargando.value = false;
+    });
+}
+
+// Mounted hook
+onMounted(() => {
+  console.log("Component mounted inventario")
+  inputData()
+  totales()
+})
 </script>
