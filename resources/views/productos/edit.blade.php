@@ -35,11 +35,10 @@
                 <div class="col-6">
                     <label for="disponibilidad">Disponibilidad</label>
                     <select name="disponibilidad" id="disponibilidad" class="form-control" required>
-                        <option value="1" @if ($producto->disponibilidad == 1) selected @endif>Inmediata</option>
-                        <option value="2" @if ($producto->disponibilidad == 2) selected @endif>Una semana</option>
-                        <option value="3" @if ($producto->disponibilidad == 3) selected @endif>Dos semanas
-                        </option>
-                        <option value="4" @if ($producto->disponibilidad == 4) selected @endif>Agotado</option>
+                        <option value="0" @if ($producto->disponibilidad == 0) selected @endif>Inmediata</option>
+                        <option value="1" @if ($producto->disponibilidad == 1) selected @endif>Una semana</option>
+                        <option value="2" @if ($producto->disponibilidad == 2) selected @endif>Dos semanas</option>
+                        <option value="3" @if ($producto->disponibilidad == 3) selected @endif>Agotado</option>
                     </select>
                 </div>
 

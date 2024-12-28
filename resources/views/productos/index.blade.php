@@ -147,12 +147,12 @@
                                 <span class="fs-5 font-monospace" style="color: rgb(191 73 73)">
                                     @if (auth()->user() && auth()->user()->AutorizaRoles('revendedor'))
                                         @if ($producto->precio_mayorista)
-                                            M: ₡{{ $producto->precio_mayorista }}
+                                            M: ¢{{ $producto->precio_mayorista }}
                                             <br>
                                         @endif
-                                        V: ₡{{ $producto->precio_venta }}
+                                        V: ¢{{ $producto->precio_venta }}
                                     @else
-                                        ₡{{ number_format($producto->precio_venta, 0, '.', ',') }}
+                                        ¢{{ number_format($producto->precio_venta, 0, '.', ',') }}
                                     @endif
                                 </span>
                                 <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"

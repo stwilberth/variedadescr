@@ -67,7 +67,7 @@ class Productos extends Controller
         $productos = $query->marca($marca_id)
             ->genero($genero)
             ->catalogo($Catalogo->id)
-            ->where('publicado', 1)
+            ->publicado()
             ->get();
 
         $title = $Catalogo->nombre . ' '.$marca_nombre . ' ' . $genero_name;

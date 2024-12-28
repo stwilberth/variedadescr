@@ -48,12 +48,12 @@
                                     @endif
                                 </td>
                                 <td>{{ $producto->stock }}</td>
-                                <td>₡{{ number_format($producto->costo) }}</td>
-                                <td>₡{{ number_format($producto->precio_mayorista) }}</td>
-                                <td>₡{{ number_format($producto->precio_venta) }}</td>
-                                <td>₡{{ number_format($producto->costo * $producto->stock) }}</td>
-                                <td>₡{{ number_format($producto->precio_venta * $producto->stock) }}</td>
-                                <td>₡{{ number_format($producto->precio_mayorista * $producto->stock) }}</td>
+                                <td>¢{{ number_format($producto->costo) }}</td>
+                                <td>¢{{ number_format($producto->precio_mayorista) }}</td>
+                                <td>¢{{ number_format($producto->precio_venta) }}</td>
+                                <td>¢{{ number_format($producto->costo * $producto->stock) }}</td>
+                                <td>¢{{ number_format($producto->precio_venta * $producto->stock) }}</td>
+                                <td>¢{{ number_format($producto->precio_mayorista * $producto->stock) }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <a href="/producto-edit/{{ $producto->slug }}" class="btn btn-primary">
@@ -87,9 +87,9 @@
                     <tbody>
                         <tr>
                             <td>{{ $productos->sum('stock') }}</td>
-                            <td>₡{{ number_format($productos->sum('costo') * $productos->sum('stock')) }}</td>
-                            <td>₡{{ number_format($productos->sum('precio_mayorista') * $productos->sum('stock')) }}</td>
-                            <td>₡{{ number_format($productos->sum('precio_venta') * $productos->sum('stock')) }}</td>
+                            <td>¢{{ number_format($productos->sum('costo') * $productos->sum('stock')) }}</td>
+                            <td>¢{{ number_format($productos->sum('precio_mayorista') * $productos->sum('stock')) }}</td>
+                            <td>¢{{ number_format($productos->sum('precio_venta') * $productos->sum('stock')) }}</td>
                         </tr>
                     </tbody>
                 </table>

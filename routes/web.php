@@ -68,3 +68,9 @@ Route::post('/image-delete', 'ImageCtr@delete')->name('imageDelete')->middleware
 //     $exitCode = Artisan::call('key:generate');
 //     return $exitCode;
 // });
+
+//symbolic link
+/* Route::get('/symlink', function() {
+    $exitCode = Artisan::call('storage:link');
+    return $exitCode;
+}); */

@@ -37,10 +37,10 @@
                 <div class="col-6">
                     <label for="disponibilidad">Disponibilidad</label>
                     <select name="disponibilidad" id="disponibilidad" class="form-control" required>
-                        <option value="1">Inmediata</option>
-                        <option value="2">Una semana</option>
-                        <option value="3">Dos semanas</option>
-                        <option value="4">Agotado</option>
+                        <option value="0">Inmediata</option>
+                        <option value="1">Una semana</option>
+                        <option value="2">Dos semanas</option>
+                        <option value="3">Agotado</option>
                     </select>
                 </div>
 

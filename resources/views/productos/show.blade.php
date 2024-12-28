@@ -34,38 +34,6 @@
 @section('content')
     @php
         $revendedor = auth()->check() && auth()->user()->AutorizaRoles('revendedor');
-        $msj_whatsapp = 'Me interesa este articulo.';
-
-        switch ($producto->disponibilidad) {
-            case 0:
-                $disponibilidad = 'Inmediata';
-                $color_dispo = 'text-success';
-                break;
-
-            case 1:
-                $disponibilidad = 'Una semana';
-                $color_dispo = 'text-success';
-                break;
-
-            case 2:
-                $disponibilidad = 'Dos semanas';
-                $color_dispo = 'text-success';
-                break;
-
-            case 3:
-                $disponibilidad = 'Agotado';
-                $color_dispo = 'text-danger';
-                break;
-            default:
-                $disponibilidad = '';
-                $color_dispo = '';
-        }
-        $agotado = false;
-        $disableAgotado = '';
-        if ($producto->stock == 0 || $producto->disponibilidad == 3) {
-            $agotado = true;
-            $disableAgotado = 'disabled';
-        }
     @endphp
 
     <div class="container mb-5">
@@ -148,13 +116,13 @@
 
             <div class="col-sm-3 mb-3">
                 <span class="fs-3 fw-bold" style="color: rgb(191, 73, 73)">
-                    ₡{{ number_format($producto->precio_venta) }}
+                    ¢{{ number_format($producto->precio_venta) }}
                 </span>
                 <br>
                 @if ($producto->precio_sugerido)
                     <span class="font-weight-bold" style="color: #8a8a8a;">Precio sugerido:</span><span
                         style="font-family: georgia,sans-serif; color: #8a8a8a;">
-                        ₡{{ number_format($producto->precio_sugerido) }}</span>
+                        ¢{{ number_format($producto->precio_sugerido) }}</span>
                     <br>
                 @endif
                 @if ($producto->precio_anterior && $producto->precio_anterior > $producto->precio_venta)
@@ -163,11 +131,11 @@
                 @endif
                 @if ($admin)
                     <br>
-                    Costo: ₡{{ number_format($producto->costo) }} <br>
-                    Mayorista: ₡{{ number_format($producto->precio_mayorista) }} <br>
+                    Costo: ¢{{ number_format($producto->costo) }} <br>
+                    Mayorista: ¢{{ number_format($producto->precio_mayorista) }} <br>
                 @endif
                 @if ($revendedor)
-                    Precio mayorista: ₡{{ number_format($producto->precio_mayorista) }}
+                    Precio mayorista: ¢{{ number_format($producto->precio_mayorista) }}
                 @endif
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item px-0">
@@ -187,7 +155,9 @@
                     </li>
                     <li class="list-group-item px-0">
                         <span class="font-weight-bold">Disponibilidad: </span>
-                        <span class="{{ $color_dispo }}">{{ $disponibilidad }}</span>
+                        <span class="@if ($producto->disponibilidad == 3) text-danger @else text-success @endif">
+                            {{ $producto->disponibilidadTexto }}
+                        </span>
                     </li>
                     <li class="list-group-item px-0">
                         <span class="font-weight-bold">Stock:</span> {{ $producto->stock }}

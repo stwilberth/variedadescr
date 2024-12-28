@@ -5,22 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta_tags')
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     @php
         $title = !isset($title) ? 'Relojería' : $title;
     @endphp
-
     <title> {{ $title }} | VariedadesCR.com</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     @yield('styles')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    {{-- build files --}}
-    public/build/assets/close-DeJujm55.png                   0.28 kB
-    public/build/assets/next-QVcNtdNi.png                    1.35 kB
-    public/build/assets/prev-BVHqDsrk.png                    1.36 kB
     <link rel="stylesheet" href="{{ asset('build/assets/fa-v4compatibility-C9RhG_FT.woff2') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/loading-BY_-FGaJ.gif') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/fa-v4compatibility-CCth-dXg.ttf') }}">
@@ -33,10 +24,17 @@
     <link rel="stylesheet" href="{{ asset('build/assets/app-BqCfoSFw.css') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/app-CIRuAh4n.css') }}">
     <script src="{{ asset('build/assets/app-dU69axaL.js') }}"></script>
-
     @yield('style_css')
-
     <style>
+        /* Solución para el scroll horizontal */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Mantener el estilo existente del botón WhatsApp */
         .whatsapp-btn {
             animation: pulse 4s infinite;
             box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
@@ -46,11 +44,11 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
             }
-            
+
             70% {
                 box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
             }
-            
+
             100% {
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
             }

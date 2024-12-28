@@ -1,14 +1,21 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/usuario/public_html/
-    - /bin/cp -R * $DEPLOYPATH
-    - /bin/cp .env $DEPLOYPATH
-    - /bin/cp .htaccess $DEPLOYPATH
+    - export DEPLOYPATH=/home3/apren173/variedadescr.com/
+    - /bin/cp -R app $DEPLOYPATH
+    - /bin/cp -R bootstrap $DEPLOYPATH
+    - /bin/cp -R config $DEPLOYPATH
+    - /bin/cp -R database $DEPLOYPATH
+    - /bin/cp -R public $DEPLOYPATH
+    - /bin/cp -R resources $DEPLOYPATH
+    - /bin/cp -R routes $DEPLOYPATH
+    # - /bin/cp -R storage $DEPLOYPATH
+    #- /bin/cp -R vendor $DEPLOYPATH
+    #- /bin/cp -R public/build $DEPLOYPATH/public/
+
     - cd $DEPLOYPATH
-    - /bin/chmod 755 storage bootstrap/cache
-    - /usr/local/bin/composer install --no-dev
-    - /usr/local/bin/php artisan migrate --force
+    #- /bin/chmod 755 storage bootstrap/cache
+    #- /usr/local/bin/composer install --no-dev
     - /usr/local/bin/php artisan config:cache
     - /usr/local/bin/php artisan route:cache
     - /usr/local/bin/php artisan view:cache 

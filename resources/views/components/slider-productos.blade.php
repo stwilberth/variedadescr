@@ -53,7 +53,7 @@
                                                         @endif
                                                     </a>
                                                     <h5 class="text-center" style="color: var(--bs-gray-600)">
-                                                        ₡{{ number_format($producto->precio_venta, 0, ',', '.') }}
+                                                        ¢{{ number_format($producto->precio_venta, 0, ',', '.') }}
                                                     </h5>
                                                 </div>
                                             </div>

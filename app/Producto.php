@@ -119,4 +119,21 @@ class Producto extends Model
     {
         return $this->attributes['moneda'] === 1 ? '¢' : '$';
     }
+
+    // Disponibilidad
+    public function getDisponibilidadTextoAttribute()
+    {
+        switch ($this->attributes['disponibilidad']) {
+            case 0:
+                return 'Inmediata';
+            case 1:
+                return 'Una semana';
+            case 2:
+                return 'Dos semanas';
+            case 3:
+                return 'Agotado';
+            default:
+                return '';
+        }
+    }
 }
