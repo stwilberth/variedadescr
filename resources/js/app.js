@@ -1,22 +1,18 @@
-import './bootstrap';
-import '../css/app.css';
-
-import $ from 'jquery';
-window.$ = $;
-window.jQuery = $;
-
+import axios from 'axios';
+import jQuery from 'jquery';
 import '@popperjs/core';
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import '@fortawesome/fontawesome-free/css/all.min.css';
-
-import 'lightbox2/dist/js/lightbox';
-import 'lightbox2/dist/css/lightbox.css';
-
 import { createApp } from 'vue';
 
-import InvenComp from './components/InvenComp.vue';
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; 
+window.$ = window.jQuery = jQuery;
+
+import ProductImageSlider from './components/ProductImageSlider.vue';
+import ProductsSlider from './components/ProductsSlider.vue';
 const app = createApp({});
-app.component('inven-comp', InvenComp);
+app.component('product-image-slider', ProductImageSlider);
+app.component('products-slider', ProductsSlider);
+
 app.mount('#app');
+

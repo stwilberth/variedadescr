@@ -30,6 +30,8 @@ Route::get('/producto-create', 'Productos@create')->name('productoCreate')->midd
 Route::post('/producto-update/{slug}', 'Productos@update')->name('productoUpdate')->middleware('adminrole');
 Route::post('/producto-store', 'Productos@store')->name('productoStore')->middleware('adminrole');
 Route::get('/inventario', 'Productos@inventario')->name('productoInventario')->middleware('adminrole');
+Route::get('/sin-publicar', 'Productos@sinPublicar')->name('productoSinPublicar')->middleware('adminrole');
+Route::get('/producto-publicar/{slug}', 'Productos@publicar')->name('productoPublicar')->middleware('adminrole');
 //Route::post('/producto-delete', 'Productos@delete')->name('productoDelete');
 
 //edicion de imagenes
@@ -38,39 +40,28 @@ Route::post('/image-save', 'ImageCtr@save')->name('imageSave')->middleware('admi
 Route::post('/image-update', 'ImageCtr@update')->name('imageUpdate')->middleware('adminrole');
 Route::post('/image-delete', 'ImageCtr@delete')->name('imageDelete')->middleware('adminrole');
 
- //Clear route cache:
-//  Route::get('/route-cache', function() {
-//     $exitCode = Artisan::call('route:cache');
-//     return 'Routes cache cleared';
-// });
 
-// //Clear config cache:
-// Route::get('/config-cache', function() {
-//     $exitCode = Artisan::call('config:cache');
-//     return 'Config cache cleared';
-// });
+// Clear config cache:
+Route::get('/clear-cache', function() {
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:cache');
+    Artisan::call('cache:clear');
+    return 'Config cache cleared';
+})->middleware('adminrole');
 
-//Clear config cache:
-// //Clear config cache:
-// Route::get('/config-cache', function() {
-//     $exitCode = Artisan::call('config:cache');
-//     return 'Config cache cleared';
-// });
+/* 
 
-// // Clear application cache:
-// Route::get('/clear-cache', function() {
-//     $exitCode = Artisan::call('cache:clear');
-//     return 'Application cache cleared';
-// });
-
-// // key:
-// Route::get('/key-generate', function() {
-//     $exitCode = Artisan::call('key:generate');
-//     return $exitCode;
-// });
+// key:
+Route::get('/key-generate', function() {
+    $exitCode = Artisan::call('key:generate');
+    return $exitCode;
+});
 
 //symbolic link
-/* Route::get('/symlink', function() {
+Route::get('/symlink', function() {
     $exitCode = Artisan::call('storage:link');
     return $exitCode;
-}); */
+}); 
+
+*/

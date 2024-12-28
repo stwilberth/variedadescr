@@ -60,7 +60,7 @@
                         @foreach ($relojes as $marca)
                             <tr>
                                 <td>{{ $marca->nombre }}</td>
-                                <td>{{ $marca->productos->where('publicado', 1)->count() }}</td>
+                                <td>{{ $marca->productos->count() }}</td>
                                 <td>
                                     <a href="/marcas/{{ $marca->id }}/edit" class="btn btn-sm btn-primary">
                                         <i class="fa fa-edit"></i>
@@ -98,7 +98,7 @@
                         @foreach ($perfumes as $marca)
                             <tr>
                                 <td>{{ $marca->nombre }}</td>
-                                <td>{{ $marca->productos->where('publicado', 1)->count() }}</td>
+                                <td>{{ $marca->productos->count() }}</td>
                                 <td>
                                     <a href="/marcas/{{ $marca->id }}/edit" class="btn btn-sm btn-primary">
                                         <i class="fa fa-edit"></i>

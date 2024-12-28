@@ -20,12 +20,10 @@
                             <select class="form-select" name="marca">
                                 <option value="0">Marcas</option>
                                 @foreach ($marcas as $item)
-                                    @if ($item->cantidad > 0)
                                         <option value="{{ $item->id }}"
                                             @if ($marca_id == $item->id) selected @endif>
                                             {{ $item->nombre }}
                                         </option>
-                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -41,11 +39,9 @@
                         {{-- Filtro Orden --}}
                         <div class="col-12 col-sm-6 col-md-2 mb-2">
                             <select class="form-select" name="orden">
-                                <option value="">Ordenar por precio</option>
-                                <option value="asc" @if (request('orden') == 'asc') selected @endif>Menor a mayor
-                                </option>
-                                <option value="desc" @if (request('orden') == 'desc') selected @endif>Mayor a menor
-                                </option>
+                                <option value="">Orden por fecha</option>
+                                <option value="asc" @if (request('orden') == 'asc') selected @endif>Menor precio</option>
+                                <option value="desc" @if (request('orden') == 'desc') selected @endif>Mayor precio </option>
                             </select>
                         </div>
                         {{-- Filtro Liquidación --}}
@@ -82,9 +78,6 @@
                     <div class="row d-flex justify-content-center">
                         <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
                             La consulta no generó resultados.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -106,7 +99,7 @@
                         <div class="m-0 text-center">
                             <!-- Card image -->
                             @if ($producto->imagenes->count() > 0)
-                                <a href="/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }}"
+                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}"
                                     class="position-relative d-block">
                                     <img class="card-img-top" loading="lazy"
                                         src="/storage/productos/thumb_{{ $producto->imagenes->first()->ruta }}"
@@ -129,7 +122,7 @@
                                     @endif
                                 </a>
                             @else
-                                <a href="/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }}">
+                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}">
                                     <img class="card-img-top" loading="lazy" src="/img/sin_foto.png"
                                         alt="Fotografía del {{ $producto->nombre }}">
                                 </a>
@@ -137,7 +130,7 @@
                             <!-- Card content -->
                             <div class="text-center">
                                 <!-- Title -->
-                                <a href="/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }}"
+                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}"
                                     class="text-decoration-none text-dark">
                                     <h6 class="card-title mt-2 text-truncate">{{ $producto->nombre }}</h6>
                                 </a>
@@ -155,12 +148,12 @@
                                         ¢{{ number_format($producto->precio_venta, 0, '.', ',') }}
                                     @endif
                                 </span>
-                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
+                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
                                     class="text-decoration-none fs-5 btn-sm btn-outline-success d-none d-sm-inline-block" style="color: rgb(14 82 51)">
                                     <i class="fab fa-whatsapp" aria-hidden="true"></i>
                                     <span class="d-none d-sm-inline">Chat</span>
                                 </a>
-                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
+                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
                                     class="text-decoration-none fs-5 btn btn-sm btn-outline-success d-inline-block d-sm-none" style="color: rgb(14 82 51)">
                                     <i class="fab fa-whatsapp" aria-hidden="true"></i>
                                 </a>

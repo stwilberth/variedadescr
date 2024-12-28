@@ -4,6 +4,7 @@ namespace anuncielo;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class Producto extends Model
 {
@@ -14,26 +15,37 @@ class Producto extends Model
     'genero',
     'marca_id',
     'modelo',
-    'nuevo',
     'catalogo',
-    'destacado',
-    'slider',
     'publicado',
     'oferta',
-    'fecha_inicio',
-    'fecha_fin',
     'moneda',
     'costo',
     'precio_anterior',
     'precio_venta',
     'descuento',
     'precio_sugerido',
-    'codigo',
     'stock',
     'disponibilidad'
     ];
 
-    protected $appends = ['currency_symbol'];
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::addGlobalScope('publicado', function (Builder $builder) {
+            $builder->where('publicado', 1);
+        });
+
+        static::addGlobalScope('oferta', function (Builder $builder) {
+            $builder->where('oferta', '0');
+        });
+    }
+
+
+    // metodo helper para cuando quieras ver solo sin publicar
+    public function scopeSinPublicar($query) {
+        return $query->withoutGlobalScope('publicado')->where('publicado', 0);
+    }
 
     public function getRouteKeyName()
     {
@@ -57,16 +69,13 @@ class Producto extends Model
             return $query->where('catalogo', $catalogo);
         }
     }
-    public function scopePublicado($query, $publicado = null)
-    {
-        if (Auth::check() && Auth::user()->AutorizaRoles('admin')) {
-            if($publicado){
-                return $query->where('publicado', 1);
-            } else {
-                return $query;
-            }
-        } else {
-            return $query->where('publicado', 1);
+
+    //scope oferta
+    function scopeOferta($query, $valor) {
+        if($valor) {
+            return $query
+            ->withoutGlobalScope('oferta')
+            ->where('oferta', $valor);
         }
     }
 
@@ -95,12 +104,6 @@ class Producto extends Model
         return $imagen;
     }
 
-
-    public function getCurrencySymbolAttribute()
-    {
-        return $this->attributes['moneda'] === 1 ? '¢' : '$';
-    }
-
     public function getGeneroTextoAttribute()
     {
         switch ($this->attributes['genero']) {
@@ -113,11 +116,6 @@ class Producto extends Model
             default:
                 return "Desconocido";
         }
-    }
-
-    public function getMonedaSimboloAttribute()
-    {
-        return $this->attributes['moneda'] === 1 ? '¢' : '$';
     }
 
     // Disponibilidad
@@ -135,5 +133,23 @@ class Producto extends Model
             default:
                 return '';
         }
+    }
+
+
+    public function scopeOrdenar($query, $orden)
+    {
+        return match ($orden) {
+            'asc' => $query->orderBy('precio_venta', 'asc'),
+            'desc' => $query->orderBy('precio_venta', 'desc'),
+            default => $query->orderBy('created_at', 'desc'),
+        };
+    }
+
+    public function scopeThumbnail($query, $catalogo)
+    {
+        return $query->select('id', 'slug', 'nombre', 'precio_venta', 'oferta')
+            ->where('stock', '>', 0)
+            ->where('disponibilidad', '!=', 3)
+            ->where('catalogo', $catalogo);
     }
 }

@@ -11,23 +11,14 @@
     @endphp
     <title> {{ $title }} | VariedadesCR.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     @yield('styles')
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-v4compatibility-C9RhG_FT.woff2') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/loading-BY_-FGaJ.gif') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-v4compatibility-CCth-dXg.ttf') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-regular-400-BjRzuEpd.woff2') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-regular-400-DZaxPHgR.ttf') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-brands-400-D_cYUPeE.woff2') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-solid-900-CTAAxXor.woff2') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-brands-400-D1LuMI3I.ttf') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/fa-solid-900-D0aA9rwL.ttf') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BqCfoSFw.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-CIRuAh4n.css') }}">
-    <script src="{{ asset('build/assets/app-dU69axaL.js') }}"></script>
     @yield('style_css')
     <style>
         /* Solución para el scroll horizontal */
-        html, body {
+        html,
+        body {
             overflow-x: hidden;
             width: 100%;
             margin: 0;
@@ -36,7 +27,7 @@
 
         /* Mantener el estilo existente del botón WhatsApp */
         .whatsapp-btn {
-            animation: pulse 4s infinite;
+            animation: pulse 2s infinite;
             box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
         }
 
@@ -58,19 +49,188 @@
 
 <body>
     <div id="app">
-        @include('blocks.navbar')
-        @include('blocks.contactar_barra')
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
+            <!-- Navbar brand -->
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <div class="logo-text">
+                        <span class="variedades">VARIEDADES</span><span class="cr">CR</span>
+                    </div>
+                </a>
+
+                <!-- Collapse button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Links -->
+                <div class="collapse navbar-collapse" id="basicExampleNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item"><a class="nav-link fw-bold" href="/">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/relojes">Relojes</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/perfumes">Perfumes</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold" href="/contactenos">Contáctenos</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold" href="/envio">Envio</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold" href="/garantia">Garantia</a></li>
+
+                        @if (Auth::check() && Auth::user()->AutorizaRoles('admin'))
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Dashboard</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="/">Inicio</a></li>
+                                    <li><a class="dropdown-item" href="/home">Home</a></li>
+                                    <li><a class="dropdown-item" href="/producto-create">Agregar Producto</a></li>
+                                    <li><a class="dropdown-item" href="/users">Usuarios</a></li>
+                                    <li><a class="dropdown-item" href="/inventario">Inventario</a></li>
+                                    <li><a class="dropdown-item" href="/marcas">Marcas</a></li>
+                                </ul>
+                            </li>
+                        @endif
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesion') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrarme') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                            {{ __('Salir') }}
+                                        </a>
+                                    </li>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                </ul>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Contactar barra -->
+        <div class="d-flex justify-content-center gap-3 my-3">
+            <a href="{{ config('ajustes.redes.whatsapp') }}?text="
+                class="text-decoration-none d-inline-flex align-items-center">
+                <i class="fab fa-whatsapp text-success" aria-hidden="true"></i>
+                <span class="ms-2 text-dark">87811054</span>
+            </a>
+
+            <a href="mailto:info@variedadescr.com" class="text-decoration-none d-inline-flex align-items-center">
+                <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
+                <span class="ms-2 text-dark">info@variedadescr.com</span>
+            </a>
+        </div>
+
         <main>
             @yield('content')
         </main>
-        @include('blocks.footer')
+
+        <!-- Footer -->
+        <footer class="mt-5 bg-dark pb-3 pt-2">
+
+            <div class="d-flex justify-content-between align-items-center gap-3 px-4">
+
+
+                <div class="text-white">
+                    Desarrollado por <a href="https://wilberth.com"
+                        class="text-decoration-none text-info">wilberth.com</a>
+                </div>
+
+                <div class="text-white">
+                    @include('blocks.social-links')
+                </div>
+
+            </div>
+
+            <div class="pt-3 bg-dark">
+                <div class="row g-4">
+                    <!--First column-->
+                    <div class="col-md-4 col-sm-12">
+                        <div class="footer-card p-4 rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fa fa-truck fa-2x text-info me-3"></i>
+                                <h6 class="text-uppercase fw-bold mb-0 text-white">Envío</h6>
+                            </div>
+                            <hr class="text-white">
+                            <p class="text-white mb-0">
+                                Realizamos envíos a todo el país, excepto en zonas excluidas por Correos de
+                                Costa Rica.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!--Second column-->
+                    <div class="col-md-4 col-sm-12">
+                        <div class="footer-card p-4 rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fa fa-certificate fa-2x text-warning me-3"></i>
+                                <h6 class="text-uppercase fw-bold mb-0 text-white">Autenticidad</h6>
+                            </div>
+                            <hr class="text-white">
+                            <p class="text-white mb-0">
+                                Todos nuestros productos son 100% auténticos, ofreciendo el mejor servicio al
+                                mejor precio.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!--Third column-->
+                    <div class="col-md-4 col-sm-12">
+                        <div class="footer-card p-4 rounded-3 h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fa fa-shield fa-2x text-success me-3"></i>
+                                <h6 class="text-uppercase fw-bold mb-0 text-white">Garantía</h6>
+                            </div>
+                            <hr class="text-white">
+                            <p class="text-white mb-0">
+                                Ofrecemos nuestra propia garantía para brindar mayor tranquilidad y respaldo en
+                                su compra.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-white">
+                <div class="mb-0 text-white text-center pb-3">
+                    © {{ date('Y') }} <a href="https://www.variedadescr.com"
+                        class="text-decoration-none text-info">VariedadesCR.com</a>
+                </div>
+            </div>
+
+        </footer>
+
     </div>
 
     <!-- Botón flotante de WhatsApp -->
-    <a href="{{ config('ajustes.redes.whatsapp') }}" 
-       class="btn btn-success rounded-circle position-fixed d-flex align-items-center justify-content-center whatsapp-btn"
-       style="bottom: 20px; right: 20px; width: 60px; height: 60px; font-size: 30px; z-index: 1000;"
-       target="_blank">
+    <a href="{{ config('ajustes.redes.whatsapp') }}"
+        class="btn btn-success rounded-circle position-fixed d-flex align-items-center justify-content-center whatsapp-btn"
+        style="bottom: 20px; right: 20px; width: 60px; height: 60px; font-size: 30px; z-index: 1000;" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 

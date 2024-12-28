@@ -20,57 +20,41 @@ class Productos extends Controller
         $descuento = $request->descuento;
         $marca_id = $request->marca;
         $genero = $request->genero;
-        $Catalogo = Catalogo::where('slug', $catalogo_slug)->firstOrFail();
-        $marcas = Marca::where('catalogo', $Catalogo->id)->orderBy('peso', 'asc')->get();
-        //obtener cantidad de productos de cada marca
-        foreach ($marcas as $marca) {
-            $marca->cantidad = Producto::where('marca_id', $marca->id)->publicado()->count();
-        }
-
-        $marca_nombre = '';
-        if ($marca_id) {
-            $Marca = Marca::where('id', $marca_id)->firstOrFail();
-            $marca_nombre = $Marca->nombre;
-        }
-
-        //genero title
-        if ($genero == 1) {
-            $genero_name = 'para Mujer';
-        } elseif ($genero == 2) {
-            $genero_name = 'para Hombre';
-        } elseif ($genero == 3) {
-            $genero_name = 'Unisex';
-        } else {
-            $genero_name = '';
-        }
-
+        $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = $request->orden;
 
-        // Modificar la consulta base para incluir el ordenamiento por precio
-        $query = Producto::where('disponibilidad', '!=', 4)
-            ->orderBy('publicado', 'desc');
-
-        // Aplicar ordenamiento por precio si está especificado
-        if ($orden === 'asc') {
-            $query->orderBy('precio_venta', 'asc');
-        } elseif ($orden === 'desc') {
-            $query->orderBy('precio_venta', 'desc');
-        } else {
-            // Mantener el orden por defecto si no se especifica ordenamiento por precio
-            $query->orderBy('created_at', 'desc')->orderBy('marca_id', 'desc');
-        }
-
-        if ($descuento) {
-            $query->where('oferta', $descuento);
-        }
-
-        $productos = $query->marca($marca_id)
-            ->genero($genero)
-            ->catalogo($Catalogo->id)
-            ->publicado()
+        $marcas = Marca::where('catalogo', $catalogo_id)
+            ->whereHas('productos', function ($query) {
+                $query->where('stock', '>', 0)
+                    ->where('disponibilidad', '!=', 3);
+            })
+            ->orderBy('nombre', 'asc')
             ->get();
 
-        $title = $Catalogo->nombre . ' '.$marca_nombre . ' ' . $genero_name;
+        $marca_nombre = ($marca_id) ? Marca::findOrFail($marca_id)->nombre : '';
+
+        //genero title
+        $genero_name = match ($genero) {
+            1 => 'para Mujer',
+            2 => 'para Hombre', 
+            3 => 'Unisex',
+            default => ''
+        };
+
+
+        $productos = Producto::thumbnail($catalogo_id)
+            ->marca($marca_id)
+            ->genero($genero)
+            ->oferta($descuento)
+            ->ordenar($orden)
+            ->get();
+
+        foreach ($productos as $producto) {
+            $producto->imagen = ($producto->imagenes->count() > 0) ? $producto->imagenes->first()->ruta : null;
+        }
+
+
+        $title = ucfirst($catalogo_slug) . ' '.$marca_nombre . ' ' . $genero_name;
 
         return view('productos.index', compact('productos', 'marca_id', 'genero', 'marcas', 'catalogo_slug', 'title'));
     }
@@ -92,21 +76,13 @@ class Productos extends Controller
             $producto->genero = $request->genero;
             $producto->marca_id = $request->marca;
             $producto->modelo = $request->modelo;
-            $producto->nuevo = 1;
             $producto->catalogo = $marca->catalogo;
-            $producto->destacado = 0;
-            $producto->slider = null;
             $producto->publicado = 1;
             $producto->oferta = $request->oferta;
-            $producto->fecha_inicio = null;
-            $producto->fecha_fin = null;
-            $producto->moneda = 1;
             $producto->costo = $request->costo;
             $producto->precio_venta = $request->precio_venta;
             $producto->precio_mayorista = $request->precio_mayorista;
-            $producto->descuento = 0;
             $producto->precio_sugerido = $request->precio_sugerido;
-            $producto->codigo = null;
             $producto->stock = $request->stock;
             $producto->disponibilidad = $request->disponibilidad;
             $producto->url_tiktok = $request->url_tiktok;
@@ -128,7 +104,10 @@ class Productos extends Controller
         $catalogo = Catalogo::where('slug', $categoria)->firstOrFail();
         $admin = false;
         if (Auth::user() && Auth::user()->AutorizaRoles('admin')) {
-            $producto = Producto::where('slug', $slug)->catalogo($catalogo->id)->firstOrFail();
+            $producto = Producto::where('slug', $slug)
+                ->catalogo($catalogo->id)
+                ->withoutPublicado()
+                ->firstOrFail();
             $admin = true;
         } else {
             $producto = Producto::where('slug', $slug)->catalogo($catalogo->id)->firstOrFail();
@@ -142,15 +121,12 @@ class Productos extends Controller
             ->where('id', '!=', $producto->id)
             ->marca($producto->marca_id)
             ->catalogo($producto->catalogo)
-            ->publicado()
             ->get();
 
-       
         //obtener productos nuevos con menos de 30 dias de antiguedad
         $new_products = Producto::orderBy('created_at', 'desc')
             ->where('id', '!=', $producto->id)
             ->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
-            ->publicado()
             ->get();
     
         return view('productos.show', compact('producto', 'admin', 'more_products', 'new_products')); 
@@ -158,7 +134,9 @@ class Productos extends Controller
 
     public function edit(Request $request, $slug)
     {
-        $producto = Producto::where('slug', $slug)->firstOrFail();
+        $producto = Producto::where('slug', $slug)
+            ->withoutPublicado()
+            ->firstOrFail();
         $title = $producto->nombre;
         $catalogo = Catalogo::orderBy('peso', 'asc')->get();
         $marcas = Marca::orderBy('catalogo', 'asc')->orderBy('nombre', 'asc')->get();
@@ -168,7 +146,9 @@ class Productos extends Controller
     public function update(Request $request, $slug)
     {
         $marca = Marca::findOrFail($request->marca);
-        $producto = Producto::where('slug', $slug)->firstOrFail();
+        $producto = Producto::where('slug', $slug)
+            ->withoutPublicado()
+            ->firstOrFail();
 
             $producto->nombre = $request->nombre;
             $producto->descripcion = $request->descripcion;
@@ -208,7 +188,7 @@ class Productos extends Controller
         if (auth()->user() && auth()->user()->AutorizaRoles('admin')) {
             $admin = true;
             $productos = Producto::where('stock', '>', 0)
-                ->where('publicado', 1)
+                ->where('disponibilidad', '=', 0)
                 ->orderBy('catalogo', 'asc')
                 ->orderBy('stock', 'desc')
                 ->orderBy('costo', 'asc')
@@ -219,5 +199,24 @@ class Productos extends Controller
 
          return view('errors.404');
 
+    }
+
+    public function sinPublicar(Request $request)
+    {
+        $productos = Producto::sinPublicar()
+            ->orderBy('catalogo', 'asc')
+            ->orderBy('stock', 'desc')
+            ->orderBy('costo', 'asc')
+            ->get();
+
+        return view('productos.sin_publicar', compact('productos'));
+    }
+
+    public function publicar($slug)
+    {
+        $producto = Producto::where('slug', $slug)->firstOrFail();
+        $producto->publicado = 1;
+        $producto->save();
+        return redirect('sin-publicar')->with('status', 'Producto publicado correctamente.');
     }
 }

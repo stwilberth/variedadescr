@@ -27,22 +27,7 @@ class ImageCtr extends Controller
 
         if ($request->hasFile('img')) {
             try {
-                function numberToLetters($number) {
-                    $cadena1 = strval($number);
-                    $letters = 'abcdefghijklmnopqrstuvwxyz';  
-                    $cadena2 = '';
-                    foreach (str_split($cadena1) as $numero) {
-                        foreach (str_split($letters) as $i => $letter) {
-                            if($numero == $i) {
-                                $cadena2 .= $letter;
-                            }
-                        }
-                    }
-                
-                    return $cadena2;
-                }
-                
-                $uniqueName = numberToLetters(time()).uniqid();
+                $uniqueName = Str::random(10);
                 $crop = json_decode($request->medidas_crop);
                 $img = $request->file('img');
     

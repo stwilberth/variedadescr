@@ -69,49 +69,11 @@
             <h1 class="mb-4 text-center text-success">{{ $producto->nombre }}</h1>
             {{-- galeria --}}
             <div class="col-sm-4 mb-3">
-                @if ($producto->imagenes->count() > 0)
-                    <div id="carousel-example-1z" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            @foreach ($producto->imagenes as $i => $imagen)
-                                <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-                                    <a href="/storage/productos/{{ $imagen->ruta }}" data-lightbox="roadtrip">
-                                        <img class="d-block w-100" src="/storage/productos/{{ $imagen->ruta }}"
-                                            alt="Slide">
-                                    </a>
-                                </div>
-                            @endforeach
-                            @if ($producto->url_tiktok)
-                                <div class="carousel-item">
-                                    {!! $producto->url_tiktok !!}
-                                </div>
-                            @endif
-                        </div>
-                        <button class="carousel-control-prev text-dark" type="button" data-bs-target="#carousel-example-1z"
-                            data-bs-slide="prev">
-                            <i class="fa fa-2x fa-chevron-left"></i>
-                        </button>
-                        <button class="carousel-control-next text-dark" type="button" data-bs-target="#carousel-example-1z"
-                            data-bs-slide="next">
-                            <i class="fa fa-2x fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="d-flex justify-content-center gap-2">
-                        @foreach ($producto->imagenes as $i => $imagen)
-                            <img src="/storage/productos/{{ $imagen->ruta }}" alt="{{ $producto->nombre }}"
-                                class="img-thumbnail carousel-thumbnail social-link" data-bs-target="#carousel-example-1z"
-                                data-bs-slide-to="{{ $i }}"
-                                style="height: 60px; width: 60px; cursor: pointer; margin: 0 5px;">
-                        @endforeach
-                    </div>
-                    @if ($producto->url_tiktok)
-                        <img src="/img/tik-tok.png" alt="tiktok" class="img-thumbnail carousel-thumbnail"
-                            data-bs-target="#carousel-example-1z" data-bs-slide-to="{{ $producto->imagenes->count() }}"
-                            style="height: 80px; width: 80px; cursor: pointer; margin: 0 5px;">
-                    @endif
-                @else
-                    <img src="/img/sin_foto.png" alt="Producto sin imagen">
-                @endif
-
+                <product-image-slider
+                    :imagenes='@json($producto->imagenes)'
+                    :url-tiktok='@json($producto->url_tiktok)'
+                    :producto-nombre='@json($producto->nombre)'
+                />
             </div>
 
             <div class="col-sm-3 mb-3">
@@ -127,7 +89,7 @@
                 @endif
                 @if ($producto->precio_anterior && $producto->precio_anterior > $producto->precio_venta)
                     <span class="font-weight-bold" style="color: #8a8a8a;">Antes:</span> <span
-                        style="color: #8a8a8a; textDecoration: line-through; font-family: georgia,sans-serif">{{ $producto->currency_symbol }}{{ $producto->precio_anterior }}.</span>
+                        style="color: #8a8a8a; textDecoration: line-through; font-family: georgia,sans-serif">¢{{ $producto->precio_anterior }}.</span>
                 @endif
                 @if ($admin)
                     <br>
@@ -199,66 +161,4 @@
 @endsection
 @section('script')
     <script async src="https://www.tiktok.com/embed.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var carousel = new bootstrap.Carousel(document.querySelector('#carousel-example-1z'), {
-                interval: false
-            });
-
-            document.querySelectorAll('.carousel-thumbnail').forEach(function(thumbnail) {
-                thumbnail.addEventListener('click', function() {
-                    var slideIndex = this.getAttribute('data-slide-index');
-                    carousel.to(parseInt(slideIndex));
-                });
-            });
-
-            document.querySelector('#carousel-example-1z').addEventListener('slide.bs.carousel', function(e) {
-                document.querySelectorAll('.carousel-thumbnail').forEach(function(thumb) {
-                    thumb.classList.remove('active-thumbnail');
-                });
-                document.querySelector('.carousel-thumbnail[data-slide-index="' + e.to + '"]').classList
-                    .add('active-thumbnail');
-            });
-        });
-    </script>
-
-    <style>
-        .carousel {
-            max-height: 350px;
-            /* Ajusta este valor según necesites */
-            margin-bottom: 20px;
-        }
-
-        .carousel-inner {
-            max-height: 350px;
-            /* Debe coincidir con el max-height del carousel */
-        }
-
-        .carousel-item {
-            height: 350px;
-            /* Debe coincidir con los max-height anteriores */
-        }
-
-        .carousel-item img {
-            object-fit: contain;
-            /* Esto mantendrá la proporción de la imagen */
-            height: 100%;
-            width: 100%;
-        }
-
-        .carousel-thumbnail {
-            transition: all 0.3s ease;
-            opacity: 0.6;
-        }
-
-        .carousel-thumbnail:hover {
-            opacity: 1;
-        }
-
-        .active-thumbnail {
-            opacity: 1;
-            border: 2px solid #007bff;
-        }
-    </style>
 @endsection
