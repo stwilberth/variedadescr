@@ -1,7 +1,33 @@
----
 deployment:
   tasks:
-    - export DEPLOYPATH=/home3/apren173/variedadescr.com/
+    - export DEPLOYPATH=/home3/apren173/variedadescr.com
+    - echo "---------------------------------------------" >> deployment.log
     - echo "Starting deployment at $(date)" >> deployment.log
-    - /bin/cp -R app bootstrap config database public resources routes views $DEPLOYPATH
- 
+    
+    # Copiar archivos esenciales
+    - echo "Copying Laravel files to $DEPLOYPATH..." >> deployment.log
+    - /bin/cp -R app bootstrap config database public resources routes artisan composer.json composer.lock package.json vite.config.js $DEPLOYPATH
+
+    # Cambiar al directorio de despliegue
+    - cd $DEPLOYPATH
+
+    # Instalar dependencias de Composer
+    - echo "Installing Composer dependencies..." >> deployment.log
+    - composer install --no-dev --optimize-autoloader >> deployment.log 2>&1
+
+    # Instalar y construir assets de Vite
+    - echo "Installing and building Vite assets..." >> deployment.log
+    - npm install >> deployment.log 2>&1
+    - npm run build >> deployment.log 2>&1
+
+    # Limpiar y optimizar Laravel
+    - echo "Running Laravel optimizations..." >> deployment.log
+    - php artisan config:clear >> deployment.log 2>&1
+    - php artisan cache:clear >> deployment.log 2>&1
+    - php artisan route:cache >> deployment.log 2>&1
+    - php artisan config:cache >> deployment.log 2>&1
+    - php artisan view:cache >> deployment.log 2>&1
+
+    # Finalizar despliegue
+    - echo "Deployment completed at $(date)" >> deployment.log
+    - echo "---------------------------------------------" >> deployment.log
