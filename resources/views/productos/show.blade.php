@@ -4,8 +4,8 @@
         <meta property='article:published_time' content='{{ $producto->created_at }}' />
         <meta property='article:section' content='event' />
         @if ($producto->descripcion_social)
-            <meta name='description' itemprop='description' content='{{ $producto->descripcion_social }}' />
-            <meta property="og:description" content="{{ $producto->descripcion_social }}" />
+            <meta name='description' itemprop='description' content='{{ $producto->descripcion_social }} - Precio: ¢{{ number_format($producto->precio_venta) }}' />
+            <meta property="og:description" content="{{ $producto->descripcion_social }} - Precio: ¢{{ number_format($producto->precio_venta) }}" />
         @endif
         <meta property="og:type" content="article" />
         @if ($producto->imagenes->count() > 0)
@@ -21,7 +21,7 @@
                 "@context": "https://schema.org",
                 "@type": "Product",
                 "name": "{{ $producto->nombre }}",
-                "description": "{{ $producto->descripcion }}",
+                "description": "{{ $producto->descripcion_social }}",
                 "image": "{{ $producto->imagenes->first()->ruta }}",
                 "sku": "{{ $producto->sku }}",
                 "brand": {
