@@ -1,0 +1,17 @@
+diff a/.cpanel.yml b/.cpanel.yml	(rejected hunks)
+@@ -0,0 +1,14 @@
++---
++deployment:
++  tasks:
++    - export DEPLOYPATH=/home/usuario/public_html/
++    - /bin/cp -R * $DEPLOYPATH
++    - /bin/cp .env $DEPLOYPATH
++    - /bin/cp .htaccess $DEPLOYPATH
++    - cd $DEPLOYPATH
++    - /bin/chmod 755 storage bootstrap/cache
++    - /usr/local/bin/composer install --no-dev
++    - /usr/local/bin/php artisan migrate --force
++    - /usr/local/bin/php artisan config:cache
++    - /usr/local/bin/php artisan route:cache
++    - /usr/local/bin/php artisan view:cache 
+\ No newline at end of file
