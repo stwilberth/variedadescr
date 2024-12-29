@@ -55,7 +55,7 @@
         "hasMap": "{{ config('app.url') }}"
     }
     </script>
-    @vite(['resources/js/app.js', 'resources/sass/app.scss'])
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
     @yield('styles')
     @yield('style_css')
     <style>
