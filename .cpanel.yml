@@ -13,3 +13,4 @@ deployment:
     - php $DEPLOYPATH/artisan cache:clear
     - php $DEPLOYPATH/artisan config:clear
     - php $DEPLOYPATH/artisan view:clear
+

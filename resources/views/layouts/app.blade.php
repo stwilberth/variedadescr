@@ -6,14 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta_tags')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @php
-        $title = !isset($title) ? 'Relojes Costa Rica - Originales con Garantía' : $title;
-    @endphp
     <title>{{ $title }} | VariedadesCR.com</title>
     <meta property="og:title" content="{{ $title }} | VariedadesCR.com">
-    <meta property="og:description" content="Relojes Invicta originales en Costa Rica. Encuentra la mejor selección con garantía y envío a todo el país.">
-    <meta property="og:image" content="{{ asset('images/relojes-invicta-banner.jpg') }}">
     <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="{{ config('ajustes.sitio_web.nombre') }}">
+    <meta property="og:locale" content="es-cr" />
+    <meta property="og:locale:alternate" content="es-us" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -58,7 +56,9 @@
     @yield('styles')
     @yield('style_css')
     {{-- link de bootstrap --}}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    {{-- link de fontawesome --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    {{-- link de fontawesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     {{-- add app.css --}}
     <link rel="stylesheet" href="{{ asset('css/appp.css') }}">
@@ -267,8 +267,10 @@
     {{-- link de popper --}}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     {{-- link de bootstrap --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>    {{-- link de fontawesome --}}
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script> {{-- link de fontawesome --}}
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     {{-- link de jquery --}}
     @yield('script')

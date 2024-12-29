@@ -1,22 +1,13 @@
 @extends('layouts.app')
 @section('meta_tags')
     @if ($producto)
-        <title>{{ $producto->nombre }} | VariedadesCR.com</title>
         <meta property='article:published_time' content='{{ $producto->created_at }}' />
         <meta property='article:section' content='event' />
         @if ($producto->descripcion_social)
             <meta name='description' itemprop='description' content='{{ $producto->descripcion_social }}' />
             <meta property="og:description" content="{{ $producto->descripcion_social }}" />
-        @else
-            <meta name='description' itemprop='description' content='{{ $producto->descripcion }}' />
-            <meta property="og:description" content="{{ $producto->descripcion }}" />
         @endif
-        <meta property="og:title" content="{{ $producto->nombre }}" />
-        <meta property="og:url" content="{{ url()->current() }}" />
         <meta property="og:type" content="article" />
-        <meta property="og:locale" content="es-cr" />
-        <meta property="og:locale:alternate" content="es-us" />
-        <meta property="og:site_name" content="{{ config('ajustes.sitio_web.nombre') }}" />
         @if ($producto->imagenes->count() > 0)
             <meta property="og:image"
                 content="https://variedadescr.com/storage/productos/{{ $producto->imagenes->first()->ruta }}" />
@@ -24,10 +15,6 @@
                 content="https://variedadescr.com/storage/productos/{{ $producto->imagenes->first()->ruta }}" />
         @endif
         <meta property="og:image:size" content="300" />
-
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="{{ $producto->nombre }}" />
-        <meta name="twitter:site" content="@BrnBhaskar" />
         <!-- En la página de producto individual -->
         <script type="application/ld+json">
             {

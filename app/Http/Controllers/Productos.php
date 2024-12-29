@@ -128,8 +128,10 @@ class Productos extends Controller
             ->where('id', '!=', $producto->id)
             ->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
             ->get();
+
+            $title = $producto->nombre;
     
-        return view('productos.show', compact('producto', 'admin', 'more_products', 'new_products')); 
+        return view('productos.show', compact('producto', 'admin', 'more_products', 'new_products', 'title')); 
     }
 
     public function edit(Request $request, $slug)
