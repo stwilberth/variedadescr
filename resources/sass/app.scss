@@ -1,10 +1,11 @@
-// Primero, todos los @use
+// Corrección del orden
 @use 'bootstrap/scss/bootstrap' as *;
 @use 'variables' as *;
 
-// Después, los @import
+// Imports externos
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @import 'imagehover.css/css/imagehover.min.css';
-@import '../css/app.css';
+
+// Mover app.css a su propio archivo

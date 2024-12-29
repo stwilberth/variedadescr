@@ -1,0 +1,60 @@
+
+.social-link {
+    transition: transform 0.3s ease;
+  }
+  
+  .social-link:hover {
+    transform: scale(1.4);
+  }
+  
+  .logo-text {
+    font-family: "Orbitron", sans-serif;
+  }
+  
+  .logo-text {
+    font-family: "Arial", sans-serif;
+    /* Puedes cambiar a una fuente más similar */
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+  
+  .logo-text .variedades {
+    color: #2b5329;
+    /* Verde oscuro, ajusta el color según necesites */
+  }
+  
+  .logo-text .cr {
+    color: #808080;
+    /* Gris, ajusta el color según necesites */
+  }
+  
+  /* Para asegurar que el logo se vea bien en el navbar oscuro */
+  .navbar-dark .logo-text .variedades {
+    color: #4caf50;
+    /* Verde más claro para mejor contraste en fondo oscuro */
+  }
+  
+  .navbar-dark .logo-text .cr {
+    color: #d3d3d3;
+    /* Gris más claro para mejor contraste en fondo oscuro */
+  }
+  
+  .position-relative {
+    position: relative;
+  }
+  
+  .etiqueta-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    /* ajusta según necesites */
+    height: auto;
+    opacity: 0.85;
+    /* ajusta la transparencia si lo deseas */
+    pointer-events: none;
+    /* permite que los clicks pasen a través de la etiqueta */
+  }
+  

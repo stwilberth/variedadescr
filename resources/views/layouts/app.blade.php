@@ -57,38 +57,9 @@
     </script>
     @yield('styles')
     @yield('style_css')
-    <style>
-        /* Solución para el scroll horizontal */
-        html,
-        body {
-            overflow-x: hidden;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Mantener el estilo existente del botón WhatsApp */
-        .whatsapp-btn {
-            animation: pulse 2s infinite;
-            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-            }
-
-            70% {
-                box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-            }
-        }
-    </style>
-
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    {{-- add app.css --}}
+    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>
