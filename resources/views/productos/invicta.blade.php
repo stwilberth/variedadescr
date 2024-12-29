@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('meta_tags')
     <meta name="description" 
-        content="Catálogo completo de productos en VariedadesCR ✓ {{ $title }} ✓ Marcas originales ✓ Precios mayoristas ✓ Envíos a todo Costa Rica">
+        content="Relojes Invicta originales en Costa Rica ✓ Garantía oficial ✓ Precios mayoristas ✓ Envíos a todo Costa Rica*">
     <meta name="keywords" 
-        content="{{ strtolower($title) }}, productos originales costa rica, {{ implode(', ', $marcas->pluck('nombre')->map(fn($nombre) => strtolower($nombre))->toArray()) }}">
+        content="relojes invicta costa rica, invicta original, relojes invicta hombre, relojes invicta mujer, pro diver, speedway, precios invicta costa rica">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
     
     {{-- Open Graph Tags --}}
-    <meta property="og:title" content="{{ $title }} en Costa Rica - VariedadesCR">
-    <meta property="og:description" content="Encuentra los mejores {{ $title }} en Costa Rica ✓ Productos originales ✓ Envíos a todo el país">
+    <meta property="og:title" content="Relojes Invicta Originales en Costa Rica - VariedadesCR">
+    <meta property="og:description" content="Distribuidor autorizado de Relojes Invicta en Costa Rica ✓ Garantía oficial ✓ Envíos a todo el país ✓ Las mejores colecciones">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
     @if(isset($productos[0]->imagenes[0]))
@@ -30,20 +30,8 @@
         {{-- Filtros colapsables --}}
         <div class="collapse show" id="filtrosCollapse">
             <div class="row">
-                <form action="{{ route('catalogoIndex', $catalogo_slug) }}" method="GET" class="col-12">
+                <form action="{{ route('relojesInvicta') }}" method="GET" class="col-12">
                     <div class="row mb-3">
-                        {{-- Filtro Marcas --}}
-                        <div class="col-12 col-sm-6 col-md-2 mb-2">
-                            <select class="form-select" name="marca">
-                                <option value="0">Marcas</option>
-                                @foreach ($marcas as $item)
-                                        <option value="{{ $item->id }}"
-                                            @if ($marca_id == $item->id) selected @endif>
-                                            {{ $item->nombre }}
-                                        </option>
-                                @endforeach
-                            </select>
-                        </div>
                         {{-- Filtro Género --}}
                         <div class="col-12 col-sm-6 col-md-2 mb-2">
                             <select class="form-select" name="genero">
@@ -71,10 +59,10 @@
                             </select>
                         </div>
                         {{-- Botón Filtrar --}}
-                        <div class="col-12 col-sm-6 col-md-2 mb-2">
+                        <div class="col-12 col-sm-6 col-md-3 mb-3">
                             <div class="d-flex justify-content-between gap-2">
                                 <button type="submit" class="btn btn-success w-100">Filtrar</button>
-                                <a href="{{ route('catalogoIndex', $catalogo_slug) }}" class="btn btn-outline-success w-100">Limpiar</a>
+                                <a href="{{ route('relojesInvicta') }}" class="btn btn-outline-success w-100">Limpiar</a>
                             </div>
                         </div>
                     </div>
@@ -106,7 +94,8 @@
             <div class="row">
                 {{-- $title --}}
                 <div class="col-12">
-                    <h1 class="text-center text-success fw-bold fs-2 logo-text mt-4">{{ $title }}</h1>
+                    <h1 class="text-center text-success fw-bold fs-4 mt-4">Relojes Invicta Costa Rica</h1>
+                    <h2 class="text-center text-success fw-bold fs-6">Originales con Garantía</h2>
                 </div>
 
                 @foreach ($productos as $producto)
@@ -119,7 +108,7 @@
                         <div class="m-0 text-center">
                             <!-- Card image -->
                             @if ($producto->imagenes->count() > 0)
-                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}"
+                                <a href="/catalogo/relojes/{{ $producto->slug }}"
                                     class="position-relative d-block">
                                     <img class="card-img-top" loading="lazy"
                                         src="/storage/productos/thumb_{{ $producto->imagenes->first()->ruta }}"
@@ -142,7 +131,7 @@
                                     @endif
                                 </a>
                             @else
-                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}">
+                                <a href="/catalogo/relojes/{{ $producto->slug }}">
                                     <img class="card-img-top" loading="lazy" src="/img/sin_foto.png"
                                         alt="Fotografía del {{ $producto->nombre }}">
                                 </a>
@@ -150,7 +139,7 @@
                             <!-- Card content -->
                             <div class="text-center">
                                 <!-- Title -->
-                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}"
+                                <a href="/catalogo/relojes/{{ $producto->slug }}"
                                     class="text-decoration-none text-dark">
                                     <h6 class="card-title mt-2 text-truncate">{{ $producto->nombre }}</h6>
                                 </a>
@@ -168,12 +157,12 @@
                                         ¢{{ number_format($producto->precio_venta, 0, '.', ',') }}
                                     @endif
                                 </span>
-                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
+                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/relojes/{{ $producto->slug }} {{ $msj_whatsapp }}"
                                     class="text-decoration-none fs-5 btn-sm btn-outline-success d-none d-sm-inline-block" style="color: rgb(14 82 51)">
                                     <i class="fab fa-whatsapp" aria-hidden="true"></i>
                                     <span class="d-none d-sm-inline">Chat</span>
                                 </a>
-                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
+                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/relojes/{{ $producto->slug }} {{ $msj_whatsapp }}"
                                     class="text-decoration-none fs-5 btn btn-sm btn-outline-success d-inline-block d-sm-none" style="color: rgb(14 82 51)">
                                     <i class="fab fa-whatsapp" aria-hidden="true"></i>
                                 </a>

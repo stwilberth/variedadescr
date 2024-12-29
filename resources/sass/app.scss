@@ -1,8 +1,10 @@
-// Fonts
-//@import url('https://fonts.googleapis.com/css?family=Nunito');
+// Primero, todos los @use
+@use 'bootstrap/scss/bootstrap' as *;
+@use 'variables' as *;
 
-// Variables
-//@import 'variables';
-
-// Bootstrap
-//@import '~bootstrap/scss/bootstrap';
+// Después, los @import
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'imagehover.css/css/imagehover.min.css';
+@import '../css/app.css';

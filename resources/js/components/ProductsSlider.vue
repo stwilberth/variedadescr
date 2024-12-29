@@ -1,35 +1,19 @@
 <template>
     <div class="products-slider">
         <h2 class="products-slider__title">{{ titulo }}</h2>
-        <swiper-container
-            :slides-per-view="4"
-            :space-between="20"
-            :navigation="true"
-            :breakpoints="{
-                320: { slidesPerView: 1 },
-                640: { slidesPerView: 2 },
-                768: { slidesPerView: 4 },
-                1024: { slidesPerView: 6 }
-            }"
-        >
+        <swiper-container :slides-per-view="4" :space-between="20" :navigation="true" :breakpoints="{
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            768: { slidesPerView: 4 },
+            1024: { slidesPerView: 6 }
+        }">
             <swiper-slide v-for="product in products" :key="product.id" class="product-card">
                 <div class="product-card__info">
                     <p class="price">¢{{ formatPrice(product.precio_venta) }}</p>
                 </div>
                 <div class="product-card__image" v-if="product.imagenes && product.imagenes.length > 0">
-                    <img 
-                        :src="`/storage/productos/${product.imagenes[0].ruta}`" 
-                        :alt="product.nombre"
-                        loading="lazy"
-                        @error="handleImageError"
-                    >
-                </div>
-                <div class="product-card__image" v-else>
-                    <img 
-                        src="../../img/no-image.png" 
-                        :alt="product.nombre"
-                        @error="handleImageError"
-                    >
+                    <img :src="`/storage/productos/${product.imagenes[0].ruta}`" :alt="product.nombre" loading="lazy"
+                        @error="handleImageError">
                 </div>
                 <div class="product-card__info">
                     <h3>{{ product.nombre }}</h3>
@@ -63,7 +47,7 @@ const formatPrice = (price) => {
 };
 
 const handleImageError = (event) => {
-    event.target.src = '../../img/no-image.png';
+    event.target.src = '../../img/sin_foto.png';
 };
 </script>
 
@@ -92,7 +76,7 @@ const handleImageError = (event) => {
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .product-card__image {
@@ -119,8 +103,7 @@ const handleImageError = (event) => {
     margin: 0.5rem 0;
 }
 
-.price {
-    font-weight: bold;
+.price {    font-weight: bold;
     color: #2c3e50;
 }
 

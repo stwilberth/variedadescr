@@ -71,7 +71,16 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li class="nav-item"><a class="nav-link fw-bold" href="/">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/relojes">Relojes</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle fw-bold" href="#" id="relojesDropdown" role="button" 
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Relojes
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="relojesDropdown">
+                                <li><a class="dropdown-item" href="/catalogo/relojes/invicta">Relojes Invicta</a></li>
+                                <li><a class="dropdown-item" href="/catalogo/relojes">Ver Todos</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/perfumes">Perfumes</a></li>
                         <li class="nav-item"><a class="nav-link fw-bold" href="/contactenos">Contáctenos</a></li>
                         <li class="nav-item"><a class="nav-link fw-bold" href="/envio">Envio</a></li>

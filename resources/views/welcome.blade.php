@@ -1,7 +1,11 @@
 @extends('layouts.app')
 @section('meta_tags')
     <meta name="description"
-        content="Relojes, perfumes, accesorios y más. Encuentra los mejores productos en nuestra tienda online. Descubre nuestra amplia gama de productos y encuentra el que mejor se adapte a tus necesidades.">
+        content="Relojes originales en Costa Rica ✓ Perfumes  ✓ Garantía oficial ✓ Envíos a todo el país ✓ Los mejores precios en VariedadesCR.com">
+    <meta name="keywords"
+        content="relojes invicta costa rica, relojes originales costa rica, perfumes originales costa rica, comprar invicta costa rica, tienda oficial invicta">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
 @endsection
 @section('content')
     <div class="container">
@@ -33,6 +37,48 @@
             </div>
         </div>
 
+
+        @if ($invicta->count() > 0)
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
+                        <a href="catalogo/relojes/invicta" class="text-decoration-none" style="color: #4caf50;">Relojes
+                            Invicta (Ver más)</a>
+                    </h2>
+                    <products-slider :products="{{ $invicta }}" titulo="" />
+                </div>
+            </div>
+        @endif
+        <!-- Sección de Beneficios -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                        <h3>100% Originales</h3>
+                        <p>Garantía de autenticidad en todos nuestros relojes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+                        <h3>Envío a Todo CR</h3>
+                        <p>Entrega rápida y segura a cualquier parte del país*</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-shield-alt fa-3x text-warning mb-3"></i>
+                        <h3>Garantía Total</h3>
+                        <p>Respaldo completo en todos nuestros productos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         @if ($ofertas->count() > 0)
             <div class="row">
                 <div class="col-12">
@@ -51,13 +97,6 @@
             <div class="row">
                 <div class="col-12">
                     <products-slider :products="{{ $fossil }}" titulo="Relojes Fossil" />
-                </div>
-            </div>
-        @endif
-        @if ($invicta->count() > 0)
-            <div class="row">
-                <div class="col-12">
-                    <products-slider :products="{{ $invicta }}" titulo="Relojes Invicta" />
                 </div>
             </div>
         @endif

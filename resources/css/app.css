@@ -1,7 +1,3 @@
-@import "imagehover.min.css";
-@import 'bootstrap/dist/css/bootstrap.min.css';
-@import '@fortawesome/fontawesome-free/css/all.min.css';
-
 
 .social-link {
   transition: transform 0.3s ease;

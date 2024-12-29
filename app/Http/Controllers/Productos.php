@@ -219,4 +219,36 @@ class Productos extends Controller
         $producto->save();
         return redirect('sin-publicar')->with('status', 'Producto publicado correctamente.');
     }
+
+    public function invicta(Request $request)
+    {
+        $descuento = $request->descuento;
+        $genero = $request->genero;
+        $orden = $request->orden;
+
+        //genero title
+        $genero_name = match ($genero) {
+            1 => 'para Mujer',
+            2 => 'para Hombre', 
+            3 => 'Unisex',
+            default => ''
+        };
+
+
+        $productos = Producto::thumbnail(1)
+            ->marca(67)
+            ->genero($genero)
+            ->oferta($descuento)
+            ->ordenar($orden)
+            ->get();
+
+        foreach ($productos as $producto) {
+            $producto->imagen = ($producto->imagenes->count() > 0) ? $producto->imagenes->first()->ruta : null;
+        }
+
+
+        $title = 'Relojes Invicta Costa Rica';
+
+        return view('productos.invicta', compact('productos', 'genero', 'title'));
+    }
 }
