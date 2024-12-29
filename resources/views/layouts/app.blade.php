@@ -57,8 +57,12 @@
     </script>
     @yield('styles')
     @yield('style_css')
+    {{-- link de bootstrap --}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    {{-- link de fontawesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     {{-- add app.css --}}
-    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @vite(['resources/js/app.js'])
 </head>
 
