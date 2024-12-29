@@ -7,12 +7,55 @@
     @yield('meta_tags')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
-        $title = !isset($title) ? 'Relojería' : $title;
+        $title = !isset($title) ? 'Relojes Costa Rica - Originales con Garantía' : $title;
     @endphp
-    <title> {{ $title }} | VariedadesCR.com</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    <title>{{ $title }} | VariedadesCR.com</title>
+    <meta property="og:title" content="{{ $title }} | VariedadesCR.com">
+    <meta property="og:description" content="Relojes Invicta originales en Costa Rica. Encuentra la mejor selección con garantía y envío a todo el país.">
+    <meta property="og:image" content="{{ asset('images/relojes-invicta-banner.jpg') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "VariedadesCR.com",
+        "description": "Tienda En Línea de relojes en Costa Rica",
+        "telephone": "+506 8781-1054",
+        "email": "info@variedadescr.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "San José, Costa Rica",
+            "addressLocality": "San José",
+            "addressRegion": "San José",
+            "postalCode": "10101",
+            "addressCountry": "Costa Rica"
+        },
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "09:00",
+                "closes": "18:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Saturday"],
+                "opens": "09:00",
+                "closes": "13:00"
+            }
+        ],
+        "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "Sinpe Móvil"],
+        "currenciesAccepted": "CRC",
+        "priceRange": "₡15000 - ₡500000",
+        "sameAs": [
+            "{{ config('ajustes.redes.facebook') }}",
+            "{{ config('ajustes.redes.instagram') }}",
+            "{{ config('ajustes.redes.whatsapp') }}"
+        ],
+        "hasMap": "{{ config('app.url') }}"
+    }
+    </script>
+    @vite(['resources/js/app.js', 'resources/sass/app.scss'])
     @yield('styles')
     @yield('style_css')
     <style>

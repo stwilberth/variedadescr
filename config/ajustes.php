@@ -13,6 +13,7 @@ return array(
         'redes' => [
             'whatsapp' => "https://wa.me/+50687811054",
             'facebook' => "https://www.facebook.com/variedadescrrelojeria/",
+            'instagram' => "https://www.instagram.com/variedadescrrelojeria/",
             "info" => "info@variedadescr.com"
         ],
         

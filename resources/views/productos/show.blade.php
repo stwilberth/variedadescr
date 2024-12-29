@@ -28,6 +28,27 @@
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="{{ $producto->nombre }}" />
         <meta name="twitter:site" content="@BrnBhaskar" />
+        <!-- En la página de producto individual -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": "{{ $producto->nombre }}",
+                "description": "{{ $producto->descripcion }}",
+                "image": "{{ $producto->imagenes->first()->ruta }}",
+                "sku": "{{ $producto->sku }}",
+                "brand": {
+                    "@type": "Brand",
+                    "name": "{{ $producto->marca->nombre }}"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "{{ $producto->precio_venta }}",
+                    "priceCurrency": "CRC",
+                    "availability": "{{ $producto->disponibilidad == 3 ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock' }}"
+                }
+            }
+    </script>
     @endif
 @endsection
 
@@ -69,11 +90,8 @@
             <h1 class="mb-4 text-center text-success">{{ $producto->nombre }}</h1>
             {{-- galeria --}}
             <div class="col-sm-4 mb-3">
-                <product-image-slider
-                    :imagenes='@json($producto->imagenes)'
-                    :url-tiktok='@json($producto->url_tiktok)'
-                    :producto-nombre='@json($producto->nombre)'
-                />
+                <product-image-slider :imagenes='@json($producto->imagenes)' :url-tiktok='@json($producto->url_tiktok)'
+                    :producto-nombre='@json($producto->nombre)' />
             </div>
 
             <div class="col-sm-3 mb-3">
