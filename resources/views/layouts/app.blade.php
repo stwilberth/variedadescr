@@ -273,6 +273,14 @@
 
         gtag('config', 'UA-43437982-7');
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- link de popper --}}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    {{-- link de bootstrap --}}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    {{-- link de fontawesome --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    {{-- link de jquery --}}
     @yield('script')
     @yield('scripts')
 </body>
