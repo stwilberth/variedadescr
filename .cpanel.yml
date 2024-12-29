@@ -11,11 +11,18 @@ deployment:
     - /bin/cp -R routes $DEPLOYPATH
     # - /bin/cp -R storage $DEPLOYPATH
     #- /bin/cp -R vendor $DEPLOYPATH
-    #- /bin/cp -R public/build $DEPLOYPATH/public/
+    - /bin/cp -R public/build $DEPLOYPATH/public/
+
+    #copiar el archivo .env.production a .env
+    - /bin/cp -R .env.production $DEPLOYPATH/.env
+
+    #copiar el composer.lock y composer.json a la carpeta del proyecto
+    - /bin/cp -R composer.lock $DEPLOYPATH/
+    - /bin/cp -R composer.json $DEPLOYPATH/
 
     - cd $DEPLOYPATH
     #- /bin/chmod 755 storage bootstrap/cache
-    #- /usr/local/bin/composer install --no-dev
+    - /usr/local/bin/composer install --no-dev
     - /usr/local/bin/php artisan config:cache
     - /usr/local/bin/php artisan route:cache
     - /usr/local/bin/php artisan view:cache 

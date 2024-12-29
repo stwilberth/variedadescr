@@ -1,0 +1,48 @@
+{
+  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/close.png": {
+    "file": "assets/close-DeJujm55.png",
+    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/close.png"
+  },
+  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/loading.gif": {
+    "file": "assets/loading-BY_-FGaJ.gif",
+    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/loading.gif"
+  },
+  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/next.png": {
+    "file": "assets/next-QVcNtdNi.png",
+    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/next.png"
+  },
+  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/prev.png": {
+    "file": "assets/prev-BVHqDsrk.png",
+    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/prev.png"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-B6MN-V6q.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/img/sin_foto.png": {
+    "file": "assets/sin_foto-BX1V4X7y.png",
+    "src": "resources/img/sin_foto.png"
+  },
+  "resources/img/tik-tok.png": {
+    "file": "assets/tik-tok-Qy3JAFOZ.png",
+    "src": "resources/img/tik-tok.png"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BN-T_9ua.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app-B6MZzGCw.css"
+    ],
+    "assets": [
+      "assets/tik-tok-Qy3JAFOZ.png",
+      "assets/sin_foto-BX1V4X7y.png",
+      "assets/loading-BY_-FGaJ.gif",
+      "assets/prev-BVHqDsrk.png",
+      "assets/next-QVcNtdNi.png",
+      "assets/close-DeJujm55.png"
+    ]
+  }
+}
