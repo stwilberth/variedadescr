@@ -59,7 +59,7 @@
     @yield('style_css')
     {{-- add app.css --}}
     <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
 </head>
 
 <body>

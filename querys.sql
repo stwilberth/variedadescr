@@ -1,3 +1,4 @@
+-- Active: 1734194457990@@162.241.61.213@3306@apren173_variedades
 -- cambiar el tipo de dato de la columna oferta a enum
 ALTER TABLE productos MODIFY COLUMN oferta ENUM('0', '1', '2') DEFAULT '0';
 
