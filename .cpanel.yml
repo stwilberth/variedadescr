@@ -2,10 +2,14 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home3/apren173/variedadescr.com/
-    - /bin/cp -R * $DEPLOYPATH
-    - cd $DEPLOYPATH
-    - echo "Starting deployment process" >> deployment.log
-    - /usr/local/bin/php /usr/local/bin/composer install --no-dev >> deployment.log 2>&1
-    - /usr/local/bin/php artisan config:cache >> deployment.log 2>&1
-    - /usr/bin/npm install >> deployment.log 2>&1
-    - /usr/bin/npm run build >> deployment.log 2>&1
+    - echo "Starting deployment at $(date)" >> deployment.log
+    # Copiar archivos principales
+    - /bin/cp -R app bootstrap config database public resources routes views $DEPLOYPATH
+    # Establecer permisos
+    - /bin/chmod 755 $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache
+    - /bin/chmod -R 755 $DEPLOYPATH/storage/framework/
+    - /bin/chmod -R 755 $DEPLOYPATH/storage/logs/
+    # Limpiar cachés usando PHP directamente
+    - php $DEPLOYPATH/artisan cache:clear
+    - php $DEPLOYPATH/artisan config:clear
+    - php $DEPLOYPATH/artisan view:clear

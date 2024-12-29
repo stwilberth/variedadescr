@@ -23,7 +23,7 @@ Route::get('/garantia', 'Paginas@garantia');
 Route::resource('marcas', 'MarcaController')->middleware('adminrole');
 
 //catalogo y productos
-Route::get('/catalogo/relojes/invicta', 'Productos@invicta')->name('relojesInvicta');
+Route::get('/catalogo/relojes-invicta', 'Productos@invicta')->name('relojesInvicta');
 Route::get('/catalogo/{categoria}', 'Productos@index')->name('catalogoIndex');
 Route::get('/catalogo/{categoria}/{slug}', 'Productos@show')->name('productoShow');
 Route::get('/producto-edit/{slug}', 'Productos@edit')->name('productoEdit')->middleware('adminrole');

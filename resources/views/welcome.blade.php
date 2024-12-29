@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-12">
                     <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
-                        <a href="catalogo/relojes/invicta" class="text-decoration-none" style="color: #4caf50;">Relojes
+                        <a href="{{ route('relojesInvicta') }}" class="text-decoration-none" style="color: #4caf50;">Relojes
                             Invicta (Ver más)</a>
                     </h2>
                     <products-slider :products="{{ $invicta }}" titulo="" />
