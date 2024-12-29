@@ -88,13 +88,7 @@
         }
     </style>
 
-    @if (config('app.env') == 'production')
-        <link rel="stylesheet" href="{{ asset('build/assets/app-B6MN-V6q.css') }}">
-        <link rel="stylesheet" href="{{ asset('build/assets/app-B6MZzGCw.css') }}">
-        <script src="{{ asset('build/assets/app-BN-T_9ua.js') }}"></script>
-    @else
-        @vite(['resources/js/app.js', 'resources/css/app.css'])
-    @endif
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 
 <body>
