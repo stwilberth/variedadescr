@@ -105,11 +105,10 @@
                 {{-- publicado --}}
                 <div class="form-group col-3">
                     <label class="form-label">Estado</label>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="publicado" id="publicado"
-                            {{ $producto->publicado == 1 ? 'checked' : '' }} value="1">
-                        <label class="form-check-label" for="publicado">Publicado</label>
-                    </div>
+                    <select name="publicado" id="publicado" class="form-control" required>
+                        <option value="0" @if ($producto->publicado == 0) selected @endif>No publicado</option>
+                        <option value="1" @if ($producto->publicado == 1) selected @endif>Publicado</option>
+                    </select>
                 </div>
 
 

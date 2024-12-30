@@ -21,10 +21,10 @@ class Welcome extends Controller {
         $invicta = Producto::thumbnail(1)
             ->marca(67)
             ->with('imagenes')
+            ->with('catalogoM')
             ->get();
 
         $ofertas = Producto::thumbnail(1)
-            ->withoutGlobalScope('oferta')
             ->whereIn('oferta', ['1', '2'])
             ->with('imagenes')
             ->get();

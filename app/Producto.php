@@ -35,10 +35,6 @@ class Producto extends Model
         static::addGlobalScope('publicado', function (Builder $builder) {
             $builder->where('publicado', 1);
         });
-
-        static::addGlobalScope('oferta', function (Builder $builder) {
-            $builder->where('oferta', '0');
-        });
     }
 
 
@@ -74,7 +70,6 @@ class Producto extends Model
     function scopeOferta($query, $valor) {
         if($valor) {
             return $query
-            ->withoutGlobalScope('oferta')
             ->where('oferta', $valor);
         }
     }
@@ -147,7 +142,8 @@ class Producto extends Model
 
     public function scopeThumbnail($query, $catalogo)
     {
-        return $query->select('id', 'slug', 'nombre', 'precio_venta', 'oferta')
+        return $query->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+            ->with('catalogoM')
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
             ->where('catalogo', $catalogo);

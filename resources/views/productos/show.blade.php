@@ -13,7 +13,7 @@
             '@type' => 'Product',
             'name' => $producto->nombre,
             'description' => $producto->descripcion_social,
-            'image' => $producto->imagenes->first()->ruta,
+            'image' => $producto->imagenes->count() > 0 ? 'https://variedadescr.com/storage/productos/' . $producto->imagenes->first()->ruta : null,
             'sku' => $producto->sku,
             'brand' => [
                 '@type' => 'Brand',
@@ -56,9 +56,9 @@
                     </a>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 text-center">
                 @if ($producto->publicado == 0)
-                    <h2 class="red-text">No publicado</h2>
+                    <h2 class="text-danger">No publicado</h2>
                 @endif
             </div>
         @endif

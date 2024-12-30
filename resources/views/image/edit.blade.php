@@ -2,11 +2,11 @@
 @section('content')
 <div class="container">
 
-    {{-- <a href="/relojes/{{$producto->slug}}" class="btn btn-warning"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back</a> --}}
-    <h2>
-        {{$producto->nombre}}
+    <h2 class="d-flex justify-content-between">
+        <span class="text-muted">{{$producto->nombre}}</span>
 
-        <a  href="/catalogo/{{ $producto->catalogoM->slug }}/{{$producto->slug}}" class="btn btn-sm stylish-color mdb-color white-text" style="padding-left: 15px; padding-right:15px">Ver</a>
+        <a  href="/catalogo/{{ $producto->catalogoM->slug }}/{{$producto->slug}}" 
+            class="btn btn-primary white-text">Ver Producto</a>
     </h2>
     {{-- Subir imagen --}}
     <div class="row mt-2">

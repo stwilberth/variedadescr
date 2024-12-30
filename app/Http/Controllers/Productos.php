@@ -71,8 +71,9 @@ class Productos extends Controller
         return view('productos.create', compact('marcas'));
     }
 
-    public function store(productoCreate $request)
+    public function store(Request $request)
     {
+
         $marca = Marca::findOrFail($request->marca);
 
             $producto = new Producto;
@@ -143,7 +144,7 @@ class Productos extends Controller
     public function edit(Request $request, $slug)
     {
         $producto = Producto::where('slug', $slug)
-            ->withoutPublicado()
+            ->withoutGlobalScopes()
             ->firstOrFail();
         $title = $producto->nombre;
         $catalogo = Catalogo::orderBy('peso', 'asc')->get();
@@ -155,7 +156,7 @@ class Productos extends Controller
     {
         $marca = Marca::findOrFail($request->marca);
         $producto = Producto::where('slug', $slug)
-            ->withoutPublicado()
+            ->withoutGlobalScopes()
             ->firstOrFail();
 
             $producto->nombre = $request->nombre;
@@ -166,7 +167,7 @@ class Productos extends Controller
             $producto->modelo = $request->modelo;
             $producto->catalogo = $marca->catalogo;
             $producto->publicado = (int)$request->publicado;
-            $producto->oferta = (int)$request->oferta;
+            $producto->oferta = $request->oferta;
             $producto->costo = $request->costo;
             $producto->precio_venta = $request->precio_venta;
             $producto->precio_mayorista = $request->precio_mayorista;
@@ -226,37 +227,5 @@ class Productos extends Controller
         $producto->publicado = 1;
         $producto->save();
         return redirect('sin-publicar')->with('status', 'Producto publicado correctamente.');
-    }
-
-    public function invicta(Request $request)
-    {
-        $descuento = $request->descuento;
-        $genero = $request->genero;
-        $orden = $request->orden;
-
-        //genero title
-        $genero_name = match ($genero) {
-            1 => 'para Mujer',
-            2 => 'para Hombre', 
-            3 => 'Unisex',
-            default => ''
-        };
-
-
-        $productos = Producto::thumbnail(1)
-            ->marca(67)
-            ->genero($genero)
-            ->oferta($descuento)
-            ->ordenar($orden)
-            ->get();
-
-        foreach ($productos as $producto) {
-            $producto->imagen = ($producto->imagenes->count() > 0) ? $producto->imagenes->first()->ruta : null;
-        }
-
-
-        $title = 'Relojes Invicta Costa Rica';
-
-        return view('productos.invicta', compact('productos', 'genero', 'title'));
     }
 }

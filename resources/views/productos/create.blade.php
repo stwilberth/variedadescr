@@ -35,7 +35,7 @@
                     </select>
                 </div>
                 <div class="col-6">
-                    <label for="disponibilidad">Disponibilidad</label>
+                    <label for="disponibilidad">Disponibilidad <span class="text-danger">*</span></label>
                     <select name="disponibilidad" id="disponibilidad" class="form-control" required>
                         <option value="0">Inmediata</option>
                         <option value="1">Una semana</option>
@@ -65,11 +65,20 @@
                 </div>
 
                 <div class="col-6">
-                    <x-form-select label="Tipo de oferta" name="oferta" :options="[
-                        0 => 'Sin oferta',
-                        1 => 'Oferta',
-                        2 => 'Liquidación',
-                    ]" />
+                    <label for="oferta">Oferta <span class="text-danger">*</span></label>
+                    <select name="oferta" id="oferta" class="form-control" required>
+                        <option value="0">Sin oferta</option>
+                        <option value="1">Oferta</option>
+                        <option value="2">Liquidación</option>
+                    </select>
+                </div>
+
+                <div class="col-6">
+                    <label for="publicado">Estado <span class="text-danger">*</span></label>
+                    <select name="publicado" id="publicado" class="form-control" required>
+                        <option value="1">Publicado</option>
+                        <option value="0">No publicado</option>
+                    </select>
                 </div>
 
                 <div class="col-6">
@@ -93,7 +102,9 @@
 
                     <x-form-field label="Descripción Redes sociales" name="descripcion_social" type="textarea" required
                         rows="2" maxlength="125" help="Texto simple 125 carácteres máximo" />
+                    <small class="text-muted">Texto simple 125 carácteres máximo</small>
 
+                    <br>
                     <x-form-field label="Tiktok Video" name="url_tiktok" type="textarea" rows="2" />
                 </div>
             </div>

@@ -80,17 +80,7 @@
                 </div>
             </div>
         @endif
-        @if ($ofertas->count() > 0)
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
-                        <a href="/catalogo/relojes?marca=0&genero=0&orden=&descuento=1" class="text-decoration-none"
-                            style="color: #4caf50;">Ofertas (Ver más)</a>
-                    </h2>
-                    <products-slider :products="{{ $ofertas }}" titulo="" />
-                </div>
-            </div>
-        @endif
+
         @if ($nixon->count() > 0)
             <div class="row">
                 <div class="col-12">
@@ -103,6 +93,7 @@
                 </div>
             </div>
         @endif
+
         @if ($fossil->count() > 0)
             <div class="row">
                 <div class="col-12">
@@ -112,6 +103,18 @@
                             Fossil (Ver más)</a>
                     </h2>
                     <products-slider :products="{{ $fossil }}" titulo="" />
+                </div>
+            </div>
+        @endif
+
+        @if ($ofertas->count() > 0)
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
+                        <a href="/catalogo/relojes?marca=0&genero=0&orden=&descuento=1" class="text-decoration-none"
+                            style="color: #4caf50;">Ofertas (Ver más)</a>
+                    </h2>
+                    <products-slider :products="{{ $ofertas }}" titulo="" />
                 </div>
             </div>
         @endif
