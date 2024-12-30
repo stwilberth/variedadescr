@@ -104,7 +104,6 @@
     </style>
     @yield('styles')
     @yield('style_css')
-    <script src="{{ asset('build/assets/app-BDP-UmSo.css') }}"></script>
 </head>
 
 <body>
@@ -322,8 +321,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     @yield('scripts')
     @yield('script')
-    <script src="{{ asset('build/assets/app-C2TV_13t.js') }}"></script>
-    <script src="{{ asset('build/assets/vendor-CnRVS2Tw.js') }}"></script>
+    @vite(['resources/js/app.js'])
 
 </body>
 

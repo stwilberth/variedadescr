@@ -1,8 +1,4 @@
 {
-  "_vendor-CnRVS2Tw.js": {
-    "file": "assets/vendor-CnRVS2Tw.js",
-    "name": "vendor"
-  },
   "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/close.png": {
     "file": "assets/close-DeJujm55.png",
     "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/close.png"
@@ -28,13 +24,10 @@
     "src": "resources/img/tik-tok.png"
   },
   "resources/js/app.js": {
-    "file": "assets/app-C2TV_13t.js",
+    "file": "assets/app-C0sL6HzC.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
-    "imports": [
-      "_vendor-CnRVS2Tw.js"
-    ],
     "css": [
       "assets/app-BDP-UmSo.css"
     ],
