@@ -43,11 +43,12 @@ Route::post('/image-delete', 'ImageCtr@delete')->name('imageDelete')->middleware
 
 // Clear config cache:
 Route::get('/clear-cache', function() {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
     Artisan::call('config:cache');
     Artisan::call('route:cache');
     Artisan::call('view:cache');
-    Artisan::call('cache:clear');
-    return 'Config cache cleared';
+    return redirect()->back()->with('success', 'Cache cleared successfully');
 })->middleware('adminrole');
 
 /* 

@@ -6,6 +6,7 @@
         content="relojes invicta costa rica, relojes originales costa rica, perfumes originales costa rica, comprar invicta costa rica, tienda oficial invicta">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
+    <title>Relojes y Perfumes en Costa Rica | VariedadesCR</title>
 @endsection
 @section('content')
     <div class="container">
