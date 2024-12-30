@@ -49,7 +49,7 @@ Route::get('/clear-cache', function() {
     Artisan::call('route:cache');
     Artisan::call('view:cache');
     return redirect()->back()->with('success', 'Cache cleared successfully');
-})->middleware('adminrole');
+})->name('clearCache')->middleware('adminrole');
 
 /* 
 

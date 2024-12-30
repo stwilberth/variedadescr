@@ -25,6 +25,7 @@
                             <li class="list-group-item">
                                 <span class="text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="cursor: pointer;">Cerrar sesión</span>
                             </li>
+                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="/clear-cache">Limpiar cache</a></li>
                         </ul>
                     @else
                         <span>Has iniciado sesión</span>
