@@ -155,8 +155,7 @@
                                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
                                     data-bs-toggle="dropdown" aria-expanded="false">Dashboard</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="/">Inicio</a></li>
-                                    <li><a class="dropdown-item" href="/home">Home</a></li>
+                                    <li><a class="dropdown-item" href="/home">Dashboard</a></li>
                                     <li><a class="dropdown-item" href="/producto-create">Agregar Producto</a></li>
                                     <li><a class="dropdown-item" href="/users">Usuarios</a></li>
                                     <li><a class="dropdown-item" href="/inventario">Inventario</a></li>
