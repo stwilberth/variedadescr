@@ -1,4 +1,4 @@
-@extends('layouts.inventario')
+@extends('layouts.app')
 @section('content')
 
     @php
@@ -8,7 +8,7 @@
     <div class="ml-3 mr-5">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center my-5">Inventario</h1>
+                <h1 class="text-center my-5 text-success">{{ $title }}</h1>
             </div>
         </div>
 

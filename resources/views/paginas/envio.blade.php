@@ -1,9 +1,18 @@
 @extends('layouts.app')
+@php 
+    $title = 'Envio';
+@endphp
+
+@section('meta_tags')
+    <x-meta-ttags
+        :title="$title"
+        description="Realizamos envíos a todo el país, excepto en zonas excluidas por Correos de Costa Rica."
+        type="website"
+        section="envio"
+    />
+@endsection
 
 @section('content')
-@php 
-  $title = 'Envio';
-@endphp
 <div class="container">
     <div class="row mt-1">
         <div class="col-md-5">

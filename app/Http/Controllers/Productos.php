@@ -31,13 +31,19 @@ class Productos extends Controller
             ->orderBy('nombre', 'asc')
             ->get();
 
-        $marca_nombre = ($marca_id) ? Marca::findOrFail($marca_id)->nombre : '';
+        $marca_nombre = ($marca_id) ? ' ' . Marca::findOrFail($marca_id)->nombre : '';
 
         //genero title
         $genero_name = match ($genero) {
-            1 => 'para Mujer',
-            2 => 'para Hombre', 
-            3 => 'Unisex',
+            '1' => ' para Mujer',
+            '2' => ' para Hombre', 
+            '3' => ' Unisex',
+            default => ''
+        };
+
+        $descuento_name = match ($descuento) {
+            '1' => ' con descuento',
+            '2' => ' en oferta',
             default => ''
         };
 
@@ -54,7 +60,7 @@ class Productos extends Controller
         }
 
 
-        $title = ucfirst($catalogo_slug) . ' '.$marca_nombre . ' ' . $genero_name;
+        $title = ucfirst($catalogo_slug) . $marca_nombre . $genero_name . $descuento_name;
 
         return view('productos.index', compact('productos', 'marca_id', 'genero', 'marcas', 'catalogo_slug', 'title'));
     }
@@ -106,7 +112,7 @@ class Productos extends Controller
         if (Auth::user() && Auth::user()->AutorizaRoles('admin')) {
             $producto = Producto::where('slug', $slug)
                 ->catalogo($catalogo->id)
-                ->withoutPublicado()
+                ->withoutGlobalScopes()
                 ->firstOrFail();
             $admin = true;
         } else {
@@ -216,7 +222,7 @@ class Productos extends Controller
 
     public function publicar($slug)
     {
-        $producto = Producto::where('slug', $slug)->firstOrFail();
+        $producto = Producto::where('slug', $slug)->withoutGlobalScopes()->firstOrFail();
         $producto->publicado = 1;
         $producto->save();
         return redirect('sin-publicar')->with('status', 'Producto publicado correctamente.');

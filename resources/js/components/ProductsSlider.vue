@@ -12,8 +12,10 @@
                     <p class="price">¢{{ formatPrice(product.precio_venta) }}</p>
                 </div>
                 <div class="product-card__image" v-if="product.imagenes && product.imagenes.length > 0">
-                    <img :src="`/storage/productos/${product.imagenes[0].ruta}`" :alt="product.nombre" loading="lazy"
-                        @error="handleImageError">
+                    <a :href="`catalogo/${product.catalogo_slug}/${product.marca_slug}/${product.slug}`">
+                        <img :src="`/storage/productos/${product.imagenes[0].ruta}`" :alt="product.nombre" loading="lazy"
+                            @error="handleImageError">
+                    </a>
                 </div>
                 <div class="product-card__info">
                     <h3>{{ product.nombre }}</h3>

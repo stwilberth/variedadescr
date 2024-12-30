@@ -1,42 +1,32 @@
 @extends('layouts.app')
+
 @section('meta_tags')
-    @if ($producto)
-        <meta property='article:published_time' content='{{ $producto->created_at }}' />
-        <meta property='article:section' content='event' />
-        @if ($producto->descripcion_social)
-            <meta name='description' itemprop='description' content='{{ $producto->descripcion_social }} - Precio: ¢{{ number_format($producto->precio_venta) }}' />
-            <meta property="og:description" content="{{ $producto->descripcion_social }} - Precio: ¢{{ number_format($producto->precio_venta) }}" />
-        @endif
-        <meta property="og:type" content="article" />
-        @if ($producto->imagenes->count() > 0)
-            <meta property="og:image"
-                content="https://variedadescr.com/storage/productos/{{ $producto->imagenes->first()->ruta }}" />
-            <meta property="og:image:secure_url"
-                content="https://variedadescr.com/storage/productos/{{ $producto->imagenes->first()->ruta }}" />
-        @endif
-        <meta property="og:image:size" content="300" />
-        <!-- En la página de producto individual -->
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "Product",
-                "name": "{{ $producto->nombre }}",
-                "description": "{{ $producto->descripcion_social }}",
-                "image": "{{ $producto->imagenes->first()->ruta }}",
-                "sku": "{{ $producto->sku }}",
-                "brand": {
-                    "@type": "Brand",
-                    "name": "{{ $producto->marca->nombre }}"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "{{ $producto->precio_venta }}",
-                    "priceCurrency": "CRC",
-                    "availability": "{{ $producto->disponibilidad == 3 ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock' }}"
-                }
-            }
-    </script>
-    @endif
+    <x-meta-ttags
+        :title="$producto->nombre"
+        :description="$producto->descripcion_social ? $producto->descripcion_social . ' - Precio: ¢' . number_format($producto->precio_venta) : null"
+        :image="$producto->imagenes->count() > 0 ? 'https://variedadescr.com/storage/productos/' . $producto->imagenes->first()->ruta : null"
+        type="article"
+        :published-time="$producto->created_at"
+        section="event"
+        :schema="[
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $producto->nombre,
+            'description' => $producto->descripcion_social,
+            'image' => $producto->imagenes->first()->ruta,
+            'sku' => $producto->sku,
+            'brand' => [
+                '@type' => 'Brand',
+                'name' => $producto->marca->nombre
+            ],
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => $producto->precio_venta,
+                'priceCurrency' => 'CRC',
+                'availability' => $producto->disponibilidad == 3 ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock'
+            ]
+        ]"
+    />
 @endsection
 
 @section('content')

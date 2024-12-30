@@ -1,14 +1,13 @@
-@extends('layouts.inventario')
+@extends('layouts.app')
 @section('content')
-
     @php
-        $title = 'Inventario';
+        $title = 'Productos sin Publicar';
     @endphp
 
     <div class="ml-3 mr-5">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center my-5">Inventario</h1>
+                <h1 class="text-center my-5 text-danger">{{ $title }}</h1>
             </div>
         </div>
 
@@ -56,17 +55,19 @@
                                 <td>¢{{ number_format($producto->precio_mayorista * $producto->stock) }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <form action="/producto-publicar/{{ $producto->slug }}" method="get"
-                                            onsubmit="return confirm('¿Estás seguro de que deseas publicar este producto?');">
+                                        <form action="{{ route('productoPublicar', $producto->slug) }}" method="post"
+                                            onsubmit="return confirmPublicar('{{ $producto->nombre }}')">
                                             @csrf
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
+                                                <a href="/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }}"
+                                                    class="btn btn-info">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </div>
                                         </form>
-                                        <a href="/catalogo/{{ $producto->catalogoM->slug }}/{{ $producto->slug }}"
-                                            class="btn btn-info">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -101,3 +102,9 @@
         </div>
     </div>
 @endsection
+
+<script>
+    function confirmPublicar(name) {
+        return confirm('¿Estás seguro de que deseas publicar ' + name + '?');
+    }
+</script>

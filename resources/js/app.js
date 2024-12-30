@@ -1,8 +1,4 @@
 import axios from 'axios';
-import jQuery from 'jquery';
-import '@popperjs/core';
-import 'bootstrap';
-import '../sass/app.scss';
 import { createApp } from 'vue';
 
 // Componentes Vue

@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('meta_tags')
+    <x-meta-ttags
+        title="Registrarse"
+        description="Regístrate en Variedadescr.com para acceder a tu cuenta y realizar compras"
+        type="website"
+        section="register"
+    />
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

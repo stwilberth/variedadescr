@@ -1,9 +1,18 @@
 @extends('layouts.app')
-
-@section('content')
 @php 
   $title = 'Contáctenos';
 @endphp
+
+@section('meta_tags')
+    <x-meta-ttags
+        :title="$title"
+        description="Contáctenos para cualquier duda o consulta por medio de WhatsApp, Facebook o correo electrónico"
+        type="website"
+        section="contact"
+    />
+@endsection
+
+@section('content')
 <div class="container">
     <div class="row justify-content-center mt-3">
         <div class="col-md-8">

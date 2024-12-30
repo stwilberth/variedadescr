@@ -5,64 +5,105 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta_tags')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title }} | VariedadesCR.com</title>
-    <meta property="og:title" content="{{ $title }} | VariedadesCR.com">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:site_name" content="{{ config('ajustes.sitio_web.nombre') }}">
-    <meta property="og:locale" content="es-cr" />
-    <meta property="og:locale:alternate" content="es-us" />
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Store",
-        "name": "VariedadesCR.com",
-        "description": "Tienda En Línea de relojes en Costa Rica",
-        "telephone": "+506 8781-1054",
-        "email": "info@variedadescr.com",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "San José, Costa Rica",
-            "addressLocality": "San José",
-            "addressRegion": "San José",
-            "postalCode": "10101",
-            "addressCountry": "Costa Rica"
-        },
-        "openingHoursSpecification": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "opens": "09:00",
-                "closes": "18:00"
-            },
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Saturday"],
-                "opens": "09:00",
-                "closes": "13:00"
+    {{-- font nunito --}}
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{-- font orbitron --}}
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Solución para el scroll horizontal */
+        html,
+        body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Mantener el estilo existente del botón WhatsApp */
+        .whatsapp-btn {
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
             }
-        ],
-        "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "Sinpe Móvil"],
-        "currenciesAccepted": "CRC",
-        "priceRange": "₡15000 - ₡500000",
-        "sameAs": [
-            "{{ config('ajustes.redes.facebook') }}",
-            "{{ config('ajustes.redes.instagram') }}",
-            "{{ config('ajustes.redes.whatsapp') }}"
-        ],
-        "hasMap": "{{ config('app.url') }}"
-    }
-    </script>
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        .social-link {
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.4);
+        }
+
+        .logo-text {
+            font-family: "Orbitron", sans-serif;
+        }
+
+        .logo-text {
+            font-family: "Arial", sans-serif;
+            /* Puedes cambiar a una fuente más similar */
+            font-weight: bold;
+            letter-spacing: 1px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .logo-text .variedades {
+            color: #2b5329;
+            /* Verde oscuro, ajusta el color según necesites */
+        }
+
+        .logo-text .cr {
+            color: #808080;
+            /* Gris, ajusta el color según necesites */
+        }
+
+        /* Para asegurar que el logo se vea bien en el navbar oscuro */
+        .navbar-dark .logo-text .variedades {
+            color: #4caf50;
+            /* Verde más claro para mejor contraste en fondo oscuro */
+        }
+
+        .navbar-dark .logo-text .cr {
+            color: #d3d3d3;
+            /* Gris más claro para mejor contraste en fondo oscuro */
+        }
+
+        .position-relative {
+            position: relative;
+        }
+
+        .etiqueta-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            /* ajusta según necesites */
+            height: auto;
+            opacity: 0.85;
+            /* ajusta la transparencia si lo deseas */
+            pointer-events: none;
+            /* permite que los clicks pasen a través de la etiqueta */
+        }
+    </style>
     @yield('styles')
     @yield('style_css')
-    {{-- link de bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    {{-- link de fontawesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    {{-- add app.css --}}
-    <link rel="stylesheet" href="{{ asset('css/appp.css') }}">
-    @vite(['resources/js/app.js'])
 </head>
 
 <body>
@@ -89,11 +130,25 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li class="nav-item"><a class="nav-link fw-bold" href="/">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/relojes">Relojes</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Relojes
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="/catalogo/relojes">Todos</a></li>
+                                <li><a class="dropdown-item" href="/catalogo/relojes?marca=67&genero=0&orden=&descuento=0">Invicta</a></li>
+                                <li><a class="dropdown-item" href="/catalogo/relojes?marca=66&genero=0&orden=&descuento=0">Fossil</a></li>
+                                <li><a class="dropdown-item" href="/catalogo/relojes?marca=0&genero=1&orden=&descuento=0">Mujer</a></li>
+                                <li><a class="dropdown-item" href="/catalogo/relojes?marca=0&genero=2&orden=&descuento=0">Hombre</a></li>
+                                <li><a class="dropdown-item" href="/catalogo/relojes?marca=0&genero=0&orden=&descuento=2">Liquidación</a></li>
+                                <li><a class="dropdown-item" href="/catalogo/relojes?marca=0&genero=0&orden=&descuento=1">Ofertas</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item"><a class="nav-link fw-bold" href="/catalogo/perfumes">Perfumes</a></li>
                         <li class="nav-item"><a class="nav-link fw-bold" href="/contactenos">Contáctenos</a></li>
                         <li class="nav-item"><a class="nav-link fw-bold" href="/envio">Envio</a></li>
-                        <li class="nav-item"><a class="nav-link fw-bold" href="/garantia">Garantia</a></li>
+                        <li class="nav-item"><a class="nav-link fw-bold" href="/garantia">Garantía</a></li>
 
                         @if (Auth::check() && Auth::user()->AutorizaRoles('admin'))
                             <li class="nav-item dropdown">
@@ -105,6 +160,7 @@
                                     <li><a class="dropdown-item" href="/producto-create">Agregar Producto</a></li>
                                     <li><a class="dropdown-item" href="/users">Usuarios</a></li>
                                     <li><a class="dropdown-item" href="/inventario">Inventario</a></li>
+                                    <li><a class="dropdown-item" href="/sin-publicar">Sin Publicar</a></li>
                                     <li><a class="dropdown-item" href="/marcas">Marcas</a></li>
                                 </ul>
                             </li>
@@ -132,8 +188,7 @@
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             {{ __('Salir') }}
                                         </a>
                                     </li>
@@ -170,19 +225,14 @@
 
         <!-- Footer -->
         <footer class="mt-5 bg-dark pb-3 pt-2">
-
             <div class="d-flex justify-content-between align-items-center gap-3 px-4">
-
-
                 <div class="text-white">
                     Desarrollado por <a href="https://wilberth.com"
                         class="text-decoration-none text-info">wilberth.com</a>
                 </div>
-
                 <div class="text-white">
                     @include('blocks.social-links')
                 </div>
-
             </div>
 
             <div class="pt-3 bg-dark">
@@ -252,29 +302,27 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43437982-7"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-43437982-7');
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{-- link de popper --}}
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    {{-- link de bootstrap --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script> {{-- link de fontawesome --}}
+    </script>
+    <script async defer src="https://www.googletagmanager.com/gtag/js?id=UA-43437982-7"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.dataLayer = window.dataLayer || [];
 
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'UA-43437982-7');
+        });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-    {{-- link de jquery --}}
-    @yield('script')
     @yield('scripts')
+    @yield('script')
+    @vite(['resources/js/app.js'])
+
 </body>
 
 </html>

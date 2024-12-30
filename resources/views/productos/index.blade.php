@@ -1,20 +1,26 @@
 @extends('layouts.app')
 @section('meta_tags')
-    <meta name="description" 
-        content="Catálogo completo de productos en VariedadesCR ✓ {{ $title }} ✓ Marcas originales ✓ Precios mayoristas ✓ Envíos a todo Costa Rica">
-    <meta name="keywords" 
-        content="{{ strtolower($title) }}, productos originales costa rica, {{ implode(', ', $marcas->pluck('nombre')->map(fn($nombre) => strtolower($nombre))->toArray()) }}">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url()->current() }}">
-    
-    {{-- Open Graph Tags --}}
-    <meta property="og:title" content="{{ $title }} en Costa Rica - VariedadesCR">
-    <meta property="og:description" content="Encuentra los mejores {{ $title }} en Costa Rica ✓ Productos originales ✓ Envíos a todo el país">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:type" content="website">
-    @if(isset($productos[0]->imagenes[0]))
-    <meta property="og:image" content="{{ asset('storage/productos/'.$productos[0]->imagenes[0]->ruta) }}">
-    @endif
+    <x-meta-ttags 
+        :title="$title" 
+        :description="$title . ' ✓ Marcas originales ✓ Precios mayoristas ✓ Envíos a todo Costa Rica'" 
+        :image="isset($productos[0]->imagenes[0]) ? 'https://variedadescr.com/storage/productos/'.$productos[0]->imagenes[0]->ruta : null" 
+        publishedTime="2019-01-01" 
+        :section="$title" 
+        :schema="[
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $title,
+            'description' => $title . ' ✓ Marcas originales ✓ Precios mayoristas ✓ Envíos a todo Costa Rica',
+            'image' => isset($productos[0]->imagenes[0]) ? 'https://variedadescr.com/storage/productos/'.$productos[0]->imagenes[0]->ruta : null,
+            'sku' => 'SKU-123456',
+            'brand' => 'VariedadesCR',
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => '100.00',
+                'priceCurrency' => 'CRC',
+                'availability' => 'https://schema.org/InStock'
+            ]
+        ]" />
 @endsection
 @section('content')
     <div class="container">

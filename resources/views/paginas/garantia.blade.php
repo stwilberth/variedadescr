@@ -1,9 +1,19 @@
 @extends('layouts.app')
-
-@section('content')
 @php 
   $title = 'Autenticidad y garantía';
 @endphp
+
+@section('meta_tags')
+    <x-meta-ttags
+        :title="$title"
+        description="Todos los productos vendidos en Variedadescr.com están garantizados para ser auténticos"
+        type="website"
+        section="garantia"
+    />
+@endsection
+
+@section('content')
+
 <div class="container">  
   <div class="row">
     <div class="col-md-5">

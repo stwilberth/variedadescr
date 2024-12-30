@@ -23,7 +23,6 @@ Route::get('/garantia', 'Paginas@garantia');
 Route::resource('marcas', 'MarcaController')->middleware('adminrole');
 
 //catalogo y productos
-Route::get('/catalogo/relojes-invicta', 'Productos@invicta')->name('relojesInvicta');
 Route::get('/catalogo/{categoria}', 'Productos@index')->name('catalogoIndex');
 Route::get('/catalogo/{categoria}/{slug}', 'Productos@show')->name('productoShow');
 Route::get('/producto-edit/{slug}', 'Productos@edit')->name('productoEdit')->middleware('adminrole');
@@ -32,7 +31,7 @@ Route::post('/producto-update/{slug}', 'Productos@update')->name('productoUpdate
 Route::post('/producto-store', 'Productos@store')->name('productoStore')->middleware('adminrole');
 Route::get('/inventario', 'Productos@inventario')->name('productoInventario')->middleware('adminrole');
 Route::get('/sin-publicar', 'Productos@sinPublicar')->name('productoSinPublicar')->middleware('adminrole');
-Route::get('/producto-publicar/{slug}', 'Productos@publicar')->name('productoPublicar')->middleware('adminrole');
+Route::post('/producto-publicar/{slug}', 'Productos@publicar')->name('productoPublicar')->middleware('adminrole');
 //Route::post('/producto-delete', 'Productos@delete')->name('productoDelete');
 
 //edicion de imagenes

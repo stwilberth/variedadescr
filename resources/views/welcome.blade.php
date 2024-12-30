@@ -37,18 +37,6 @@
             </div>
         </div>
 
-
-        @if ($invicta->count() > 0)
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
-                        <a href="{{ route('relojesInvicta') }}" class="text-decoration-none" style="color: #4caf50;">Relojes
-                            Invicta (Ver más)</a>
-                    </h2>
-                    <products-slider :products="{{ $invicta }}" titulo="" />
-                </div>
-            </div>
-        @endif
         <!-- Sección de Beneficios -->
         <div class="row g-4 mb-5">
             <div class="col-md-4">
@@ -79,24 +67,51 @@
                 </div>
             </div>
         </div>
+
+        @if ($invicta->count() > 0)
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
+                        <a href="/catalogo/relojes?marca=67&genero=0&orden=&descuento=0" class="text-decoration-none"
+                            style="color: #4caf50;">Relojes
+                            Invicta (Ver más)</a>
+                    </h2>
+                    <products-slider :products="{{ $invicta }}" titulo="" />
+                </div>
+            </div>
+        @endif
         @if ($ofertas->count() > 0)
             <div class="row">
                 <div class="col-12">
-                    <products-slider :products="{{ $ofertas }}" titulo="Relojes con descuentos" />
+                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
+                        <a href="/catalogo/relojes?marca=0&genero=0&orden=&descuento=1" class="text-decoration-none"
+                            style="color: #4caf50;">Ofertas (Ver más)</a>
+                    </h2>
+                    <products-slider :products="{{ $ofertas }}" titulo="" />
                 </div>
             </div>
         @endif
         @if ($nixon->count() > 0)
             <div class="row">
                 <div class="col-12">
-                    <products-slider :products="{{ $nixon }}" titulo="Relojes Nixon" />
+                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
+                        <a href="/catalogo/relojes?marca=63&genero=0&orden=&descuento=0" class="text-decoration-none"
+                            style="color: #4caf50;">Relojes
+                            Nixon (Ver más)</a>
+                    </h2>
+                    <products-slider :products="{{ $nixon }}" titulo="" />
                 </div>
             </div>
         @endif
         @if ($fossil->count() > 0)
             <div class="row">
                 <div class="col-12">
-                    <products-slider :products="{{ $fossil }}" titulo="Relojes Fossil" />
+                    <h2 class="text-center" style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold;">
+                        <a href="/catalogo/relojes?marca=66&genero=0&orden=&descuento=0" class="text-decoration-none"
+                            style="color: #4caf50;">Relojes
+                            Fossil (Ver más)</a>
+                    </h2>
+                    <products-slider :products="{{ $fossil }}" titulo="" />
                 </div>
             </div>
         @endif
