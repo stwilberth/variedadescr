@@ -1,6 +1,6 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home3/apren173/variedadescr.com
+    - export DEPLOYPATH=/home3/apren173/variedadescr.com/
     - echo "---------------------------------------------" >> deployment.log
     - echo "Starting deployment at $(date)" >> deployment.log
     
