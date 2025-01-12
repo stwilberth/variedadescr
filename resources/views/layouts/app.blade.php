@@ -221,7 +221,11 @@
         <main>
             @yield('content')
         </main>
+        
 
+        <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+        <script src="https://files.bpcontent.cloud/2025/01/12/05/20250112054003-KM5ORRTC.js"></script>
+    
         <!-- Footer -->
         <footer class="mt-5 bg-dark pb-3 pt-2">
             <div class="d-flex justify-content-between align-items-center gap-3 px-4">
@@ -297,7 +301,7 @@
     <!-- Botón flotante de WhatsApp -->
     <a href="{{ config('ajustes.redes.whatsapp') }}"
         class="btn btn-success rounded-circle position-fixed d-flex align-items-center justify-content-center whatsapp-btn"
-        style="bottom: 20px; right: 20px; width: 60px; height: 60px; font-size: 30px; z-index: 1000;" target="_blank">
+        style="bottom: 20px; left: 20px; width: 60px; height: 60px; font-size: 30px; z-index: 1000;" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
