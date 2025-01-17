@@ -78,7 +78,6 @@ class Productos extends Controller
 
             $producto = new Producto;
             $producto->nombre = $request->nombre;
-            $producto->slug = Str::slug($producto->nombre);
             $producto->descripcion = $request->descripcion;
             $producto->descripcion_social = $request->descripcion_social;
             $producto->genero = $request->genero;
@@ -94,6 +93,9 @@ class Productos extends Controller
             $producto->stock = $request->stock;
             $producto->disponibilidad = $request->disponibilidad;
             $producto->url_tiktok = $request->url_tiktok;
+            $modelo = str_replace(" ","-",$request->modelo);
+            $marca_sin_espacios = str_replace(" ","-",$marca->nombre);
+            $producto->slug = $marca_sin_espacios."-".$modelo;
         
         $producto->save();
         
@@ -160,7 +162,6 @@ class Productos extends Controller
         $notificar = $producto->publicado == 0 && (int)$request->publicado == 1;
 
             $producto->nombre = $request->nombre;
-            $producto->slug = Str::slug($producto->nombre);
             $producto->descripcion = $request->descripcion;
             $producto->descripcion_social = $request->descripcion_social;
             $producto->genero = $request->genero;
@@ -177,6 +178,9 @@ class Productos extends Controller
             $producto->stock = $request->stock;
             $producto->disponibilidad = $request->disponibilidad;
             $producto->url_tiktok = $request->url_tiktok;
+            $modelo = str_replace(" ","-",$request->modelo);
+            $marca_sin_espacios = str_replace(" ","-",$marca->nombre);
+            $producto->slug = $marca_sin_espacios."-".$modelo;
         
         $producto->save();
 
