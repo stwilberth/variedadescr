@@ -51,6 +51,8 @@ Route::get('/clear-cache', function() {
     return redirect()->back()->with('success', 'Cache limpiado correctamente');
 })->name('clearCache')->middleware('adminrole');
 
+Route::post('/subscribe', 'SubscriptionController@store')->name('subscribe');
+
 /* 
 
 // key:

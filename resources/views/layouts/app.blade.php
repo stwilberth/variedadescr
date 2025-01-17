@@ -223,6 +223,8 @@
         </main>
         
 
+        <x-subscribe-form />
+
         <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
         <script src="https://files.bpcontent.cloud/2025/01/12/05/20250112054003-KM5ORRTC.js"></script>
     

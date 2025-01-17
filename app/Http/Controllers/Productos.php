@@ -78,6 +78,7 @@ class Productos extends Controller
 
             $producto = new Producto;
             $producto->nombre = $request->nombre;
+            $producto->slug = Str::slug($producto->nombre);
             $producto->descripcion = $request->descripcion;
             $producto->descripcion_social = $request->descripcion_social;
             $producto->genero = $request->genero;
@@ -93,14 +94,11 @@ class Productos extends Controller
             $producto->stock = $request->stock;
             $producto->disponibilidad = $request->disponibilidad;
             $producto->url_tiktok = $request->url_tiktok;
-            $modelo = str_replace(" ","-",$request->modelo);
-            $marca_sin_espacios = str_replace(" ","-",$marca->nombre);
-            $producto->slug = $marca_sin_espacios."-".$modelo;
         
-
         $producto->save();
+        
         if($producto->publicado == 1){
-            //event(new ProductoCreado($producto));
+            event(new ProductoCreado($producto));
         }
 
         return redirect('image-edit/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
@@ -159,7 +157,10 @@ class Productos extends Controller
             ->withoutGlobalScopes()
             ->firstOrFail();
 
+        $notificar = $producto->publicado == 0 && (int)$request->publicado == 1;
+
             $producto->nombre = $request->nombre;
+            $producto->slug = Str::slug($producto->nombre);
             $producto->descripcion = $request->descripcion;
             $producto->descripcion_social = $request->descripcion_social;
             $producto->genero = $request->genero;
@@ -176,11 +177,13 @@ class Productos extends Controller
             $producto->stock = $request->stock;
             $producto->disponibilidad = $request->disponibilidad;
             $producto->url_tiktok = $request->url_tiktok;
-            $modelo = str_replace(" ","-",$request->modelo);
-            $marca_sin_espacios = str_replace(" ","-",$marca->nombre);
-            $producto->slug = $marca_sin_espacios."-".$modelo;
         
         $producto->save();
+
+        //notificar a los suscriptores
+        if($notificar){
+            event(new ProductoCreado($producto));
+        }
 
         return redirect('catalogo/relojes/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
     }
@@ -226,6 +229,8 @@ class Productos extends Controller
         $producto = Producto::where('slug', $slug)->withoutGlobalScopes()->firstOrFail();
         $producto->publicado = 1;
         $producto->save();
+        //notificar a los suscriptores
+        event(new ProductoCreado($producto));
         return redirect('sin-publicar')->with('status', 'Producto publicado correctamente.');
     }
 }

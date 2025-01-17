@@ -9,17 +9,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use anuncielo\Producto;
 
 class ProductoCreado
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $producto;
+
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(Producto $producto)
     {
-        //
+        $this->producto = $producto;
     }
 
     /**
