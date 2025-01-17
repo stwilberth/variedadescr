@@ -4,7 +4,7 @@ namespace anuncielo\Listeners;
 
 use anuncielo\Events\ProductoCreado;
 use anuncielo\Notifications\NewProductNotification;
-use anuncielo\Subscriber;
+use anuncielo\Models\Subscriber;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
