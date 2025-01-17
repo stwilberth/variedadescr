@@ -20,7 +20,7 @@
                 </a>
             </swiper-slide>
             
-            <swiper-slide v-if="urlTiktok" v-html="sanitizedTiktokUrl"></swiper-slide>
+            <swiper-slide v-if="urlTiktok" v-html="urlTiktok"></swiper-slide>
         </swiper-container>
 
         <!-- Thumbnails -->

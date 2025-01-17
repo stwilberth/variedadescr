@@ -3,6 +3,10 @@
 
     @php
         $title = 'Inventario';
+        $sumStock = 0;
+        $sumCosto = 0;
+        $sumMayorista = 0;
+        $sumVenta = 0;
     @endphp
 
     <div class="ml-3 mr-5">
@@ -18,42 +22,33 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Modelo</th>
-                            <th>Catálogo</th>
 
                             <th>Stock</th>
                             <th>Costo</th>
                             <th>Mayorista</th>
                             <th>Venta</th>
 
-                            <th>Total Costo</th>
-                            <th>Total Venta</th>
-                            <th>Total Mayorista</th>
-
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($productos as $producto)
+
+                            @php
+                                $totalCosto = $producto->costo * $producto->stock;
+                                $totalVenta = $producto->precio_venta * $producto->stock;
+                                $totalMayorista = $producto->precio_mayorista * $producto->stock;
+                                $sumStock += $producto->stock;
+                                $sumCosto += $totalCosto;
+                                $sumMayorista += $totalMayorista;
+                                $sumVenta += $totalVenta;
+                            @endphp
                             <tr>
                                 <td>{{ $producto->nombre }}</td>
-                                <td>{{ $producto->modelo }}</td>
-                                <td>
-                                    @if ($producto->catalogo == 1)
-                                        <span class="text-primary">{{ $producto->catalogoM->nombre }}</span>
-                                    @elseif ($producto->catalogo == 2)
-                                        <span class="text-success">{{ $producto->catalogoM->nombre }}</span>
-                                    @else
-                                        <span class="text-info">Otros</span>
-                                    @endif
-                                </td>
                                 <td>{{ $producto->stock }}</td>
                                 <td>¢{{ number_format($producto->costo) }}</td>
                                 <td>¢{{ number_format($producto->precio_mayorista) }}</td>
                                 <td>¢{{ number_format($producto->precio_venta) }}</td>
-                                <td>¢{{ number_format($producto->costo * $producto->stock) }}</td>
-                                <td>¢{{ number_format($producto->precio_venta * $producto->stock) }}</td>
-                                <td>¢{{ number_format($producto->precio_mayorista * $producto->stock) }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <a href="/producto-edit/{{ $producto->slug }}" class="btn btn-primary">
@@ -86,10 +81,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ $productos->sum('stock') }}</td>
-                            <td>¢{{ number_format($productos->sum('costo') * $productos->sum('stock')) }}</td>
-                            <td>¢{{ number_format($productos->sum('precio_mayorista') * $productos->sum('stock')) }}</td>
-                            <td>¢{{ number_format($productos->sum('precio_venta') * $productos->sum('stock')) }}</td>
+                            <td>{{ $sumStock }}</td>
+                            <td>¢{{ number_format($sumCosto) }}</td>
+                            <td>¢{{ number_format($sumMayorista) }}</td>
+                            <td>¢{{ number_format($sumVenta) }}</td>
                         </tr>
                     </tbody>
                 </table>
