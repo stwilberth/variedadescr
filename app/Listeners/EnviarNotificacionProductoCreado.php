@@ -3,7 +3,7 @@
 namespace anuncielo\Listeners;
 
 use anuncielo\Events\ProductoCreado;
-use anuncielo\Notifications\NewProductNotification;
+use anuncielo\Notifications\NuevoProducto;
 use anuncielo\Models\Subscriber;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -32,7 +32,7 @@ class EnviarNotificacionProductoCreado
 
         Subscriber::chunk(100, function ($subscribers) use ($event) {
             foreach ($subscribers as $subscriber) {
-                $subscriber->notify(new NewProductNotification($event->producto));
+                $subscriber->notify(new NuevoProducto($event->producto));
             }
         });
         

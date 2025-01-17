@@ -40,7 +40,7 @@ class NuevoProducto extends Notification
         return (new MailMessage)
             ->subject('Nuevo producto disponible')
             ->line('Hemos agregado un nuevo producto a nuestra tienda.')
-            ->action('Ver producto', route('productoShow', ['categoria' => $this->producto->categoria, 'slug' => $this->producto->slug]))
+            ->action('Ver producto', route('productoShow', ['categoria' => $this->producto->catalogoM->slug, 'slug' => $this->producto->slug]))
             ->line('¡Gracias por ser parte de nuestra comunidad!');
     }
     
