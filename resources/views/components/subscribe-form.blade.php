@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex justify-content-center align-items-center mt-5">
     <form action="{{ route('subscribe') }}" method="POST" class="p-4 border rounded bg-light" style="max-width: 400px; width: 100%;">
         @csrf
         <div class="form-group">
