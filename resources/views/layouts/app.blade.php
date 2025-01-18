@@ -109,6 +109,7 @@
 <body>
     <div id="app">
         <!--Navbar-->
+        <div class="fixed-top" style="background-color: rgb(255 255 255);">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
             <!-- Navbar brand -->
             <div class="container-fluid">
@@ -205,8 +206,8 @@
         </nav>
 
         <!-- Contactar barra -->
-        <div class="d-flex justify-content-center gap-3 my-3">
-            <a href="{{ config('ajustes.redes.whatsapp') }}?text="
+        <div class="d-flex justify-content-center gap-3 my-1 p-2">
+            <a href="{{ config('ajustes.redes.whatsapp') }}?text={{ url()->current() }}"
                 class="text-decoration-none d-inline-flex align-items-center">
                 <i class="fab fa-whatsapp text-success" aria-hidden="true"></i>
                 <span class="ms-2 text-dark">87811054</span>
@@ -217,8 +218,9 @@
                 <span class="ms-2 text-dark">info@variedadescr.com</span>
             </a>
         </div>
+        </div>
 
-        <main>
+        <main style="margin-top: 100px;">
             @yield('content')
         </main>
         
