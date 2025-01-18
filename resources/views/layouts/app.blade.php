@@ -220,7 +220,7 @@
         </div>
         </div>
 
-        <main style="margin-top: 100px;">
+        <main style="margin-top: 120px;">
             @yield('content')
         </main>
         
