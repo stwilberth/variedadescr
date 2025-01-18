@@ -52,6 +52,7 @@ Route::get('/clear-cache', function() {
 })->name('clearCache')->middleware('adminrole');
 
 Route::post('/subscribe', 'SubscriptionController@store')->name('subscribe');
+Route::get('/subscribers', 'SubscriptionController@index')->name('subscribers')->middleware('adminrole');
 
 /* 
 

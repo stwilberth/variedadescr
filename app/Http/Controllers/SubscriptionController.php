@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
+    public function index()
+    {
+        $subscribers = Subscriber::all();
+        return view('subscribers.index', compact('subscribers'));
+    }
+
     public function store(Request $request)
     {
         $request->validate(['email' => 'required|email|unique:subscribers,email']);
