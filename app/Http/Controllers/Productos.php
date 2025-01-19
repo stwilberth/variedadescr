@@ -117,7 +117,11 @@ class Productos extends Controller
                 ->firstOrFail();
             $admin = true;
         } else {
-            $producto = Producto::where('slug', $slug)->catalogo($catalogo->id)->firstOrFail();
+            $producto = Producto::where('slug', $slug)->catalogo($catalogo->id)->first();
+            //redirigir a esa marca si no existe
+            if (!$producto) {
+                return redirect('relojes');
+            }
         }
 
         if ($catalogo->id != $producto->catalogoM->id) {
