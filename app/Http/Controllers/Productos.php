@@ -120,7 +120,7 @@ class Productos extends Controller
             $producto = Producto::where('slug', $slug)->catalogo($catalogo->id)->first();
             //redirigir a esa marca si no existe
             if (!$producto) {
-                return redirect('relojes');
+                return redirect()->route('catalogoIndex', ['categoria' => $categoria]);
             }
         }
 
