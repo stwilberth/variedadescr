@@ -100,7 +100,7 @@ class Productos extends Controller
         $producto->save();
         
         if($producto->publicado == 1){
-            event(new ProductoCreado($producto));
+            //event(new ProductoCreado($producto));
         }
 
         return redirect('image-edit/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
@@ -190,7 +190,7 @@ class Productos extends Controller
 
         //notificar a los suscriptores
         if($notificar){
-            event(new ProductoCreado($producto));
+            //event(new ProductoCreado($producto));
         }
 
         return redirect('catalogo/relojes/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
