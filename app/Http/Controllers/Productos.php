@@ -11,6 +11,8 @@ use anuncielo\Events\ProductoCreado;
 use Image;
 use DB;
 use Error;
+use anuncielo\Services\EmailService;
+use anuncielo\Models\Subscriber;
 
 class Productos extends Controller
 {
@@ -98,10 +100,6 @@ class Productos extends Controller
             $producto->slug = $marca_sin_espacios."-".$modelo;
         
         $producto->save();
-        
-        if($producto->publicado == 1){
-            //event(new ProductoCreado($producto));
-        }
 
         return redirect('image-edit/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
     }
@@ -163,8 +161,6 @@ class Productos extends Controller
             ->withoutGlobalScopes()
             ->firstOrFail();
 
-        $notificar = $producto->publicado == 0 && (int)$request->publicado == 1;
-
             $producto->nombre = $request->nombre;
             $producto->descripcion = $request->descripcion;
             $producto->descripcion_social = $request->descripcion_social;
@@ -187,11 +183,6 @@ class Productos extends Controller
             $producto->slug = $marca_sin_espacios."-".$modelo;
         
         $producto->save();
-
-        //notificar a los suscriptores
-        if($notificar){
-            //event(new ProductoCreado($producto));
-        }
 
         return redirect('catalogo/relojes/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
     }
@@ -237,8 +228,20 @@ class Productos extends Controller
         $producto = Producto::where('slug', $slug)->withoutGlobalScopes()->firstOrFail();
         $producto->publicado = 1;
         $producto->save();
-        //notificar a los suscriptores
-        event(new ProductoCreado($producto));
         return redirect('sin-publicar')->with('status', 'Producto publicado correctamente.');
+    }
+
+    //notificar
+    public function notificar(Request $request, $slug){
+        $producto = Producto::where('slug', $slug)->withoutGlobalScopes()->firstOrFail();
+ 
+        $emailService = new EmailService();
+        $subscribers = Subscriber::all();
+        
+        foreach($subscribers as $subscriber) {
+            $emailService->sendNewProductNotification($subscriber, $producto);
+        }
+
+        return redirect()->back()->with('status', 'Email enviado correctamente.');
     }
 }

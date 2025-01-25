@@ -54,6 +54,13 @@
                         <i class="fa fa-image"></i>
                         Agregar imagen
                     </a>
+                    {{-- notificar --}}
+                    @if($producto->publicado == 1 && $producto->imagenes->count() > 0)
+                    <a href="{{ route('productoNotificar', $producto->slug) }}" class="btn btn-warning">
+                        <i class="fa fa-envelope"></i>
+                        Notificar
+                    </a>
+                    @endif
                 </div>
             </div>
             <div class="col-12 text-center">

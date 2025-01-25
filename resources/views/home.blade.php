@@ -21,7 +21,7 @@
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="/producto-create">Agregar producto</a></li>
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="/marcas">Marcas</a></li>
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="/users">Usuarios</a></li>
-                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="/subscribers">Suscriptores</a></li>
+                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="{{ route('subscriptionsIndex') }}">Suscriptores</a></li>
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="/inventario">Inventario</a></li>
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="/sin-publicar">Sin Publicar</a></li>
                             <li class="list-group-item"><a class="text-warning text-decoration-none" href="/clear-cache">Limpiar cache</a></li>

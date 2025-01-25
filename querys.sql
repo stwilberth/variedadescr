@@ -10,8 +10,26 @@ ALTER TABLE productos MODIFY COLUMN oferta ENUM('0', '1', '2') DEFAULT '0';
 ALTER TABLE productos DROP COLUMN nuevo, DROP COLUMN destacado, DROP COLUMN slider, DROP COLUMN fecha_inicio, DROP COLUMN fecha_fin, DROP COLUMN moneda, DROP COLUMN descuento, DROP COLUMN codigo;
 
 CREATE TABLE subscribers (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    created_at TIMESTAMP NULL DEFAULT NULL,
-    updated_at TIMESTAMP NULL DEFAULT NULL
+    id CHAR(36) NOT NULL PRIMARY KEY, -- UUID como clave primaria
+    email VARCHAR(255) NOT NULL UNIQUE, -- Correo único
+    name VARCHAR(255), -- Nombre del suscriptor
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+
+-- delete table subscribers
+DROP TABLE subscribers;
+
+
+CREATE TABLE jobs (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    queue VARCHAR(255) NOT NULL,
+    payload LONGTEXT NOT NULL,
+    attempts TINYINT UNSIGNED NOT NULL,
+    reserved_at INT UNSIGNED DEFAULT NULL,
+    available_at INT UNSIGNED NOT NULL,
+    created_at INT UNSIGNED NOT NULL,
+    INDEX (queue)
+);
+

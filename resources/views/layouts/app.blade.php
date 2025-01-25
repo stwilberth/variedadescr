@@ -235,12 +235,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             @yield('content')
         </main>
         
+        {{-- Sección de suscripción --}}
+        @if (Route::current()->getName() != 'subscriptionsCreate')
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="subscription-cta p-4 rounded-3 bg-light shadow-sm">
+                        <h4 class="mb-3">¡Mantente Informado!</h4>
+                        <p class="text-muted mb-4">Suscríbete a nuestro boletín y sé el primero en recibir:</p>
+                        <ul class="list-unstyled text-muted mb-4">
+                            <li><i class="fas fa-tag me-2"></i>Ofertas exclusivas</li>
+                            <li><i class="fas fa-bell me-2"></i>Notificaciones de nuevos productos</li>
+                            <li><i class="fas fa-percent me-2"></i>Descuentos especiales para suscriptores</li>
+                        </ul>
+                        <a href="{{ route('subscriptionsCreate') }}" class="btn btn-primary">
+                            <i class="fas fa-envelope-open-text me-2"></i>Suscribirme al Boletín
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
 
-        <x-subscribe-form />
-
-{{--         <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
-        <script src="https://files.bpcontent.cloud/2025/01/12/05/20250112054003-KM5ORRTC.js"></script>
- --}}    
         <!-- Footer -->
         <footer class="mt-5 bg-dark pb-3 pt-2">
             <div class="d-flex justify-content-between align-items-center gap-3 px-4">
