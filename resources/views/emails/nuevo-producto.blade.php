@@ -108,7 +108,7 @@
 
             {{-- imagen --}}
             <div class="image">
-                <img src="{{ url($producto->imagenes->first()->ruta) }}" alt="{{ $producto->nombre }}">
+                <img src="https://variedadescr.com/storage/productos/{{ $producto->imagenes->first()->ruta }}" alt="{{ $producto->nombre }}">
             </div>
             
             @if($producto->marca)
