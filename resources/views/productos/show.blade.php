@@ -56,10 +56,13 @@
                     </a>
                     {{-- notificar --}}
                     @if($producto->publicado == 1 && $producto->imagenes->count() > 0)
-                    <a href="{{ route('productoNotificar', $producto->slug) }}" class="btn btn-warning">
-                        <i class="fa fa-envelope"></i>
-                        Notificar
-                    </a>
+                    <form action="{{ route('productoNotificar', $producto->slug) }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fa fa-envelope"></i>
+                            Notificar
+                        </button>
+                    </form>
                     @endif
                 </div>
             </div>
