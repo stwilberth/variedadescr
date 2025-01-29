@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Ruta pública para guardar tokens FCM
+Route::post('/save-fcm-token', 'FCMController@saveToken');

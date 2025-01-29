@@ -13,6 +13,7 @@ use DB;
 use Error;
 use anuncielo\Services\EmailService;
 use anuncielo\Models\Subscriber;
+use anuncielo\Http\Controllers\FCMController;
 
 class Productos extends Controller
 {
@@ -238,10 +239,29 @@ class Productos extends Controller
         $emailService = new EmailService();
         $subscribers = Subscriber::all();
         
-        foreach($subscribers as $subscriber) {
+        foreach($subscribers as $subscriber){
             $emailService->sendNewProductNotification($subscriber, $producto);
         }
 
-        return redirect()->back()->with('status', 'Email enviado correctamente.');
+        // Construir la URL del producto de manera segura
+        $productUrl = '/catalogo/';
+        if ($producto->categoria) {
+            $productUrl .= $producto->categoria->slug . '/';
+        }
+        $productUrl .= $producto->slug;
+
+        // Enviar notificación push a todos los usuarios
+        $fcmController = new FCMController();
+        $fcmController->sendNotificationToAll(
+            'Nuevo producto en VariedadesCR',
+            '¡' . $producto->nombre . ' ya está disponible!',
+            [
+                'url' => $productUrl,
+                'image' => $producto->imagen_url,
+                'price' => $producto->precio
+            ]
+        );
+
+        return redirect()->back()->with('status', 'Notificaciones enviadas correctamente.');
     }
 }

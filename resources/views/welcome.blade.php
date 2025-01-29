@@ -120,6 +120,8 @@
             </div>
         @endif
 
+        <notification-button></notification-button>
+
     </div>
 @endsection
 @section('script')

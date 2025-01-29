@@ -33,3 +33,36 @@ CREATE TABLE jobs (
     INDEX (queue)
 );
 
+
+CREATE TABLE fcm_tokens (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NULL,
+    token VARCHAR(255) NOT NULL UNIQUE,
+    topic VARCHAR(255) NOT NULL DEFAULT 'all',
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    CONSTRAINT fcm_tokens_user_id_foreign
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+);
+
+-- delete table fcm_tokens
+DROP TABLE fcm_tokens;
+
+CREATE TABLE IF NOT EXISTS `fcm_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) UNSIGNED NULL,
+  `token` varchar(255) NOT NULL,
+  `topic` varchar(255) DEFAULT 'all',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `fcm_tokens_token_unique` (`token`),
+  KEY `fcm_tokens_user_id_foreign` (`user_id`),
+  CONSTRAINT `fcm_tokens_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- eliminar unas tablas: stiempos, ti, tie, wtiempos
+DROP TABLE stiempos, ti, tie, wtiempos;

@@ -34,4 +34,11 @@ return [
         'secret' => env('SPARKPOST_SECRET'),
     ],
 
+    'firebase' => [
+        'project_id' => 'variedadescr-com',
+        'server_key' => env('FIREBASE_SERVER_KEY'),
+        'sender_id' => '980821393488',
+        'vapid_key' => 'BLlrycWmFN_i9PgApBP6fTfiJd9V1HN2D_ghLtioKYqfOXzG1V7bDx8ajllhc_NKmCMOmZoGQ9aFTtBDs3NN2eA'
+    ],
+
 ];

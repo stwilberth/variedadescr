@@ -57,6 +57,12 @@ Route::get('/suscripciones/delete/{id}', 'SubscriptionController@delete')->name(
 //destroy
 Route::delete('/suscripciones/{id}', 'SubscriptionController@destroy')->name('subscriptionsDestroy');
 
+// FCM Routes
+Route::get('/admin/test-notification', function() {
+    return view('admin.test-notification');
+})->name('admin.test-notification')->middleware('adminrole');
+Route::post('/fcm/token', 'FCMController@saveToken')->name('fcm.token');
+Route::post('/fcm/send', 'FCMController@sendNotification')->name('fcm.send')->middleware('adminrole');
 
 // Clear config cache:
 Route::get('/clear-cache', function() {
