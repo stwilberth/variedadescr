@@ -38,4 +38,12 @@ class CacheKeys
     {
         return "marcas.{$catalogoId}";
     }
+
+    /**
+     * Genera una clave de caché para la página de bienvenida
+     */
+    public static function welcomeKey($marca = null)
+    {
+        return $marca ? "welcome.marca.{$marca}" : "welcome.ofertas";
+    }
 }

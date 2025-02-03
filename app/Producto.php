@@ -148,7 +148,7 @@ class Producto extends Model
     public function scopeThumbnail($query, $catalogo)
     {
         return $query->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
-            ->with('catalogoM')
+            ->with('catalogoM', 'imagenes')
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
             ->where('catalogo', $catalogo);
