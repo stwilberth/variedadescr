@@ -120,109 +120,125 @@
                     <h1 class="text-center text-success fw-bold fs-2 logo-text mt-4">{{ $title }}</h1>
                 </div>
 
-                @foreach ($productos as $producto)
-                    @php
-                        $msj_whatsapp = 'Me interesa este articulo.';
-                    @endphp
-                    {{-- reloj --}}
-                    <div class="col-6 col-md-2 mt-5">
-                        <!-- Card -->
-                        <div class="m-0 text-center">
-                            <!-- Card image -->
-                            @if ($producto->imagenes->count() > 0)
-                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}"
-                                    class="position-relative d-block">
-                                    <img class="card-img-top" loading="lazy"
-                                        src="/storage/productos/thumb_{{ $producto->imagenes->first()->ruta }}"
-                                        alt="Fotograía del {{ $producto->nombre }}">
-                                    @php
-                                        // Obtén la fecha de creación del producto (de tu modelo, supongamos que es una propiedad llamada 'created_at')
-                                        $fechaCreacion = strtotime($producto->created_at);
-                                        // Calcula la fecha límite (hace un mes)
-                                        $fechaLimite = strtotime('-1 month');
-                                        // Compara las fechas
-                                        $productoAntiguo = $fechaCreacion < $fechaLimite;
-                                    @endphp
+                <div id="products-container">
+                    @include('productos.partials.product-card', ['productos' => $productos])
+                </div>
 
-                                    @if ($producto->nuevo && !$productoAntiguo)
-                                        <img class="etiqueta-overlay" loading="lazy" src="/img/nuevo.png">
-                                    @else
-                                        @if ($producto->oferta == 1 || $producto->oferta == 2)
-                                            <img class="etiqueta-overlay" loading="lazy" src="/img/oferta.png">
-                                        @endif
-                                    @endif
-                                </a>
-                            @else
-                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}">
-                                    <img class="card-img-top" loading="lazy" src="/img/sin_foto.png"
-                                        alt="Fotografía del {{ $producto->nombre }}">
-                                </a>
-                            @endif
-                            <!-- Card content -->
-                            <div class="text-center">
-                                <!-- Title -->
-                                <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}"
-                                    class="text-decoration-none text-dark">
-                                    <h6 class="card-title mt-2 text-truncate">{{ $producto->nombre }}</h6>
-                                </a>
-                            </div>
-                            <!-- Button -->
-                            <div class="d-flex justify-content-center gap-3 mt-2">
-                                <span class="fs-5 font-monospace" style="color: rgb(191 73 73)">
-                                    @if ($revendedor)
-                                        @if ($producto->precio_mayorista)
-                                            M: ¢{{ $producto->precio_mayorista }}
-                                            <br>
-                                        @endif
-                                        V: ¢{{ $producto->precio_venta }}
-                                    @else
-                                        ¢{{ number_format($producto->precio_venta, 0, '.', ',') }}
-                                    @endif
-                                </span>
-                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
-                                    class="text-decoration-none fs-5 btn-sm btn-outline-success d-none d-sm-inline-block" style="color: rgb(14 82 51)">
-                                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
-                                    <span class="d-none d-sm-inline">Chat</span>
-                                </a>
-                                <a href="{{ config('ajustes.redes.whatsapp') }}?text=https://variedadescr.com/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }} {{ $msj_whatsapp }}"
-                                    class="text-decoration-none fs-5 btn btn-sm btn-outline-success d-inline-block d-sm-none" style="color: rgb(14 82 51)">
-                                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
+                <div id="loading-spinner" class="col-12 text-center d-none my-4">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Cargando...</span>
                     </div>
-                @endforeach
+                </div>
             </div>
         @endif
-
-
-
-
-
-
-
-
-
     </div>
 @endsection
 
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const filtrosCollapse = document.getElementById('filtrosCollapse');
-        const filtrosBtn = document.querySelector('[data-bs-target="#filtrosCollapse"]');
+        // Variables globales
+        const container = document.getElementById('products-container');
+        const spinner = document.getElementById('loading-spinner');
+        let nextPage = '{{ $productos->nextPageUrl() }}';
+        let loading = false;
 
-        function adjustCollapse() {
-            if (window.innerWidth < 576) { // Bootstrap's sm breakpoint
-                filtrosCollapse.classList.remove('show');
-                filtrosBtn.setAttribute('aria-expanded', 'false');
-            } else {
-                filtrosCollapse.classList.add('show');
-                filtrosBtn.setAttribute('aria-expanded', 'true');
+        // Log inicial
+        console.log('Inicializando scroll infinito');
+        console.log('URL siguiente página:', nextPage);
+        console.log('Total productos:', {{ $productos->total() }});
+        console.log('Productos por página:', {{ $productos->perPage() }});
+        console.log('Página actual:', {{ $productos->currentPage() }});
+
+        // Función para cargar más productos
+        function loadMoreProducts() {
+            if (loading || !nextPage) {
+                console.log('No se cargan más productos:', { loading, nextPage });
+                return;
+            }
+
+            console.log('Iniciando carga de productos desde:', nextPage);
+            loading = true;
+            spinner.classList.remove('d-none');
+
+            // Realizar la petición AJAX
+            fetch(nextPage, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                console.log('Respuesta recibida:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Datos recibidos:', data);
+                
+                if (data.html) {
+                    container.insertAdjacentHTML('beforeend', data.html);
+                    console.log('HTML insertado en el contenedor');
+                }
+                
+                nextPage = data.nextPage;
+                console.log('Nueva URL siguiente página:', nextPage);
+            })
+            .catch(error => {
+                console.error('Error en la petición:', error);
+            })
+            .finally(() => {
+                loading = false;
+                spinner.classList.add('d-none');
+            });
+        }
+
+        // Función para verificar si el elemento está visible
+        function isElementInViewport(el, offset = 0) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.bottom <= (window.innerHeight + offset) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        // Función para verificar scroll
+        function checkScroll() {
+            // Obtener el último producto del contenedor
+            const products = container.querySelectorAll('.col-6');
+            if (products.length === 0) return;
+
+            const lastProduct = products[products.length - 1];
+            const offset = 300; // Píxeles antes de llegar al último producto
+
+            console.log('Verificando scroll:', {
+                'Último producto visible': isElementInViewport(lastProduct, offset),
+                'Distancia al viewport': lastProduct.getBoundingClientRect().bottom - window.innerHeight
+            });
+
+            if (isElementInViewport(lastProduct, offset)) {
+                console.log('Último producto visible, cargando más...');
+                loadMoreProducts();
             }
         }
 
-        // Ejecutar al cargar y cuando cambie el tamaño de la ventana
-        adjustCollapse();
-        window.addEventListener('resize', adjustCollapse);
+        // Agregar evento de scroll con throttling
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(checkScroll, 100);
+        });
+
+        // Verificar scroll inicial
+        setTimeout(checkScroll, 500);
+
+        // Log cuando se aplican filtros
+        document.querySelectorAll('form select').forEach(select => {
+            select.addEventListener('change', function() {
+                console.log('Filtro cambiado:', this.name, 'valor:', this.value);
+                this.closest('form').submit();
+            });
+        });
     });
 </script>
+@endpush

@@ -50,6 +50,10 @@
                         <i class="fa fa-edit"></i>
                         Editar
                     </a>
+                    <a href="{{ route('productos.optimizar', $producto->slug) }}" class="btn btn-success" 
+                       onclick="return confirm('¿Estás seguro? Esto redimensionará y optimizará todas las imágenes del producto.')">
+                        <i class="fas fa-compress-arrows-alt"></i> Optimizar Imágenes
+                    </a>
                     <a href="/image-edit/{{ $producto->slug }}" class="btn btn-info">
                         <i class="fa fa-image"></i>
                         Agregar imagen
