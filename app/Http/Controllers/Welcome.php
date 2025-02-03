@@ -11,7 +11,7 @@ class Welcome extends Controller {
     public function vista()
     {
         // Cachear productos Fossil por 1 hora
-        $fossil = Cache::remember(CacheKeys::welcomeKey(66), 60, function () {
+        $fossil = Cache::remember(CacheKeys::welcomeKey(66), 60 * 24, function () {
             return Producto::thumbnail(1)
                 ->marca(66)
                 ->limit(6)
@@ -19,7 +19,7 @@ class Welcome extends Controller {
         });
 
         // Cachear productos Nixon por 1 hora
-        $nixon = Cache::remember(CacheKeys::welcomeKey(63), 60, function () {
+        $nixon = Cache::remember(CacheKeys::welcomeKey(63), 60 * 24, function () {
             return Producto::thumbnail(1)
                 ->marca(63)
                 ->limit(6)
@@ -27,7 +27,7 @@ class Welcome extends Controller {
         });
 
         // Cachear productos Invicta por 1 hora
-        $invicta = Cache::remember(CacheKeys::welcomeKey(67), 60, function () {
+        $invicta = Cache::remember(CacheKeys::welcomeKey(67), 60 * 24, function () {
             return Producto::thumbnail(1)
                 ->marca(67)
                 ->limit(6)
@@ -35,7 +35,7 @@ class Welcome extends Controller {
         });
 
         // Cachear productos en oferta por 1 hora
-        $ofertas = Cache::remember(CacheKeys::welcomeKey(), 60, function () {
+        $ofertas = Cache::remember(CacheKeys::welcomeKey(), 60 * 24, function () {
             return Producto::thumbnail(1)
                 ->whereIn('oferta', ['1', '2'])
                 ->limit(6)
