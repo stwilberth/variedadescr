@@ -13,6 +13,8 @@ use DB;
 use Error;
 use anuncielo\Services\EmailService;
 use anuncielo\Models\Subscriber;
+use Illuminate\Support\Facades\Cache;
+use anuncielo\Services\CacheKeys;
 
 class Productos extends Controller
 {
@@ -25,15 +27,23 @@ class Productos extends Controller
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = $request->orden;
 
-        $marcas = Marca::where('catalogo', $catalogo_id)
-            ->whereHas('productos', function ($query) {
-                $query->where('stock', '>', 0)
-                    ->where('disponibilidad', '!=', 3);
-            })
-            ->orderBy('nombre', 'asc')
-            ->get();
+        // Crear una clave única para el caché basada en los parámetros
+        $cacheKey = CacheKeys::productos($catalogo_slug, $marca_id, $genero, $descuento, $orden);
+        
+        // Cachear las marcas por 24 horas
+        $marcas = Cache::remember(CacheKeys::marcasCatalogo($catalogo_id), 60 * 24, function () use ($catalogo_id) {
+            return Marca::where('catalogo', $catalogo_id)
+                ->whereHas('productos', function ($query) {
+                    $query->where('stock', '>', 0)
+                        ->where('disponibilidad', '!=', 3);
+                })
+                ->orderBy('nombre', 'asc')
+                ->get();
+        });
 
-        $marca_nombre = ($marca_id) ? ' ' . Marca::findOrFail($marca_id)->nombre : '';
+        $marca_nombre = ($marca_id) ? ' ' . Cache::remember(CacheKeys::marca($marca_id), 60 * 24, function () use ($marca_id) {
+            return Marca::findOrFail($marca_id)->nombre;
+        }) : '';
 
         //genero title
         $genero_name = match ($genero) {
@@ -49,18 +59,21 @@ class Productos extends Controller
             default => ''
         };
 
+        // Cachear los productos por 1 hora
+        $productos = Cache::remember($cacheKey, 60, function () use ($catalogo_id, $marca_id, $genero, $descuento, $orden) {
+            $productos = Producto::thumbnail($catalogo_id)
+                ->marca($marca_id)
+                ->genero($genero)
+                ->oferta($descuento)
+                ->ordenar($orden)
+                ->get();
 
-        $productos = Producto::thumbnail($catalogo_id)
-            ->marca($marca_id)
-            ->genero($genero)
-            ->oferta($descuento)
-            ->ordenar($orden)
-            ->get();
+            foreach ($productos as $producto) {
+                $producto->imagen = ($producto->imagenes->count() > 0) ? $producto->imagenes->first()->ruta : null;
+            }
 
-        foreach ($productos as $producto) {
-            $producto->imagen = ($producto->imagenes->count() > 0) ? $producto->imagenes->first()->ruta : null;
-        }
-
+            return $productos;
+        });
 
         $title = ucfirst($catalogo_slug) . $marca_nombre . $genero_name . $descuento_name;
 
@@ -75,70 +88,96 @@ class Productos extends Controller
 
     public function store(Request $request)
     {
-
         $marca = Marca::findOrFail($request->marca);
 
-            $producto = new Producto;
-            $producto->nombre = $request->nombre;
-            $producto->descripcion = $request->descripcion;
-            $producto->descripcion_social = $request->descripcion_social;
-            $producto->genero = $request->genero;
-            $producto->marca_id = $request->marca;
-            $producto->modelo = $request->modelo;
-            $producto->catalogo = $marca->catalogo;
-            $producto->publicado = 1;
-            $producto->oferta = $request->oferta;
-            $producto->costo = $request->costo;
-            $producto->precio_venta = $request->precio_venta;
-            $producto->precio_mayorista = $request->precio_mayorista;
-            $producto->precio_sugerido = $request->precio_sugerido;
-            $producto->stock = $request->stock;
-            $producto->disponibilidad = $request->disponibilidad;
-            $producto->url_tiktok = $request->url_tiktok;
-            $modelo = str_replace(" ","-",$request->modelo);
-            $marca_sin_espacios = str_replace(" ","-",$marca->nombre);
-            $producto->slug = $marca_sin_espacios."-".$modelo;
-        
+        $producto = new Producto;
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->descripcion_social = $request->descripcion_social;
+        $producto->genero = $request->genero;
+        $producto->marca_id = $request->marca;
+        $producto->modelo = $request->modelo;
+        $producto->catalogo = $marca->catalogo;
+        $producto->publicado = 1;
+        $producto->oferta = $request->oferta;
+        $producto->costo = $request->costo;
+        $producto->precio_venta = $request->precio_venta;
+        $producto->precio_mayorista = $request->precio_mayorista;
+        $producto->precio_sugerido = $request->precio_sugerido;
+        $producto->stock = $request->stock;
+        $producto->disponibilidad = $request->disponibilidad;
+        $producto->url_tiktok = $request->url_tiktok;
+        $modelo = str_replace(" ","-",$request->modelo);
+        $marca_sin_espacios = str_replace(" ","-",$marca->nombre);
+        $producto->slug = $marca_sin_espacios."-".$modelo;
+    
         $producto->save();
+
+        // Limpiar caché relacionado
+        Cache::forget(CacheKeys::marcasCatalogo($marca->catalogo));
+        Cache::forget(CacheKeys::productosNuevos());
+        Cache::tags(['productos', 'marcas'])->flush();
 
         return redirect('image-edit/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
     }
 
     public function show(Request $request, $categoria, $slug)
     {
-        $catalogo = Catalogo::where('slug', $categoria)->firstOrFail();
+        $catalogo = Cache::remember(CacheKeys::catalogo($categoria), 60 * 24, function () use ($categoria) {
+            return Catalogo::where('slug', $categoria)->firstOrFail();
+        });
+
         $admin = false;
         if (Auth::user() && Auth::user()->AutorizaRoles('admin')) {
-            $producto = Producto::where('slug', $slug)
-                ->catalogo($catalogo->id)
-                ->withoutGlobalScopes()
-                ->firstOrFail();
+            $producto = Cache::remember(CacheKeys::producto($slug, true), 60 * 24, function () use ($slug, $catalogo) {
+                return Producto::with(['imagenes', 'marca', 'catalogoM'])
+                    ->where('slug', $slug)
+                    ->catalogo($catalogo->id)
+                    ->withoutGlobalScopes()
+                    ->firstOrFail();
+            });
             $admin = true;
         } else {
-            $producto = Producto::where('slug', $slug)->catalogo($catalogo->id)->first();
-            //redirigir a esa marca si no existe
+            $producto = Cache::remember(CacheKeys::producto($slug), 60 * 24, function () use ($slug, $catalogo) {
+                return Producto::with(['imagenes', 'marca', 'catalogoM'])
+                    ->where('slug', $slug)
+                    ->catalogo($catalogo->id)
+                    ->first();
+            });
+
             if (!$producto) {
                 return redirect()->route('catalogoIndex', ['categoria' => $categoria]);
             }
         }
 
         if ($catalogo->id != $producto->catalogoM->id) {
-            return view('errors.404');
+            return redirect()->route('catalogoIndex', ['categoria' => 'relojes']);
         }
 
-        $more_products = Producto::orderBy('created_at', 'desc')
-            ->where('id', '!=', $producto->id)
-            ->marca($producto->marca_id)
-            ->catalogo($producto->catalogo)
-            ->get();
+        // Cachear productos relacionados por 30 minutos
+        $more_products = Cache::remember(CacheKeys::productosRelacionados($producto->id), 60 * 24, function () use ($producto) {
+            return Producto::with('imagenes')
+                ->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+                ->orderBy('created_at', 'desc')
+                ->where('id', '!=', $producto->id)
+                ->marca($producto->marca_id)
+                ->catalogo($producto->catalogo)
+                ->limit(12)
+                ->get();
+        });
 
-        //obtener productos nuevos con menos de 30 dias de antiguedad
-        $new_products = Producto::orderBy('created_at', 'desc')
-            ->where('id', '!=', $producto->id)
-            ->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
-            ->get();
+        // Cachear productos nuevos por 6 horas
+        $new_products = Cache::remember(CacheKeys::productosNuevos(), 60 * 24, function () use ($producto) {
+            return Producto::with('imagenes')
+                ->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+                ->orderBy('created_at', 'desc')
+                ->where('id', '!=', $producto->id)
+                ->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
+                ->limit(12)
+                ->get();
+        });
 
-            $title = $producto->nombre;
+        $title = $producto->nombre;
     
         return view('productos.show', compact('producto', 'admin', 'more_products', 'new_products', 'title')); 
     }
@@ -160,6 +199,10 @@ class Productos extends Controller
         $producto = Producto::where('slug', $slug)
             ->withoutGlobalScopes()
             ->firstOrFail();
+
+        $old_slug = $producto->slug;
+        $old_marca_id = $producto->marca_id;
+        $old_catalogo = $producto->catalogo;
 
             $producto->nombre = $request->nombre;
             $producto->descripcion = $request->descripcion;
@@ -183,6 +226,24 @@ class Productos extends Controller
             $producto->slug = $marca_sin_espacios."-".$modelo;
         
         $producto->save();
+
+        // Limpiar caché del producto anterior y nuevo
+        Cache::forget(CacheKeys::producto($old_slug));
+        Cache::forget(CacheKeys::producto($old_slug, true));
+        Cache::forget(CacheKeys::producto($producto->slug));
+        Cache::forget(CacheKeys::producto($producto->slug, true));
+        
+        // Limpiar caché de productos relacionados
+        Cache::forget(CacheKeys::productosRelacionados($producto->id));
+        Cache::forget(CacheKeys::productosNuevos());
+        
+        // Limpiar caché de marcas si cambió de marca o catálogo
+        if ($old_marca_id != $producto->marca_id || $old_catalogo != $producto->catalogo) {
+            Cache::forget(CacheKeys::marcasCatalogo($old_catalogo));
+            Cache::forget(CacheKeys::marcasCatalogo($producto->catalogo));
+            Cache::forget(CacheKeys::marca($old_marca_id));
+            Cache::forget(CacheKeys::marca($producto->marca_id));
+        }
 
         return redirect('catalogo/relojes/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
     }
