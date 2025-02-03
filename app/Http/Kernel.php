@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \anuncielo\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \anuncielo\Http\Middleware\CacheControl::class, // Agregamos el middleware de caché
         ],
 
         'api' => [

@@ -61,16 +61,16 @@ class Productos extends Controller
 
         // Cachear los productos por 1 hora
         $productos = Cache::remember($cacheKey, 60, function () use ($catalogo_id, $marca_id, $genero, $descuento, $orden) {
-            $productos = Producto::thumbnail($catalogo_id)
+            $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+            ->with('catalogoM', 'imagenes')
+            ->where('stock', '>', 0)
+            ->where('disponibilidad', '!=', 3)
+            ->where('catalogo', $catalogo_id)
                 ->marca($marca_id)
                 ->genero($genero)
                 ->oferta($descuento)
                 ->ordenar($orden)
                 ->get();
-
-            foreach ($productos as $producto) {
-                $producto->imagen = ($producto->imagenes->count() > 0) ? $producto->imagenes->first()->ruta : null;
-            }
 
             return $productos;
         });

@@ -84,6 +84,11 @@ class Producto extends Model
         return $this->belongsTo('anuncielo\Marca');
     }
 
+    public function getImagenAttribute()
+    {
+        return $this->imagenes->count() > 0 ? $this->imagenes->first()->ruta : null;
+    }
+
     public function imagenes()
     {
         return $this->hasMany('anuncielo\Imagen');

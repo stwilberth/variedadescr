@@ -4,8 +4,6 @@ namespace anuncielo\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        
         if (config('app.env') === 'production') {
             \URL::forceScheme('https');
             \Illuminate\Support\Facades\Vite::useScriptTagAttributes([

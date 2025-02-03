@@ -5,35 +5,51 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta_tags')
-    {{-- font nunito --}}
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    {{-- font orbitron --}}
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TX44985');</script>
-<!-- End Google Tag Manager -->
+    <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Preload fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap">
+    </noscript>
+
+    <!-- Critical CSS -->
     <style>
-        /* Solución para el scroll horizontal */
-        html,
+        /* Estilos críticos para el primer render */
         body {
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+        }
+        /* Solución para el scroll horizontal */
+        html, body {
             overflow-x: hidden;
             width: 100%;
-            margin: 0;
-            padding: 0;
         }
 
+        /* Estilos para lazy loading de imágenes */
+        img:not([src]) {
+            visibility: hidden;
+        }
+        img[data-src] {
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        img[data-src][src] {
+            opacity: 1;
+        }
+        
         /* Mantener el estilo existente del botón WhatsApp */
         .whatsapp-btn {
             animation: pulse 2s infinite;
-            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            font-size: 40px;
+            color: #25d366;
+            text-decoration: none;
         }
 
         @keyframes pulse {
@@ -111,6 +127,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
     @yield('styles')
     @yield('style_css')
+
+    <!-- Defer non-critical CSS -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Fallback for no-JS -->
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </noscript>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TX44985');</script>
+    <!-- End Google Tag Manager -->
 </head>
 
 <body>
@@ -320,7 +354,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             <div class="text-white">
                 <div class="mb-0 text-white text-center pb-3">
-                    © {{ date('Y') }} <a href="https://www.variedadescr.com"
+                    {{ date('Y') }} <a href="https://www.variedadescr.com"
                         class="text-decoration-none text-info">VariedadesCR.com</a>
                 </div>
             </div>
@@ -336,23 +370,49 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    <!-- Defer JS loading -->
+    <script defer src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-    <script async defer src="https://www.googletagmanager.com/gtag/js?id=UA-43437982-7"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            window.dataLayer = window.dataLayer || [];
 
+    <script>
+        // Cargar FontAwesome solo cuando se necesite
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.querySelector('.fa, .fab, .fas, .far')) {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js';
+                script.defer = true;
+                document.body.appendChild(script);
+            }
+
+            // Google Analytics
+            window.dataLayer = window.dataLayer || [];
             function gtag() {
                 dataLayer.push(arguments);
             }
             gtag('js', new Date());
-            gtag('config', 'UA-43437982-7');
+            gtag('config', 'UA-43437982-7', {
+                'page_load': true,
+                'optimize_id': 'GTM-TX44985'
+            });
         });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+    <!-- Google Tag Manager -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43437982-7"></script>
+    <script>
+        (function(w,d,s,l,i){
+            w[l]=w[l]||[];
+            w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+            var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),
+                dl=l!='dataLayer'?'&l='+l:'';
+            j.async=true;
+            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+            f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TX44985');
+    </script>
     @yield('scripts')
     @yield('script')
     @vite(['resources/js/app.js'])

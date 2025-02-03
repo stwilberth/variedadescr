@@ -23,6 +23,11 @@
         ]" />
 @endsection
 @section('content')
+
+    @php
+        $revendedor = auth()->user() && auth()->user()->AutorizaRoles('revendedor');
+    @endphp
+
     <div class="container">
         {{-- Botón para colapsar filtros --}}
         <div class="d-flex justify-content-center mb-3">
@@ -164,7 +169,7 @@
                             <!-- Button -->
                             <div class="d-flex justify-content-center gap-3 mt-2">
                                 <span class="fs-5 font-monospace" style="color: rgb(191 73 73)">
-                                    @if (auth()->user() && auth()->user()->AutorizaRoles('revendedor'))
+                                    @if ($revendedor)
                                         @if ($producto->precio_mayorista)
                                             M: ¢{{ $producto->precio_mayorista }}
                                             <br>
