@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta_tags')
     <title>{{ config('app.name', 'Laravel') }}</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <!-- Preload fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -138,20 +141,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </noscript>
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-TX44985');</script>
-    <!-- End Google Tag Manager -->
 </head>
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TX44985"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+
     <div id="app">
         <!--Navbar-->
         <div class="fixed-top" style="background-color: rgb(255 255 255);">
@@ -399,24 +392,8 @@
         });
     </script>
 
-    <!-- Google Tag Manager -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43437982-7"></script>
-    <script>
-        (function(w,d,s,l,i){
-            w[l]=w[l]||[];
-            w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-            var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),
-                dl=l!='dataLayer'?'&l='+l:'';
-            j.async=true;
-            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-            f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-TX44985');
-    </script>
     @yield('scripts')
     @yield('script')
-    @vite(['resources/js/app.js'])
-
 </body>
 
 </html>
