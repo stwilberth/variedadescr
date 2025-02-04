@@ -13,6 +13,48 @@ RewriteRule ^(.*)$ public/$1 [L]
 
 </IfModule>
 
+# Habilitar el motor de reescritura
+RewriteEngine On
+
+# Protección básica de seguridad
+ServerSignature Off
+Options -Indexes
+
+# Establecer cabeceras de seguridad
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:;"
+</IfModule>
+
+# Deshabilitar métodos HTTP innecesarios
+<LimitExcept GET POST HEAD>
+    deny from all
+</LimitExcept>
+
+# Proteger archivos sensibles
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Comprimir contenido
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain text/html text/xml
+    AddOutputFilterByType DEFLATE text/css text/javascript
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>
+
+# Prevenir acceso a archivos de sistema
+<FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|json|lock|swp)|~)$">
+    Order allow,deny
+    Deny from all
+    Satisfy All
+</FilesMatch>
 
 RewriteCond %{HTTP_REFERER} !^http://aprendemusica.net/.*$      [NC]
 RewriteCond %{HTTP_REFERER} !^http://aprendemusica.net$      [NC]
