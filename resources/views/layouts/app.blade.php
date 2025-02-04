@@ -379,6 +379,7 @@
                 document.body.appendChild(script);
             }
 
+            @if (!(Auth::user() && Auth::user()->AutorizaRoles('admin')))
             // Google Analytics
             window.dataLayer = window.dataLayer || [];
             function gtag() {
@@ -389,6 +390,7 @@
                 'page_load': true,
                 'optimize_id': 'GTM-TX44985'
             });
+            @endif
         });
     </script>
 
