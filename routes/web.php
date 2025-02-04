@@ -35,9 +35,6 @@ Route::post('/producto-publicar/{slug}', 'Productos@publicar')->name('productoPu
 Route::post('/producto-notificar/{slug}', 'Productos@notificar')->name('productoNotificar')->middleware('adminrole');
 //Route::post('/producto-delete', 'Productos@delete')->name('productoDelete');
 
-// Rutas para productos
-Route::get('/productos/{slug}/optimizar', 'Productos@optimizarImagenes')->name('productos.optimizar')->middleware('adminrole');
-
 //edicion de imagenes
 Route::get('/image-edit/{slug}', 'ImageCtr@edit')->name('imageEdit')->middleware('adminrole');
 Route::post('/image-save', 'ImageCtr@save')->name('imageSave')->middleware('adminrole');

@@ -15,7 +15,6 @@ use anuncielo\Services\EmailService;
 use anuncielo\Models\Subscriber;
 use Illuminate\Support\Facades\Cache;
 use anuncielo\Services\CacheKeys;
-use Illuminate\Support\Facades\Log;
 
 class Productos extends Controller
 {
@@ -62,8 +61,8 @@ class Productos extends Controller
 
         // Cachear los productos por 1 hora
         $productos = Cache::remember($cacheKey, 60, function () use ($catalogo_id, $marca_id, $genero, $descuento, $orden) {
-            return Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'created_at')
-            ->with(['catalogoM', 'imagenes'])
+            $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+            ->with('catalogoM', 'imagenes')
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
             ->where('catalogo', $catalogo_id)
@@ -71,39 +70,12 @@ class Productos extends Controller
                 ->genero($genero)
                 ->oferta($descuento)
                 ->ordenar($orden)
-                ->paginate(24); // Paginamos 24 productos por página
+                ->get();
+
+            return $productos;
         });
 
         $title = ucfirst($catalogo_slug) . $marca_nombre . $genero_name . $descuento_name;
-
-        if ($request->ajax()) {
-            \Log::info('Petición AJAX recibida', [
-                'página' => $productos->currentPage(),
-                'total' => $productos->total(),
-                'por_página' => $productos->perPage(),
-                'tiene_más' => $productos->hasMorePages(),
-                'siguiente_url' => $productos->nextPageUrl(),
-            ]);
-
-            $view = view('productos.partials.product-card', compact('productos'))->render();
-            sleep(2);
-
-            $response = [
-                'html' => $view,
-                'nextPage' => $productos->hasMorePages() ? $productos->nextPageUrl() : null,
-                'debug' => [
-                    'currentPage' => $productos->currentPage(),
-                    'lastPage' => $productos->lastPage(),
-                    'hasMore' => $productos->hasMorePages(),
-                    'total' => $productos->total(),
-                    'perPage' => $productos->perPage()
-                ]
-            ];
-
-            \Log::info('Enviando respuesta AJAX', $response);
-            
-            return response()->json($response);
-        }
 
         return view('productos.index', compact('productos', 'marca_id', 'genero', 'marcas', 'catalogo_slug', 'title'));
     }
@@ -332,42 +304,5 @@ class Productos extends Controller
         }
 
         return redirect()->back()->with('status', 'Email enviado correctamente.');
-    }
-
-    /**
-     * Optimiza las imágenes de un producto específico
-     */
-    public function optimizarImagenes($slug)
-    {
-        $producto = Producto::where('slug', $slug)->firstOrFail();
-        
-        foreach ($producto->imagenes as $imagen) {
-            $path = storage_path('app/public/productos/' . $imagen->ruta);
-            
-            if (file_exists($path)) {
-                // Crear una instancia de la imagen
-                $img = Image::make($path);
-                
-                // Redimensionar si es más grande que 1200px manteniendo el aspect ratio
-                if ($img->width() > 1200) {
-                    $img->resize(1200, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                }
-                
-                // Optimizar calidad
-                $img->save($path, 80);
-                
-                // Actualizar el tamaño en la base de datos
-                $imagen->tamano = filesize($path);
-                $imagen->save();
-            }
-        }
-        
-        // Limpiar el caché relacionado
-        Cache::forget(CacheKeys::producto($slug));
-        
-        return redirect()->back()->with('success', 'Imágenes optimizadas correctamente');
     }
 }
