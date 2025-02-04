@@ -24,12 +24,12 @@
     "src": "resources/img/tik-tok.png"
   },
   "resources/js/app.js": {
-    "file": "assets/app-Bk1K92nE.js",
+    "file": "assets/app-D7vbgX3Z.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-N2I5KVH2.css"
+      "assets/app-DiKIbPie.css"
     ],
     "assets": [
       "assets/tik-tok-Qy3JAFOZ.png",

@@ -12,7 +12,7 @@
                 <a :href="`/storage/productos/${imagen.ruta}`" data-lightbox="roadtrip">
                     <img 
                         class="w-100" 
-                        :src="`/storage/productos/${imagen.ruta}`" 
+                        :src="`/storage/productos/thumb_${imagen.ruta}`" 
                         :alt="productoNombre"
                         loading="lazy"
                         @error="handleImageError"
@@ -39,7 +39,7 @@
                     @click="goToSlide(imagen.id)"
                 >
                     <img 
-                        :src="`/storage/productos/${imagen.ruta}`" 
+                        :src="`/storage/productos/thumb_${imagen.ruta}`" 
                         :alt="productoNombre"
                         class="img-thumbnail"
                         :style="thumbnailStyle"
