@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \anuncielo\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \anuncielo\Http\Middleware\CacheControl::class, // Agregamos el middleware de caché
+            \anuncielo\Http\Middleware\CompressResponse::class,
         ],
 
         'api' => [

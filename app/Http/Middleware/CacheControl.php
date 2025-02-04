@@ -20,7 +20,7 @@ class CacheControl
 
         // Solo aplicar caché a archivos estáticos
         $extension = pathinfo($request->getPathInfo(), PATHINFO_EXTENSION);
-        $staticExtensions = ['css', 'js', 'jpg', 'jpeg', 'png', 'gif', 'ico', 'svg', 'woff', 'woff2', 'ttf', 'eot'];
+        $staticExtensions = ['css', 'js', 'jpg', 'jpeg', 'png', 'gif', 'ico', 'svg', 'woff', 'woff2', 'ttf', 'eot', 'webp'];
 
         if (in_array(strtolower($extension), $staticExtensions)) {
             $response->header('Cache-Control', 'public, max-age=31536000, immutable');

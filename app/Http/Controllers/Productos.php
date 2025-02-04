@@ -104,11 +104,6 @@ class Productos extends Controller
     
         $producto->save();
 
-        // Limpiar caché relacionado
-        Cache::forget(CacheKeys::marcasCatalogo($marca->catalogo));
-        Cache::forget(CacheKeys::productosNuevos());
-        Cache::tags(['productos', 'marcas'])->flush();
-
         return redirect('image-edit/'.$producto->slug)->with('status', 'Producto guardado correctamente.');
     }
 
