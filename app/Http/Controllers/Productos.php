@@ -26,24 +26,20 @@ class Productos extends Controller
         $genero = $request->genero;
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = $request->orden;
-
-        // Crear una clave única para el caché basada en los parámetros
-        $cacheKey = CacheKeys::productos($catalogo_slug, $marca_id, $genero, $descuento, $orden);
         
-        // Cachear las marcas por 24 horas
-        $marcas = Cache::remember(CacheKeys::marcasCatalogo($catalogo_id), 60 * 24, function () use ($catalogo_id) {
-            return Marca::where('catalogo', $catalogo_id)
-                ->whereHas('productos', function ($query) {
-                    $query->where('stock', '>', 0)
-                        ->where('disponibilidad', '!=', 3);
-                })
-                ->orderBy('nombre', 'asc')
-                ->get();
-        });
+        $marcas = Marca::where('catalogo', $catalogo_id)
+            ->whereHas('productos', function ($query) {
+                $query->where('stock', '>', 0)
+                    ->where('disponibilidad', '!=', 3);
+            })
+            ->orderBy('nombre', 'asc')
+            ->get();
 
-        $marca_nombre = ($marca_id) ? ' ' . Cache::remember(CacheKeys::marca($marca_id), 60 * 24, function () use ($marca_id) {
-            return Marca::findOrFail($marca_id)->nombre;
-        }) : '';
+        $marca_nombre = '';
+        if ($marca_id) {
+            $marca = Marca::find($marca_id);
+            $marca_nombre = $marca ? ' ' . $marca->nombre : '';
+        }
 
         //genero title
         $genero_name = match ($genero) {
@@ -59,21 +55,16 @@ class Productos extends Controller
             default => ''
         };
 
-        // Cachear los productos por 1 hora
-        $productos = Cache::remember($cacheKey, 60, function () use ($catalogo_id, $marca_id, $genero, $descuento, $orden) {
-            $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
             ->with('catalogoM', 'imagenes')
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
             ->where('catalogo', $catalogo_id)
-                ->marca($marca_id)
-                ->genero($genero)
-                ->oferta($descuento)
-                ->ordenar($orden)
-                ->get();
-
-            return $productos;
-        });
+            ->marca($marca_id)
+            ->genero($genero)
+            ->oferta($descuento)
+            ->ordenar($orden)
+            ->paginate(36);
 
         $title = ucfirst($catalogo_slug) . $marca_nombre . $genero_name . $descuento_name;
 
@@ -131,18 +122,18 @@ class Productos extends Controller
         if (Auth::user() && Auth::user()->AutorizaRoles('admin')) {
             $producto = Cache::remember(CacheKeys::producto($slug, true), 60 * 24, function () use ($slug, $catalogo) {
                 return Producto::with(['imagenes', 'marca', 'catalogoM'])
-                    ->where('slug', $slug)
-                    ->catalogo($catalogo->id)
-                    ->withoutGlobalScopes()
-                    ->firstOrFail();
+                ->where('slug', $slug)
+                ->catalogo($catalogo->id)
+                ->withoutGlobalScopes()
+                ->firstOrFail();
             });
             $admin = true;
         } else {
             $producto = Cache::remember(CacheKeys::producto($slug), 60 * 24, function () use ($slug, $catalogo) {
                 return Producto::with(['imagenes', 'marca', 'catalogoM'])
-                    ->where('slug', $slug)
-                    ->catalogo($catalogo->id)
-                    ->first();
+                ->where('slug', $slug)
+                ->catalogo($catalogo->id)
+                ->first();
             });
 
             if (!$producto) {
@@ -157,24 +148,24 @@ class Productos extends Controller
         // Cachear productos relacionados por 30 minutos
         $more_products = Cache::remember(CacheKeys::productosRelacionados($producto->id), 60 * 24, function () use ($producto) {
             return Producto::with('imagenes')
-                ->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
-                ->orderBy('created_at', 'desc')
-                ->where('id', '!=', $producto->id)
-                ->marca($producto->marca_id)
-                ->catalogo($producto->catalogo)
-                ->limit(12)
-                ->get();
+            ->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+            ->orderBy('created_at', 'desc')
+            ->where('id', '!=', $producto->id)
+            ->marca($producto->marca_id)
+            ->catalogo($producto->catalogo)
+            ->limit(12)
+            ->get();
         });
 
         // Cachear productos nuevos por 6 horas
         $new_products = Cache::remember(CacheKeys::productosNuevos(), 60 * 24, function () use ($producto) {
             return Producto::with('imagenes')
-                ->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
-                ->orderBy('created_at', 'desc')
-                ->where('id', '!=', $producto->id)
-                ->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
-                ->limit(12)
-                ->get();
+            ->select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+            ->orderBy('created_at', 'desc')
+            ->where('id', '!=', $producto->id)
+            ->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
+            ->limit(12)
+            ->get();
         });
 
         $title = $producto->nombre;

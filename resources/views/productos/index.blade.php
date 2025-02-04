@@ -136,15 +136,11 @@
                                         src="/storage/productos/thumb_{{ $producto->imagenes->first()->ruta }}"
                                         alt="Fotograía del {{ $producto->nombre }}">
                                     @php
-                                        // Obtén la fecha de creación del producto (de tu modelo, supongamos que es una propiedad llamada 'created_at')
-                                        $fechaCreacion = strtotime($producto->created_at);
-                                        // Calcula la fecha límite (hace un mes)
+                                        $fechaCreacion = $producto->created_at ? strtotime($producto->created_at) : 0;
                                         $fechaLimite = strtotime('-1 month');
-                                        // Compara las fechas
-                                        $productoAntiguo = $fechaCreacion < $fechaLimite;
                                     @endphp
 
-                                    @if ($producto->nuevo && !$productoAntiguo)
+                                    @if ($producto->nuevo && $fechaCreacion >= $fechaLimite)
                                         <img class="etiqueta-overlay" loading="lazy" src="/img/nuevo.png">
                                     @else
                                         @if ($producto->oferta == 1 || $producto->oferta == 2)
@@ -195,13 +191,10 @@
             </div>
         @endif
 
-
-
-
-
-
-
-
+        {{-- Agregar los enlaces de paginación --}}
+        <div class="mt-5 d-flex justify-content-center">
+            {{ $productos->withQueryString()->links() }}
+        </div>
 
     </div>
 @endsection
