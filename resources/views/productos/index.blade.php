@@ -140,12 +140,10 @@
                                         $fechaLimite = strtotime('-1 month');
                                     @endphp
 
-                                    @if ($producto->nuevo && $fechaCreacion >= $fechaLimite)
-                                        <img class="etiqueta-overlay" loading="lazy" src="/img/nuevo.png">
-                                    @else
-                                        @if ($producto->oferta == 1 || $producto->oferta == 2)
-                                            <img class="etiqueta-overlay" loading="lazy" src="/img/oferta.png">
-                                        @endif
+                                    @if ($fechaCreacion >= $fechaLimite)
+                                        <img class="etiqueta-overlay" loading="lazy" src="/img/nuevo.png" alt="Etiqueta de producto nuevo">
+                                    @elseif ($producto->oferta == 1 || $producto->oferta == 2)
+                                        <img class="etiqueta-overlay" loading="lazy" src="/img/oferta.png" alt="Etiqueta de oferta">
                                     @endif
                                 </a>
                             @else
