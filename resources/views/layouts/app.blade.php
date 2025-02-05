@@ -127,6 +127,10 @@
             pointer-events: none;
             /* permite que los clicks pasen a través de la etiqueta */
         }
+
+        .contact-bar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
     </style>
     @yield('styles')
     @yield('style_css')
@@ -244,17 +248,20 @@
         </nav>
 
         <!-- Contactar barra -->
-        <div class="d-flex justify-content-center gap-3 my-1 p-2">
-            <a href="{{ config('ajustes.redes.whatsapp') }}?text={{ url()->current() }}"
-                class="text-decoration-none d-inline-flex align-items-center">
-                <i class="fab fa-whatsapp text-success" aria-hidden="true"></i>
-                <span class="ms-2 text-dark">87811054</span>
-            </a>
+        <div class="d-flex justify-content-center gap-3 my-1 p-2 contact-bar">
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ config('ajustes.redes.whatsapp') }}?text={{ url()->current() }}" class="text-success social-link fs-6 text-decoration-none" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="ms-2 text-dark">8781-1054</span> 
+                </a>
+                <a href="https://www.facebook.com/variedadescrrelojeria/" class="text-primary social-link fs-6 text-decoration-none" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/variedadescrrelojeria/" class="text-danger social-link fs-6 text-decoration-none" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@maxcastro5724" class="text-danger social-link fs-6 text-decoration-none" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="mailto:info@variedadescr.com" class="text-warning social-link fs-6 text-decoration-none" target="_blank"><i class="fa fa-envelope"></i></a>
+                <a href="tel:+50687811054" class="text-info social-link fs-6 text-decoration-none" target="_blank"><i class="fa fa-phone"></i></a>
+                <a href="https://www.tiktok.com/@variedadescr/" class="text-dark social-link fs-6 text-decoration-none" target="_blank"><i class="fab fa-tiktok"></i></a>
 
-            <a href="mailto:info@variedadescr.com" class="text-decoration-none d-inline-flex align-items-center">
-                <i class="fa fa-envelope text-danger" aria-hidden="true"></i>
-                <span class="ms-2 text-dark">info@variedadescr.com</span>
-            </a>
+            </div>
         </div>
         </div>
 
