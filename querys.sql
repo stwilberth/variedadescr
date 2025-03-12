@@ -33,3 +33,8 @@ CREATE TABLE jobs (
     INDEX (queue)
 );
 
+
+
+ALTER TABLE `subscribers` 
+ADD COLUMN `confirmation_token` VARCHAR(255) NULL,
+ADD COLUMN `is_confirmed` TINYINT(1) NOT NULL DEFAULT 0;

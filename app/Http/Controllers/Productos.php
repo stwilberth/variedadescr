@@ -283,12 +283,13 @@ class Productos extends Controller
         $producto = Producto::where('slug', $slug)->withoutGlobalScopes()->firstOrFail();
  
         $emailService = new EmailService();
-        $subscribers = Subscriber::all();
+        // Only get confirmed subscribers
+        $subscribers = Subscriber::where('is_confirmed', true)->get();
         
         foreach($subscribers as $subscriber) {
             $emailService->sendNewProductNotification($subscriber, $producto);
         }
 
-        return redirect()->back()->with('status', 'Email enviado correctamente.');
+        return redirect()->back()->with('status', 'Email enviado correctamente a los suscriptores verificados.');
     }
 }
