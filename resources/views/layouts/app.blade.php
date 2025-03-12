@@ -266,6 +266,10 @@
         </div>
 
         <main style="margin-top: 120px;">
+            <!-- Add this somewhere visible in your layout, typically after the navbar and before the main content -->
+            <div class="container mt-3">
+                @include('components.notification')
+            </div>
             @yield('content')
         </main>
         
@@ -401,10 +405,7 @@
 
     @yield('scripts')
     @yield('script')
-    <!-- Add this somewhere visible in your layout, typically after the navbar and before the main content -->
-    <div class="container mt-3">
-        @include('components.notification')
-    </div>
+
 </body>
 
 </html>
