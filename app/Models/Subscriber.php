@@ -11,8 +11,7 @@ class Subscriber extends Model
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['email'];
-
+    protected $fillable = ['email', 'confirmation_token', 'is_confirmed'];
     protected $keyType = 'string'; // UUID es un string
     public $incrementing = false; // Desactiva incremento automático
 
