@@ -99,12 +99,12 @@
             <h1>¡Nuevo Producto Disponible!</h1>
         </div>
 
-        <p>Hola,</p>
-
-        <p>Nos complace informarte que hemos agregado un nuevo producto a nuestro catálogo:</p>
-
         <div class="product-details">
-            <h2>{{ $producto->nombre }}</h2>
+            <h2>
+                <a href="{{ config('app.url') }}/catalogo/{{ $producto->marca->slug ?? 'relojes' }}/{{ $producto->slug }}">
+                    {{ $producto->nombre }}
+                </a>
+            </h2>
 
             {{-- imagen --}}
             <div class="image">
