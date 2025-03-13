@@ -32,7 +32,7 @@
             margin: 0;
             padding: 0;
         }
-        h2 {
+        h2 > a {
             color: #e74c3c;
             font-size: 24px;
             margin: 15px 0;
