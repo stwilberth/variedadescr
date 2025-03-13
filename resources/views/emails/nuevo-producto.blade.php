@@ -110,21 +110,13 @@
             <div class="image">
                 <img src="https://variedadescr.com/storage/productos/{{ $producto->imagenes->first()->ruta }}" alt="{{ $producto->nombre }}">
             </div>
-            
-            @if($producto->marca)
-                <p><strong>Marca:</strong> {{ $producto->marca->nombre }}</p>
-            @endif
-            
-            @if($producto->modelo)
-                <p><strong>Modelo:</strong> {{ $producto->modelo }}</p>
-            @endif
 
             @if($producto->precio_venta)
                 <p class="price">₡{{ number_format($producto->precio_venta, 0) }}</p>
             @endif
 
             @if($producto->descripcion)
-                <p>{!! $producto->descripcion !!}</p>
+                <p>{{ $producto->descripcion_social }}</p>
             @endif
         </div>
 
