@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace anuncielo\Http\Middleware;
 
 use Closure;
 
