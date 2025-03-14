@@ -307,11 +307,10 @@ class Productos extends Controller
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = 'asc';
 
-        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'publicado')
+        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
             ->with('catalogoM', 'imagenes')
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
-            ->where('publicado', '!=', 0)
             ->where('catalogo', $catalogo_id)
             ->marca($marca_id)
             ->genero($genero)
