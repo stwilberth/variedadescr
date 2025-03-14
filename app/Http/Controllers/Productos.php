@@ -304,7 +304,6 @@ class Productos extends Controller
         $catalogo_id = $request->input('catalogo', 1); // Default to relojes (1)
         $marca_id = $request->input('marca');
         $genero = $request->input('genero');
-        $descuento = $request->input('descuento');
         
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero', 'marca_id', 'modelo', 'stock')
             ->with(['imagenes' => function($query) {
@@ -320,15 +319,8 @@ class Productos extends Controller
             ->when($genero, function($query) use ($genero) {
                 return $query->where('genero', $genero);
             })
-            ->when($descuento, function($query) use ($descuento) {
-                if ($descuento == 1) {
-                    return $query->where('oferta', '>', 0);
-                } elseif ($descuento == 2) {
-                    return $query->where('oferta', '>=', 30);
-                }
-            })
             ->orderBy('created_at', 'desc')
-            ->paginate($limit);
+            ->get();
             
         return response()->json([
             'success' => true,
