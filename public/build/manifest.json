@@ -1,19 +1,19 @@
 {
-  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/close.png": {
+  "node_modules/lightbox2/dist/images/close.png": {
     "file": "assets/close-DeJujm55.png",
-    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/close.png"
+    "src": "node_modules/lightbox2/dist/images/close.png"
   },
-  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/loading.gif": {
+  "node_modules/lightbox2/dist/images/loading.gif": {
     "file": "assets/loading-BY_-FGaJ.gif",
-    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/loading.gif"
+    "src": "node_modules/lightbox2/dist/images/loading.gif"
   },
-  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/next.png": {
+  "node_modules/lightbox2/dist/images/next.png": {
     "file": "assets/next-QVcNtdNi.png",
-    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/next.png"
+    "src": "node_modules/lightbox2/dist/images/next.png"
   },
-  "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/prev.png": {
+  "node_modules/lightbox2/dist/images/prev.png": {
     "file": "assets/prev-BVHqDsrk.png",
-    "src": "node_modules/.pnpm/lightbox2@2.11.5/node_modules/lightbox2/dist/images/prev.png"
+    "src": "node_modules/lightbox2/dist/images/prev.png"
   },
   "resources/img/sin_foto.png": {
     "file": "assets/sin_foto-BX1V4X7y.png",
@@ -24,12 +24,12 @@
     "src": "resources/img/tik-tok.png"
   },
   "resources/js/app.js": {
-    "file": "assets/app-D7vbgX3Z.js",
+    "file": "assets/app-C6hU_8s-.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-DiKIbPie.css"
+      "assets/app-Dr7oF4ZL.css"
     ],
     "assets": [
       "assets/tik-tok-Qy3JAFOZ.png",

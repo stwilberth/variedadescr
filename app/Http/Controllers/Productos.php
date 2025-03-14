@@ -64,7 +64,7 @@ class Productos extends Controller
             ->genero($genero)
             ->oferta($descuento)
             ->ordenar($orden)
-            ->paginate(36);
+            ->get();
 
         $title = ucfirst($catalogo_slug) . $marca_nombre . $genero_name . $descuento_name;
 
@@ -305,7 +305,7 @@ class Productos extends Controller
         $genero = $request->genero;
         $catalogo_slug = 'relojes';
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
-        $orden = $request->orden;
+        $orden = 'asc';
 
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
             ->with('catalogoM', 'imagenes')

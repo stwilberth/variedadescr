@@ -133,7 +133,7 @@
                                 <a href="/catalogo/{{ $catalogo_slug }}/{{ $producto->slug }}"
                                     class="position-relative d-block">
                                     <img class="card-img-top" loading="lazy"
-                                        src="/storage/productos/thumb_{{ $producto->imagenes->first()->ruta }}"
+                                        src="/storage/productos/{{ $producto->imagenes->first()->ruta }}"
                                         alt="Fotograía del {{ $producto->nombre }}">
                                     @php
                                         $fechaCreacion = $producto->created_at ? strtotime($producto->created_at) : 0;
@@ -190,9 +190,11 @@
         @endif
 
         {{-- Agregar los enlaces de paginación --}}
+        {{--         
         <div class="mt-5 d-flex justify-content-center">
             {{ $productos->withQueryString()->links() }}
-        </div>
+        </div> 
+        --}}
 
     </div>
 @endsection
