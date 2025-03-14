@@ -300,26 +300,22 @@ class Productos extends Controller
     // Get all products (relojes) with pagination
     public function apiGetProducts(Request $request)
     {
-        $limit = $request->input('limit', 20);
-        $catalogo_id = $request->input('catalogo', 1); // Default to relojes (1)
-        $marca_id = $request->input('marca');
-        $genero = $request->input('genero');
-        
-        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero', 'marca_id', 'modelo', 'stock')
-            ->with(['imagenes' => function($query) {
-                $query->select('id', 'producto_id','ruta')->orderBy('created_at', 'asc');
-            }, 'marca:id,nombre'])
+        $descuento = $request->descuento;
+        $marca_id = $request->marca;
+        $genero = $request->genero;
+        $catalogo_slug = 'relojes';
+        $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
+        $orden = $request->orden;
+
+        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
+            ->with('catalogoM', 'imagenes')
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
-            ->where('publicado', 1)
             ->where('catalogo', $catalogo_id)
-            ->when($marca_id, function($query) use ($marca_id) {
-                return $query->where('marca_id', $marca_id);
-            })
-            ->when($genero, function($query) use ($genero) {
-                return $query->where('genero', $genero);
-            })
-            ->orderBy('created_at', 'desc')
+            ->marca($marca_id)
+            ->genero($genero)
+            ->oferta($descuento)
+            ->ordenar($orden)
             ->get();
             
         return response()->json([
