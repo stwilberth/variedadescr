@@ -308,7 +308,7 @@ class Productos extends Controller
         
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero', 'marca_id', 'modelo', 'stock')
             ->with(['imagenes' => function($query) {
-                $query->select('id', 'producto_id', 'url', 'orden')->orderBy('orden', 'asc');
+                $query->select('id', 'producto_id','ruta')->orderBy('created_at', 'asc');
             }, 'marca:id,nombre'])
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
@@ -370,7 +370,7 @@ class Productos extends Controller
         
         $query = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'created_at')
             ->with(['imagenes' => function($query) {
-                $query->select('id', 'producto_id', 'url', 'orden')->orderBy('orden', 'asc')->limit(1);
+                $query->select('id', 'producto_id','ruta', 'orden')->orderBy('orden', 'asc')->limit(1);
             }])
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
