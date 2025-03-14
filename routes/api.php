@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use anuncielo\Http\Controllers\Productos;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,12 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Product API routes with CORS middleware
+Route::middleware('cors')->prefix('productos')->group(function () {
+    Route::get('/', [Productos::class, 'apiGetProducts']);
+    Route::get('/destacados', [Productos::class, 'apiGetFeaturedProducts']);
+    Route::get('/marcas', [Productos::class, 'apiGetBrands']);
+    Route::get('/{slug}', [Productos::class, 'apiGetProduct']);
 });

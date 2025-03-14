@@ -292,4 +292,126 @@ class Productos extends Controller
 
         return redirect()->back()->with('status', 'Email enviado correctamente a los suscriptores verificados.');
     }
+
+    /**
+     * API methods for external access
+     */
+    
+    // Get all products (relojes) with pagination
+    public function apiGetProducts(Request $request)
+    {
+        $limit = $request->input('limit', 20);
+        $catalogo_id = $request->input('catalogo', 1); // Default to relojes (1)
+        $marca_id = $request->input('marca');
+        $genero = $request->input('genero');
+        $descuento = $request->input('descuento');
+        
+        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero', 'marca_id', 'modelo', 'stock')
+            ->with(['imagenes' => function($query) {
+                $query->select('id', 'producto_id', 'url', 'orden')->orderBy('orden', 'asc');
+            }, 'marca:id,nombre'])
+            ->where('stock', '>', 0)
+            ->where('disponibilidad', '!=', 3)
+            ->where('publicado', 1)
+            ->where('catalogo', $catalogo_id)
+            ->when($marca_id, function($query) use ($marca_id) {
+                return $query->where('marca_id', $marca_id);
+            })
+            ->when($genero, function($query) use ($genero) {
+                return $query->where('genero', $genero);
+            })
+            ->when($descuento, function($query) use ($descuento) {
+                if ($descuento == 1) {
+                    return $query->where('oferta', '>', 0);
+                } elseif ($descuento == 2) {
+                    return $query->where('oferta', '>=', 30);
+                }
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($limit);
+            
+        return response()->json([
+            'success' => true,
+            'data' => $productos,
+            'message' => 'Productos obtenidos correctamente'
+        ]);
+    }
+    
+    // Get a single product by slug
+    public function apiGetProduct($slug)
+    {
+        try {
+            $producto = Producto::with(['imagenes' => function($query) {
+                    $query->orderBy('orden', 'asc');
+                }, 'marca', 'catalogoM'])
+                ->where('slug', $slug)
+                ->where('publicado', 1)
+                ->firstOrFail();
+                
+            return response()->json([
+                'success' => true,
+                'data' => $producto,
+                'message' => 'Producto obtenido correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Producto no encontrado',
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
+    
+    // Get featured or new products
+    public function apiGetFeaturedProducts(Request $request)
+    {
+        $limit = $request->input('limit', 8);
+        $type = $request->input('type', 'new'); // 'new' or 'featured'
+        
+        $query = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'created_at')
+            ->with(['imagenes' => function($query) {
+                $query->select('id', 'producto_id', 'url', 'orden')->orderBy('orden', 'asc')->limit(1);
+            }])
+            ->where('stock', '>', 0)
+            ->where('disponibilidad', '!=', 3)
+            ->where('publicado', 1);
+            
+        if ($type === 'new') {
+            $query->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
+                  ->orderBy('created_at', 'desc');
+        } else {
+            // Featured products (with discount)
+            $query->where('oferta', '>', 0)
+                  ->orderBy('oferta', 'desc');
+        }
+        
+        $productos = $query->limit($limit)->get();
+        
+        return response()->json([
+            'success' => true,
+            'data' => $productos,
+            'message' => 'Productos destacados obtenidos correctamente'
+        ]);
+    }
+    
+    // Get available brands
+    public function apiGetBrands(Request $request)
+    {
+        $catalogo_id = $request->input('catalogo', 1); // Default to relojes (1)
+        
+        $marcas = Marca::where('catalogo', $catalogo_id)
+            ->whereHas('productos', function ($query) {
+                $query->where('stock', '>', 0)
+                    ->where('disponibilidad', '!=', 3)
+                    ->where('publicado', 1);
+            })
+            ->orderBy('nombre', 'asc')
+            ->get(['id', 'nombre']);
+            
+        return response()->json([
+            'success' => true,
+            'data' => $marcas,
+            'message' => 'Marcas obtenidas correctamente'
+        ]);
+    }
 }
