@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th>Email</th>
+                <th>Verificado</th>
                 <th>Fecha de suscripción</th>
                 <th>Acciones</th>
             </tr>
@@ -15,6 +16,11 @@
             @foreach($subscribers as $subscriber)
             <tr>
                 <td>{{ $subscriber->email }}</td>
+                <td>
+                    <span class="badge {{ $subscriber->is_confirmed ? 'bg-success' : 'bg-danger' }}">
+                        {{ $subscriber->is_confirmed ? 'Sí' : 'No' }}
+                    </span>
+                </td>
                 <td>{{ $subscriber->created_at->format('d/m/Y H:i') }}</td>
                 <td>
                     <form action="{{ route('subscriptionsDestroy', $subscriber->id) }}" method="POST">
