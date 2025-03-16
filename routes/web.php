@@ -56,7 +56,8 @@ Route::put('/suscripciones/{id}', 'SubscriptionController@update')->name('subscr
 Route::get('/suscripciones/delete/{id}', 'SubscriptionController@delete')->name('subscriptionsDelete');
 //destroy
 Route::delete('/suscripciones/{id}', 'SubscriptionController@destroy')->name('subscriptionsDestroy');
-
+Route::delete('/subscriptions/delete-unverified', 'SubscriptionController@deleteUnverified')->name('subscriptions.deleteUnverified');
+//destroy
 Route::get('/subscription/confirm/{token}', 'SubscriptionController@confirm')->name('subscription.confirm');
 
 // Clear config cache:

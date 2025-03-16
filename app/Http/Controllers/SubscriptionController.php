@@ -132,4 +132,14 @@ class SubscriptionController extends Controller
 
     }
 
+    public function deleteUnverified()
+        {
+            $twoDaysAgo = now()->subDays(2);
+            
+            $count = Subscriber::where('is_confirmed', 0)
+                ->where('created_at', '<=', $twoDaysAgo)
+                ->delete();
+            
+            return redirect()->back()->with('success', "Se eliminaron {$count} suscriptores no verificados con más de 2 días de antigüedad.");
+        }
 }

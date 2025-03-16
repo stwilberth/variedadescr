@@ -7,7 +7,17 @@
         <thead>
             <tr>
                 <th>Email</th>
-                <th>Verificado</th>
+                <th>
+                    Verificado
+                    <form action="{{ route('subscriptions.deleteUnverified') }}" method="POST" class="d-inline ms-2">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                onclick="return confirm('¿Estás seguro de eliminar todos los suscriptores no verificados?')">
+                            <i class="fas fa-trash-alt"></i> Eliminar no verificados
+                        </button>
+                    </form>
+                </th>
                 <th>Fecha de suscripción</th>
                 <th>Acciones</th>
             </tr>
