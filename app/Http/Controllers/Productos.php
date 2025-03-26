@@ -329,9 +329,7 @@ class Productos extends Controller
     public function apiGetProduct($slug)
     {
         try {
-            $producto = Producto::with(['imagenes' => function($query) {
-                    $query->orderBy('orden', 'asc');
-                }, 'marca', 'catalogoM'])
+            $producto = Producto::with(['imagenes', 'marca', 'catalogoM'])
                 ->where('slug', $slug)
                 ->where('publicado', 1)
                 ->firstOrFail();
