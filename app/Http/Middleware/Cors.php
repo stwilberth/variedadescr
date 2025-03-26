@@ -10,6 +10,10 @@ class Cors
         'http://localhost:3000', // Tu app Nuxt en desarrollo
         'http://192.168.1.100:3000', // Otra IP local si usas red
         'https://invictacostarica.com', // Tu dominio en producción
+        'http://invictacostarica.com', // Tu dominio en producción sin https
+        'http://localhost:4321', // Otra IP local si usas red
+        'http://variedadescr.com', // Dominio de la API
+        'https://variedadescr.com', // Dominio de la API con https
     ];
 
     public function handle($request, Closure $next)
