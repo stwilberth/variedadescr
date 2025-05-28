@@ -23,3 +23,4 @@ yarn-error.log
 # Archivos de compilación de Vue
 *.hot-update.js
 *.hot-update.json
+env
