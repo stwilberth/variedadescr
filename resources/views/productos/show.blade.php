@@ -96,6 +96,16 @@
                     <span class="font-weight-bold" style="color: #8a8a8a;">Antes:</span> <span
                         style="color: #8a8a8a; textDecoration: line-through; font-family: georgia,sans-serif">¢{{ $producto->precio_anterior }}.</span>
                 @endif
+                
+                <!-- Botón de consulta por WhatsApp -->
+                <div class="mt-3 mb-3">
+                    <a href="https://wa.me/50687811054?text=Hola, me interesa este producto: {{ $producto->nombre }} {{ url()->current() }}" 
+                       class="btn btn-success w-100" 
+                       target="_blank">
+                        <i class="fab fa-whatsapp me-2"></i>Consultar por WhatsApp
+                    </a>
+                </div>
+                
                 @if ($admin)
                     <br>
                     Costo: ¢{{ number_format($producto->costo) }} <br>
