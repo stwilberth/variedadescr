@@ -14,6 +14,7 @@ class Cors
         'http://localhost:4321', // Otra IP local si usas red
         'http://variedadescr.com', // Dominio de la API
         'https://variedadescr.com', // Dominio de la API con https
+        'https://fossilcostarica.com', // Dominio de la API
     ];
 
     public function handle($request, Closure $next)
