@@ -297,7 +297,7 @@ class Productos extends Controller
      * API methods for external access
      */
     
-    // Get all products (relojes) with pagination
+    // Get all products (relojes)
     public function apiGetProducts(Request $request)
     {
         $descuento = $request->descuento;
@@ -310,7 +310,7 @@ class Productos extends Controller
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
             ->with('catalogoM', 'imagenes')
             ->where('stock', '>', 0)
-            ->where('disponibilidad', '!=', 3)
+            ->where('disponibilidad', 0)
             ->where('catalogo', $catalogo_id)
             ->marca($marca_id)
             ->genero($genero)
