@@ -25,7 +25,7 @@ class Productos extends Controller
         $marca_id = $request->marca;
         $genero = $request->genero;
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
-        $orden = $request->orden ?? 'desc';
+        $orden = $request->orden;
         
         $marcas = Marca::where('catalogo', $catalogo_id)
             ->whereHas('productos', function ($query) {
