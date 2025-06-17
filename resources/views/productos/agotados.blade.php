@@ -39,7 +39,16 @@
                                     <td>{{ $producto->stock }}</td>
                                     <td>{{ $producto->precio_venta }}</td>
                                     <td>
-                                        <a href="{{ route('productoEdit', $producto->slug) }}" class="btn btn-sm btn-primary">Editar</a>
+                                        {{-- ver --}}
+                                        <a href="{{ route('productoShow', $producto->slug) }}" class="btn btn-sm btn-info">
+                                            <i class="fa fa-eye"></i>
+                                            Ver
+                                        </a>
+                                        {{-- editar --}}
+                                        <a href="{{ route('productoEdit', $producto->slug) }}" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-edit"></i>
+                                            Editar
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
