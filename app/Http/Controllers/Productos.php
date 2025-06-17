@@ -273,6 +273,7 @@ class Productos extends Controller
     public function agotados(Request $request)
     {
         $productos = Producto::withoutGlobalScopes()
+            ->with(['marca', 'catalogoM'])
             ->where('disponibilidad', 3)
             ->orderBy('catalogo', 'asc')
             ->orderBy('stock', 'desc')

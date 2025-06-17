@@ -34,8 +34,8 @@
                                 <tr>
                                     <td>{{ $producto->id }}</td>
                                     <td>{{ $producto->nombre }}</td>
-                                    <td>{{ $producto->marca->nombre }}</td>
-                                    <td>{{ $producto->catalogoM->nombre }}</td>
+                                    <td>{{ $producto->marca ? $producto->marca->nombre : 'Sin marca' }}</td>
+                                    <td>{{ $producto->catalogoM ? $producto->catalogoM->nombre : 'Sin catálogo' }}</td>
                                     <td>{{ $producto->stock }}</td>
                                     <td>{{ $producto->precio_venta }}</td>
                                     <td>
