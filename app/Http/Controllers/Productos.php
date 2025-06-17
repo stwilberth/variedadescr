@@ -322,7 +322,7 @@ class Productos extends Controller
         $genero = $request->genero;
         $catalogo_slug = 'relojes';
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
-        $orden = $request->orden ?? 'desc';
+        $orden = $request->orden ?? 'fecha';
 
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
             ->with('catalogoM', 'imagenes')
