@@ -43,11 +43,10 @@
                                     <td>{{ $producto->precio_venta }}</td>
                                     <td>
                                         @if($producto->publicado)
-                                            <span class="badge badge-success">Sí</span>
+                                            <span class="badge" style="color: #28a745; border: 1px solid #28a745; background: #fff;">Sí</span>
                                         @else
-                                            <span class="badge badge-danger">No</span>
+                                            <span class="badge" style="color: #dc3545; border: 1px solid #dc3545; background: #fff;">No</span>
                                         @endif
-                                        <span style="font-size: 11px; color: #888;">({{ $producto->publicado }})</span>
                                     </td>
                                     <td>
                                         {{-- ver --}}
