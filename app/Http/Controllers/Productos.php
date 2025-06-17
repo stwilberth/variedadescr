@@ -148,6 +148,8 @@ class Productos extends Controller
             ->where('id', '!=', $producto->id)
             ->marca($producto->marca_id)
             ->catalogo($producto->catalogo)
+            ->where('stock', '>', 0)
+            ->where('disponibilidad', '!=', 3)
             ->limit(12)
             ->get();
         });
@@ -159,6 +161,8 @@ class Productos extends Controller
             ->orderBy('created_at', 'desc')
             ->where('id', '!=', $producto->id)
             ->where('created_at', '>=', date('Y-m-d', strtotime('-30 days')))
+            ->where('stock', '>', 0)
+            ->where('disponibilidad', '!=', 3)
             ->limit(12)
             ->get();
         });
