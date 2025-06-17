@@ -24,6 +24,7 @@
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="{{ route('subscriptionsIndex') }}">Suscriptores</a></li>
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="/inventario">Inventario</a></li>
                             <li class="list-group-item"><a class="text-primary text-decoration-none" href="/sin-publicar">Sin Publicar</a></li>
+                            <li class="list-group-item"><a class="text-primary text-decoration-none" href="/agotados">Agotados</a></li>
                             <li class="list-group-item"><a class="text-warning text-decoration-none" href="/clear-cache">Limpiar cache</a></li>
                             <li class="list-group-item">
                                 <span class="text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="cursor: pointer;">Cerrar sesión</span>
