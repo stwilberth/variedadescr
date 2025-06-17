@@ -323,6 +323,7 @@ class Productos extends Controller
         $catalogo_slug = 'relojes';
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = $request->orden ?? 'desc';
+        $ordenarPor = $request->ordenarPor ?? 'fecha';
 
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
             ->with('catalogoM', 'imagenes')
@@ -331,9 +332,15 @@ class Productos extends Controller
             ->where('catalogo', $catalogo_id)
             ->marca($marca_id)
             ->genero($genero)
-            ->oferta($descuento)
-            ->ordenar($orden)
-            ->get();
+            ->oferta($descuento);
+
+        if ($ordenarPor === 'precio') {
+            $productos->orderBy('precio_venta', $orden);
+        } else {
+            $productos->orderBy('created_at', 'desc');
+        }
+            
+        $productos = $productos->get();
             
         return response()->json([
             'success' => true,
