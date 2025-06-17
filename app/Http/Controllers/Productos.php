@@ -323,7 +323,6 @@ class Productos extends Controller
         $catalogo_slug = 'relojes';
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = $request->orden ?? 'desc';
-        $ordenarPor = $request->ordenarPor ?? 'fecha';
 
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
             ->with('catalogoM', 'imagenes')
@@ -334,7 +333,8 @@ class Productos extends Controller
             ->genero($genero)
             ->oferta($descuento);
 
-        if ($ordenarPor === 'precio') {
+        // Si el orden es desc o asc, ordenamos por precio, sino por fecha
+        if ($orden === 'desc' || $orden === 'asc') {
             $productos->orderBy('precio_venta', $orden);
         } else {
             $productos->orderBy('created_at', 'desc');
