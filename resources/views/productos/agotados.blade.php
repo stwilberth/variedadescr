@@ -47,6 +47,7 @@
                                         @else
                                             <span class="badge badge-danger">No</span>
                                         @endif
+                                        <span style="font-size: 11px; color: #888;">({{ $producto->publicado }})</span>
                                     </td>
                                     <td>
                                         {{-- ver --}}
