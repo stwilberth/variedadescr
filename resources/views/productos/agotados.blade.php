@@ -40,7 +40,7 @@
                                     <td>{{ $producto->precio_venta }}</td>
                                     <td>
                                         {{-- ver --}}
-                                        <a href="{{ route('productoShow', $producto->slug) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('productoShow', ['categoria' => $producto->catalogoM ? $producto->catalogoM->slug : 'relojes', 'slug' => $producto->slug]) }}" class="btn btn-sm btn-info">
                                             <i class="fa fa-eye"></i>
                                             Ver
                                         </a>
