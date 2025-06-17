@@ -22,10 +22,12 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nombre</th>
+                                    <th>Modelo</th>
                                     <th>Marca</th>
                                     <th>Catálogo</th>
                                     <th>Stock</th>
                                     <th>Precio</th>
+                                    <th>Publicado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -34,10 +36,18 @@
                                 <tr>
                                     <td>{{ $producto->id }}</td>
                                     <td>{{ $producto->nombre }}</td>
+                                    <td>{{ $producto->modelo }}</td>
                                     <td>{{ $producto->marca ? $producto->marca->nombre : 'Sin marca' }}</td>
                                     <td>{{ $producto->catalogoM ? $producto->catalogoM->nombre : 'Sin catálogo' }}</td>
                                     <td>{{ $producto->stock }}</td>
                                     <td>{{ $producto->precio_venta }}</td>
+                                    <td>
+                                        @if($producto->publicado)
+                                            <span class="badge badge-success">Sí</span>
+                                        @else
+                                            <span class="badge badge-danger">No</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         {{-- ver --}}
                                         <a href="{{ route('productoShow', ['categoria' => $producto->catalogoM ? $producto->catalogoM->slug : 'relojes', 'slug' => $producto->slug]) }}" class="btn btn-sm btn-info">
