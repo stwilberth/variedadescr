@@ -39,7 +39,7 @@
                                     <td>{{ $producto->stock }}</td>
                                     <td>{{ $producto->precio_venta }}</td>
                                     <td>
-                                        <a href="{{ route('productos.edit', $producto->slug) }}" class="btn btn-sm btn-primary">Editar</a>
+                                        <a href="{{ route('productoEdit', $producto->slug) }}" class="btn btn-sm btn-primary">Editar</a>
                                     </td>
                                 </tr>
                                 @endforeach
