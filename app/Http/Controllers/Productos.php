@@ -270,6 +270,18 @@ class Productos extends Controller
         return view('productos.sin_publicar', compact('productos'));
     }
 
+    public function agotados(Request $request)
+    {
+        $productos = Producto::withoutGlobalScopes()
+            ->where('disponibilidad', 3)
+            ->orderBy('catalogo', 'asc')
+            ->orderBy('stock', 'desc')
+            ->orderBy('costo', 'asc')
+            ->get();
+
+        return view('productos.agotados', compact('productos'));
+    }
+
     public function publicar($slug)
     {
         $producto = Producto::where('slug', $slug)->withoutGlobalScopes()->firstOrFail();

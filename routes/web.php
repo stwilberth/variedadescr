@@ -31,6 +31,7 @@ Route::post('/producto-update/{slug}', 'Productos@update')->name('productoUpdate
 Route::post('/producto-store', 'Productos@store')->name('productoStore')->middleware('adminrole');
 Route::get('/inventario', 'Productos@inventario')->name('productoInventario')->middleware('adminrole');
 Route::get('/sin-publicar', 'Productos@sinPublicar')->name('productoSinPublicar')->middleware('adminrole');
+Route::get('/agotados', 'Productos@agotados')->name('productoAgotados')->middleware('adminrole');
 Route::post('/producto-publicar/{slug}', 'Productos@publicar')->name('productoPublicar')->middleware('adminrole');
 Route::post('/producto-notificar/{slug}', 'Productos@notificar')->name('productoNotificar')->middleware('adminrole');
 //Route::post('/producto-delete', 'Productos@delete')->name('productoDelete');
