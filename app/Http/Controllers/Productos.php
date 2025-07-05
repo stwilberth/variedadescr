@@ -324,8 +324,8 @@ class Productos extends Controller
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = $request->orden ?? 'fecha';
 
-        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo')
-            ->with('catalogoM', 'imagenes')
+        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero')
+            ->with(['catalogoM', 'imagenes', 'generoM'])
             ->where('stock', '>', 0)
             ->where('disponibilidad', 0)
             ->where('catalogo', $catalogo_id)
@@ -353,10 +353,10 @@ class Productos extends Controller
     public function apiGetProduct($slug)
     {
         try {
-            $producto = Producto::with(['imagenes', 'marca', 'catalogoM'])
-                ->where('slug', $slug)
-                ->where('publicado', 1)
-                ->firstOrFail();
+                    $producto = Producto::with(['imagenes', 'marca', 'catalogoM', 'generoM'])
+            ->where('slug', $slug)
+            ->where('publicado', 1)
+            ->firstOrFail();
                 
             return response()->json([
                 'success' => true,
@@ -378,10 +378,10 @@ class Productos extends Controller
         $limit = $request->input('limit', 8);
         $type = $request->input('type', 'new'); // 'new' or 'featured'
         
-        $query = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'created_at')
+        $query = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero', 'created_at')
             ->with(['imagenes' => function($query) {
                 $query->select('id', 'producto_id','ruta', 'orden')->orderBy('orden', 'asc')->limit(1);
-            }])
+            }, 'generoM'])
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
             ->where('publicado', 1);
