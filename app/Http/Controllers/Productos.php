@@ -325,7 +325,7 @@ class Productos extends Controller
         $orden = $request->orden ?? 'fecha';
 
         $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero')
-            ->with(['catalogoM', 'imagenes', 'generoM'])
+            ->with(['catalogoM', 'imagenes'])
             ->where('stock', '>', 0)
             ->where('disponibilidad', 0)
             ->where('catalogo', $catalogo_id)
@@ -353,7 +353,7 @@ class Productos extends Controller
     public function apiGetProduct($slug)
     {
         try {
-                    $producto = Producto::with(['imagenes', 'marca', 'catalogoM', 'generoM'])
+                    $producto = Producto::with(['imagenes', 'marca', 'catalogoM'])
             ->where('slug', $slug)
             ->where('publicado', 1)
             ->firstOrFail();
@@ -381,7 +381,7 @@ class Productos extends Controller
         $query = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero', 'created_at')
             ->with(['imagenes' => function($query) {
                 $query->select('id', 'producto_id','ruta', 'orden')->orderBy('orden', 'asc')->limit(1);
-            }, 'generoM'])
+            }])
             ->where('stock', '>', 0)
             ->where('disponibilidad', '!=', 3)
             ->where('publicado', 1);
