@@ -324,8 +324,10 @@ class Productos extends Controller
         $catalogo_id = ($catalogo_slug == 'relojes') ? 1 : 2;
         $orden = $request->orden ?? 'fecha';
 
-        $productos = Producto::select('id', 'slug', 'nombre', 'precio_venta', 'oferta', 'catalogo', 'genero')
-            ->with(['catalogoM', 'imagenes'])
+        $productos = Producto::select('productos.id', 'productos.slug', 'productos.nombre', 'productos.precio_venta', 'productos.oferta', 'productos.genero', 'productos.descripcion')
+            ->with(['imagenes' => function($query) {
+                $query->select('ruta', 'producto_id');
+            }])
             ->where('stock', '>', 0)
             ->where('disponibilidad', 0)
             ->where('catalogo', $catalogo_id)
@@ -353,7 +355,7 @@ class Productos extends Controller
     public function apiGetProduct($slug)
     {
         try {
-                    $producto = Producto::with(['imagenes', 'marca', 'catalogoM'])
+            $producto = Producto::with(['imagenes', 'marca', 'catalogoM'])
             ->where('slug', $slug)
             ->where('publicado', 1)
             ->firstOrFail();
