@@ -38,14 +38,10 @@ class ImageCtr extends Controller
     
                 $ruta = $Producto->id.'_'.$uniqueName.'.'.$img->getClientOriginalExtension();
     
-                // Crear imagen principal optimizada
+                // Crear imagen principal sin redimensionar y con calidad original
                 $img_crop = Image::make($img->getRealPath())
                     ->crop($w, $h, $x, $y)
-                    ->resize(720, 720, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    })
-                    ->encode('jpg', 80); // Comprimir con calidad 80%
+                    ->encode($img->getClientOriginalExtension());
 
                 // Crear thumbnail optimizado
                 $img_thumb = Image::make($img->getRealPath())
@@ -54,24 +50,13 @@ class ImageCtr extends Controller
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
-                    ->encode('jpg', 75); // Comprimir con calidad 75% para thumbnails
+                    ->encode($img->getClientOriginalExtension()); // Mantener la calidad original
     
                 $Producto->addImagen($ruta, $img->getClientOriginalName());
     
                 // Guardar las imágenes optimizadas
-                $img_thumb->save(public_path('/storage/productos/thumb_' . $ruta), 75);
-                $img_crop->save(public_path('/storage/productos/' . $ruta), 80);
-
-                // Generar versiones WebP si el formato es soportado
-                /*                 
-                if (function_exists('imagewebp')) {
-                    $webp_path = public_path('/storage/productos/' . pathinfo($ruta, PATHINFO_FILENAME) . '.webp');
-                    $webp_thumb_path = public_path('/storage/productos/thumb_' . pathinfo($ruta, PATHINFO_FILENAME) . '.webp');
-                    
-                    $img_crop->encode('webp', 80)->save($webp_path);
-                    $img_thumb->encode('webp', 75)->save($webp_thumb_path);
-                } 
-                */
+                $img_thumb->save(public_path('/storage/productos/thumb_' . $ruta));
+                $img_crop->save(public_path('/storage/productos/' . $ruta));
     
                 $Producto->save();
     
