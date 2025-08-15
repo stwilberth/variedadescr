@@ -1,10 +1,10 @@
 <?php
 
-namespace anuncielo\Http\Controllers;
+namespace App\Http\Controllers;
 
-use anuncielo\Marca;
+use App\Marca;
 use Illuminate\Http\Request;
-use anuncielo\ImagenMarca;
+use App\ImagenMarca;
 use DB;
 
 class MarcaController extends Controller
@@ -58,7 +58,7 @@ class MarcaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \anuncielo\Marca  $marca
+     * @param  \App\Marca  $marca
      * @return \Illuminate\Http\Response
      */
     public function show(Marca $marca)
@@ -72,7 +72,7 @@ class MarcaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \anuncielo\Marca  $marca
+     * @param  \App\Marca  $marca
      * @return \Illuminate\Http\Response
      */
     public function edit(Marca $marca)
@@ -91,7 +91,7 @@ class MarcaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \anuncielo\Marca  $marca
+     * @param  \App\Marca  $marca
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Marca $marca)
@@ -110,7 +110,7 @@ class MarcaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \anuncielo\Marca  $marca
+     * @param  \App\Marca  $marca
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

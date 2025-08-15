@@ -1,6 +1,6 @@
 <?php
 
-namespace anuncielo\Exceptions;
+namespace App\Exceptions;
 
 use Exception;
 use Throwable;

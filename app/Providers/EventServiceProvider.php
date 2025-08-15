@@ -1,13 +1,13 @@
 <?php
 
-namespace anuncielo\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use anuncielo\Events\ProductoCreado;
-use anuncielo\Listeners\EnviarNotificacionProductoCreado;
+use App\Events\ProductoCreado;
+use App\Listeners\EnviarNotificacionProductoCreado;
 
 class EventServiceProvider extends ServiceProvider
 {

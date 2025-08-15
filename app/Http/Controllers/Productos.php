@@ -1,20 +1,20 @@
 <?php
 
-namespace anuncielo\Http\Controllers;
-use anuncielo\Producto;
-use anuncielo\Marca;
-use anuncielo\Catalogo;
+namespace App\Http\Controllers;
+use App\Producto;
+use App\Marca;
+use App\Catalogo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use anuncielo\Http\Requests\productoCreate;
-use anuncielo\Events\ProductoCreado;
+use App\Http\Requests\productoCreate;
+use App\Events\ProductoCreado;
 use Image;
 use DB;
 use Error;
-use anuncielo\Services\EmailService;
-use anuncielo\Models\Subscriber;
+use App\Services\EmailService;
+use App\Models\Subscriber;
 use Illuminate\Support\Facades\Cache;
-use anuncielo\Services\CacheKeys;
+use App\Services\CacheKeys;
 
 class Productos extends Controller
 {

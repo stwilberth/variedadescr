@@ -1,6 +1,6 @@
 <?php
 
-namespace anuncielo;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +9,6 @@ class Catalogo extends Model
     protected $table = 'catalogo';
     public function productos()
     {
-        return $this->hasMany('anuncielo\Producto');
+        return $this->hasMany('App\Producto');
     }
 }

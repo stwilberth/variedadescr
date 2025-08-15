@@ -1,9 +1,9 @@
 <?php
 
-namespace anuncielo\Http\Controllers;
+namespace App\Http\Controllers;
 
-use anuncielo\Imagen;
-use anuncielo\Producto;
+use App\Imagen;
+use App\Producto;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;

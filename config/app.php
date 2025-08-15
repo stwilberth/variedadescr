@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        anuncielo\Providers\AppServiceProvider::class,
-        anuncielo\Providers\AuthServiceProvider::class,
-        // anuncielo\Providers\BroadcastServiceProvider::class,
-        anuncielo\Providers\EventServiceProvider::class,
-        anuncielo\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class
 
     ],

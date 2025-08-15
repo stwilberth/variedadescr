@@ -1,8 +1,8 @@
 <?php
 
-namespace anuncielo\Http\Controllers;
+namespace App\Http\Controllers;
 
-use anuncielo\Models\Subscriber;
+use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;

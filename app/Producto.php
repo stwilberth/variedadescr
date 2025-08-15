@@ -1,6 +1,6 @@
 <?php
 
-namespace anuncielo;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +81,7 @@ class Producto extends Model
 
     public function marca()
     {
-        return $this->belongsTo('anuncielo\Marca');
+        return $this->belongsTo('App\Marca');
     }
 
     public function getImagenAttribute()
@@ -91,7 +91,7 @@ class Producto extends Model
 
     public function imagenes()
     {
-        return $this->hasMany('anuncielo\Imagen');
+        return $this->hasMany('App\Imagen');
     }
 
     public function addImagen($ruta, $nombre)

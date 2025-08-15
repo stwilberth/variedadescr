@@ -1,10 +1,10 @@
 <?php
 
-namespace anuncielo\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use anuncielo\User;
-use anuncielo\Role;
+use App\User;
+use App\Role;
 
 class UserController extends Controller
 {

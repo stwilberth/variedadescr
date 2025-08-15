@@ -1,6 +1,6 @@
 <?php
 
-namespace anuncielo\Services;
+namespace App\Services;
 
 class CacheKeys
 {

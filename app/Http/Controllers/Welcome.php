@@ -1,9 +1,9 @@
 <?php
 
-namespace anuncielo\Http\Controllers;
-use anuncielo\Producto;
+namespace App\Http\Controllers;
+use App\Producto;
 use Illuminate\Support\Facades\Cache;
-use anuncielo\Services\CacheKeys;
+use App\Services\CacheKeys;
 use Illuminate\Http\Request; 
 use DB;
 

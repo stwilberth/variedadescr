@@ -1,6 +1,6 @@
 <?php
 
-namespace anuncielo\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'anuncielo\Model' => 'anuncielo\Policies\ModelPolicy',
+        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**

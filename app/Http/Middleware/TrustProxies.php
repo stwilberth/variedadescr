@@ -1,6 +1,6 @@
 <?php
 
-namespace anuncielo\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Middleware\TrustProxies as Middleware;

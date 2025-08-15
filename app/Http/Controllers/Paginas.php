@@ -1,8 +1,8 @@
 <?php
 
-namespace anuncielo\Http\Controllers;
+namespace App\Http\Controllers;
 
-use anuncielo\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class Paginas extends  Controller

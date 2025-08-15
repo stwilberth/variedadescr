@@ -1,9 +1,9 @@
 <?php
 
-namespace anuncielo\View\Components;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
-use anuncielo\Producto;
+use App\Producto;
 
 class sliderProductos extends Component
 {

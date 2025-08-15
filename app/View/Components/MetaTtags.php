@@ -1,6 +1,6 @@
 <?php
 
-namespace anuncielo\View\Components;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
